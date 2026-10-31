@@ -59,6 +59,12 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const [currentYear, setCurrentYear] = React.useState(null);
+
+  React.useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
+
   return (
     <footer className="relative overflow-hidden bg-[#16222f] text-white">
 
@@ -217,7 +223,7 @@ export default function Footer() {
 
             {/* Copyright */}
             <p className="text-[12px] font-light tracking-wide text-gray-400">
-              © {new Date().getFullYear()} Shree Krishna Bhakti Ashram.
+              © {currentYear} Shree Krishna Bhakti Ashram.
               All Rights Reserved.
             </p>
 
