@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -22,5 +23,44 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-raleway), sans-serif;
+}
+
+
+/* room slider css */
+    .room-slider {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          user-select: none;
+          -webkit-user-select: none;
+          scroll-behavior: smooth;
+         touch-action: pan-x pan-y;
+        }
+
+        .room-slider::-webkit-scrollbar {
+          display: none;
+        }
+
+        .room-slider.is-dragging {
+          cursor: grabbing;
+          scroll-behavior: auto;
+          scroll-snap-type: none;
+        }
+
+        .room-slider img {
+          -webkit-user-drag: none;
+        }
+
+       
+/* end room slider css */
+
+.h_20{
+  height: 20px;
+}
+
+@media (max-width: 767px) {
+  .mobile-logo {
+    height: 70px;
+    width: 99px;
+  }
 }
