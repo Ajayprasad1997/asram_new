@@ -1,32 +1,24 @@
-
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  ChevronDown,
-  Search,
-  MapPin,
-  Menu,
-  X,
-} from "lucide-react";
-
+import { ChevronDown, Search, MapPin, Menu, X } from "lucide-react";
+import { MdEmail } from "react-icons/md";
+import { FaPhone } from "react-icons/fa6";
 const navItems = [
   { label: "Home", href: "/" },
   {
     label: "About",
-    href: "/#",
-   
+    href: "/about",
   },
   {
     label: "Accommodation",
-    href: "/#",
-    
+    href: "/accommodation",
   },
-  
+
   {
     label: "Events & Activities ",
-    href: "#",
+    href: "/events",
     // children: [
     //   { label: "Food Distribution", href: "/food-distribution" },
     //   { label: "Community Service", href: "/social-action" },
@@ -34,18 +26,17 @@ const navItems = [
   },
   {
     label: "Our Gallery",
-    href: "/#",
-    
+    href: "/gallery",
   },
   {
     label: "Contact",
-    href: "/#",
-//     children: [
-//       { label: "News & Events", href: "/events" },
-//       { label: "Photo Gallery", href: "/gallery" },
-//       { label: "Contact Information", href: "/contact" },
-//     ],
- },
+    href: "/contact",
+    //     children: [
+    //       { label: "News & Events", href: "/events" },
+    //       { label: "Photo Gallery", href: "/gallery" },
+    //       { label: "Contact Information", href: "/contact" },
+    //     ],
+  },
 ];
 
 export default function Header() {
@@ -56,9 +47,12 @@ export default function Header() {
 
   return (
     <header className="relative z-50 w-full font-sans">
+     
       {/* Top blue header */}
-      <div className="bg-gradient-to-r from-[#2e83a4] via-[#285b91] to-[#243c82] text-white">
+      <div className="bg-transparent md:bg-gradient-to-r md:from-[#2e83a4] md:via-[#285b91] md:to-[#243c82] text-white">
+         
         <div className="mx-auto flex min-h-[85px] sm:min-h-[122px] max-w-[1320px] items-center justify-between gap-6 px-5 py-3 lg:px-8">
+          
           {/* Logo and site title */}
           <Link
             href="/"
@@ -102,7 +96,7 @@ export default function Header() {
             />
           </div>
 
-           <button
+          <button
             type="button"
             onClick={() => setSearchOpen(!searchOpen)}
             className="ml-auto text-[#fff] lg:hidden mbsearch"
@@ -119,18 +113,14 @@ export default function Header() {
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
           >
-            {mobileOpen ? (
-              <X size={28} />
-            ) : (
-              <Menu size={28} />
-            )}
+            {mobileOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
 
       {/* Bottom navigation */}
-      <div className="hidden sm:block bg-[#f3eee8] shadow-[0_6px_12px_rgba(0,0,0,0.15)]">
-        <div className="mx-auto flex min-h-[56px] max-w-[1320px] items-center justify-between px-5 lg:px-8">
+      <div className="bg-[#f3eee8] shadow-[0_6px_12px_rgba(0,0,0,0.15)]">
+        <div className="hidden sm:flex mx-auto flex min-h-[56px] max-w-[1320px] items-center justify-between px-5 lg:px-8">
           {/* Desktop navigation */}
           <nav
             className="hidden items-center gap-5 lg:flex xl:gap-7"
@@ -143,16 +133,14 @@ export default function Header() {
               >
                 <Link
                   href={item.href}
-                  className={`flex items-center gap-1.5 whitespace-nowrap text-sm transition-colors hover:text-[#2d83a5] ${
+                  className={`flex items-center gap-1.5 whitespace-nowrap text-[16px] transition-colors hover:text-[#2d83a5] ${
                     index === 0
                       ? "font-medium text-[#2d83a5]"
                       : "text-[#484848]"
                   }`}
                 >
                   {item.label}
-                  {item.children && (
-                    <ChevronDown size={13} strokeWidth={2} />
-                  )}
+                  {item.children && <ChevronDown size={13} strokeWidth={2} />}
                 </Link>
 
                 {item.children && (
@@ -183,7 +171,7 @@ export default function Header() {
           </nav>
 
           {/* Desktop action buttons */}
-          <div className="hidden items-center gap-5 lg:flex">
+          {/* <div className="hidden items-center gap-5 lg:flex">
             <Link
               href="/contact"
               className="flex min-h-[41px] items-center gap-2 uppercase rounded-full bg-[#2c83a5] px-6 text-xs font-bold text-white transition hover:bg-[#216a88]"
@@ -198,7 +186,42 @@ export default function Header() {
             >
               Book Now
             </Link>
-          </div>
+          </div> */}
+
+             <ul className="hidden sm:flex top-bar-nav nav navbar-nav navbar-right flex flex-wrap items-center gap-6">
+  {/* Contact Us Button */}
+  
+
+  {/* Email Block */}
+  <li className="secondary flex items-center">
+    <a 
+      className="flex items-center gap-2 text-[16px] text-[#484848] transition hover:text-[#2c83a5]" 
+      href="mailto:info@ashram.com"
+    >
+      <span className="flex items-center text-[16px] text-[#484848]"><MdEmail /></span>  
+      info@ashram.com
+    </a>
+  </li>
+
+  {/* Phone Block */}
+  <li className="secondary flex items-center">
+    <a 
+      className="flex items-center gap-2 telnav text-[16px] text-[#484848] transition hover:text-[#2c83a5]" 
+      href="tel:+911244666166"
+    >
+      <span className="flex items-center text-[16px] text-[#484848] hover:text-[#2c83a5]"><FaPhone /></span>
+      +91 124 4666166
+    </a>
+  </li>
+  <li>
+    <a 
+      className="inline-flex min-h-[38px] items-center gap-2 rounded-full bg-[#2c83a5] px-8 text-[16px] font-bold uppercase text-white transition hover:bg-[#216a88]" 
+      href="#"
+    >
+      Book Now
+    </a>
+  </li>
+</ul>
 
           {/* Compact tablet search */}
           <button
@@ -246,10 +269,7 @@ export default function Header() {
             aria-label="Mobile navigation"
           >
             {navItems.map((item) => (
-              <div
-                key={item.label}
-                className="border-b border-gray-100"
-              >
+              <div key={item.label} className="border-b border-gray-100">
                 <div className="flex items-center justify-between">
                   <Link
                     href={item.href}
@@ -263,9 +283,7 @@ export default function Header() {
                     <button
                       type="button"
                       onClick={() =>
-                        setOpenMenu(
-                          openMenu === item.label ? "" : item.label
-                        )
+                        setOpenMenu(openMenu === item.label ? "" : item.label)
                       }
                       className="p-3 text-gray-600"
                       aria-label={`Toggle ${item.label} submenu`}
@@ -298,24 +316,7 @@ export default function Header() {
               </div>
             ))}
 
-            <div className="grid grid-cols-1 gap-3 py-4 sm:grid-cols-2">
-              <Link
-                href="/#"
-                onClick={() => setMobileOpen(false)}
-                className="flex min-h-[44px] uppercase items-center justify-center gap-2 rounded-full bg-[#2c83a5] px-4 text-xs font-bold text-white"
-              >
-                <MapPin size={15} />
-                See Google Reviews
-              </Link>
-
-              <Link
-                href="/#"
-                onClick={() => setMobileOpen(false)}
-                className="flex min-h-[44px] items-center uppercase justify-center rounded-full bg-[#253e8b] px-4 text-xs font-bold text-white"
-              >
-                CONTACT US
-              </Link>
-            </div>
+           
           </nav>
         )}
       </div>

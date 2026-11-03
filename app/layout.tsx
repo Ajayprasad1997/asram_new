@@ -4,6 +4,7 @@ import { Raleway } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
 import Preloader from "./components/Preloader";
+import MobileBottomBar from "./components/MobileBottomBar";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -28,6 +29,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-zinc-50 dark:bg-black antialiased">
         <Preloader />
         <Header />
+         <MobileBottomBar />
         <main>{children}</main>
       </body>
     </html>

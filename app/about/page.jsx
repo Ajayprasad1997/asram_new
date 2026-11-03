@@ -1,0 +1,792 @@
+
+"use client";
+
+import { useEffect } from "react";
+import Link from "next/link";
+import NextImage from "next/image";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import ContactSection from "@/app/components/ContactSection";
+import Footer from "@/app/components/Footer";
+
+import {
+  ArrowRight,
+  MapPin,
+  Heart,
+  Flower2,
+  BedDouble,
+  Bath,
+  Refrigerator,
+  Trees,
+  Church,
+  Users,
+  Utensils,
+  ShieldCheck,
+  Zap,
+  Droplets,
+  Sun,
+  Moon,
+  HandHeart,
+  CalendarDays,
+  Sparkles,
+  CheckCircle2,
+  Car,
+  Wind,
+  Clock,
+} from "lucide-react";
+
+// Brand Colors
+// Royal Blue: #294985
+// Golden Yellow: #FFB900
+// Light Background: #F5F7FB
+
+const facilities = [
+  {
+    icon: BedDouble,
+    title: "Spacious AC Rooms",
+    description:
+      "Spacious, air-conditioned rooms with heating facilities for comfortable stays during colder months.",
+  },
+  {
+    icon: Bath,
+    title: "Private Bathrooms",
+    description:
+      "Attached private bathrooms, comfortable seating areas, wardrobes and dressing areas in selected rooms.",
+  },
+  {
+    icon: Refrigerator,
+    title: "Kitchen Facilities",
+    description:
+      "Selected rooms feature a compact kitchen and mini refrigerator for additional convenience.",
+  },
+  {
+    icon: Trees,
+    title: "Garden & Open Spaces",
+    description:
+      "Enjoy peaceful garden views, well-maintained green spaces and relaxing outdoor sitting areas.",
+  },
+  {
+    icon: Church,
+    title: "Temple & Prayer Rooms",
+    description:
+      "A temple within the premises, dedicated prayer rooms and spaces for spiritual activities.",
+  },
+  {
+    icon: Heart,
+    title: "Goshala & Anna Kshetra",
+    description:
+      "The Ashram has a goshala (cow shelter) and provisions for anna kshetra, offering free food distribution.",
+  },
+  {
+    icon: Droplets,
+    title: "Drinking Water Facility",
+    description:
+      "A dedicated piyau provides drinking-water facilities within the Ashram premises.",
+  },
+  {
+    icon: Users,
+    title: "Spacious Hall & Garden",
+    description:
+      "A spacious hall and garden adjacent to the temple, ideal for religious ceremonies and social functions.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Ground Floor Property",
+    description:
+      "The ground-floor layout makes the property suitable for elderly guests and those who prefer easy accessibility.",
+  },
+  {
+    icon: Zap,
+    title: "24/7 Power Backup",
+    description:
+      "Round-the-clock power backup for uninterrupted comfort and convenience.",
+  },
+];
+
+const attractions = [
+  {
+    name: "Shri Banke Bihari Temple",
+    distance: "1 km",
+  },
+  {
+    name: "Radha Ballabh Mandir",
+    distance: "1 km",
+  },
+  {
+    name: "ISKCON Temple",
+    distance: "0.75 km",
+  },
+  {
+    name: "Prem Mandir",
+    distance: "Nearby",
+  },
+  {
+    name: "Nidhivan",
+    distance: "Nearby",
+  },
+  {
+    name: "Shri Rangji Mandir",
+    distance: "Nearby",
+  },
+  {
+    name: "Neem Karori Baba Ashram",
+    distance: "Nearby",
+  },
+  {
+    name: "Jugal Kishore Temple",
+    distance: "Nearby",
+  },
+];
+
+const activities = [
+  {
+    time: "06:30 AM",
+    title: "Morning Prayers",
+    description:
+      "Guests are welcome to begin their day with peaceful morning prayers at the Ashram.",
+    icon: Sun,
+  },
+  {
+    time: "08:00 AM – 08:30 AM",
+    title: "Anna Kshetra",
+    description:
+      "Daily food distribution to yogis and underprivileged people as an expression of selfless service.",
+    icon: Utensils,
+  },
+  {
+    time: "06:00 PM",
+    title: "Evening Prayers",
+    description:
+      "Spend the evening in prayer and devotion within the peaceful atmosphere of the Ashram.",
+    icon: Moon,
+  },
+];
+
+export default function AboutPage() {
+  useEffect(() => {
+    AOS.init({
+      duration: 900,
+      once: true,
+      offset: 80,
+      easing: "ease-out-cubic",
+    });
+
+    AOS.refresh();
+
+    return () => {
+      AOS.refreshHard();
+    };
+  }, []);
+
+  return (
+    <main className="overflow-hidden bg-white text-[#202D43]">
+
+      {/* ==============================
+          01. ABOUT THE ASHRAM
+      ============================== */}
+
+      <section className="relative flex min-h-[350px] items-center overflow-hidden md:min-h-[440px]">
+        <div
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-[7000ms] hover:scale-105"
+          style={{
+            backgroundImage:
+              "url('/assets/images/about1.jpg')",
+          }}
+        />
+
+        <div className="absolute inset-0 bg-[#102B58]/75" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#102B58]/90 via-[#102B58]/50 to-transparent" />
+
+        <div className="relative mx-auto w-full max-w-7xl px-5 py-20 md:px-10">
+          <div data-aos="fade-up" className="max-w-2xl">
+
+            <div className="mb-5 flex items-center gap-3">
+              <span className="h-[2px] w-12 bg-[#FFB900]" />
+              <span className="text-xs font-bold uppercase tracking-[4px] text-[#FFCA45]">
+                Your Peaceful Stay in Vrindavan
+              </span>
+            </div>
+
+            <h1 className="text-4xl font-bold leading-tight text-white md:text-6xl">
+                About The Ashram
+            </h1>
+
+            <p className="mt-5 max-w-xl text-base leading-8 text-white/85 md:text-lg">
+               We are here to help you plan your stay, answer your
+              questions, and make your experience at our Ashram
+              comfortable and memorable.
+            </p>
+
+            <div className="mt-8 flex items-center gap-3 text-sm text-white/80">
+              <Link href="/" className="transition hover:text-[#FFB900]">
+                Home
+              </Link>
+              <span>/</span>
+              <span className="font-semibold text-[#FFB900]">About Us</span>
+            </div>
+
+          </div>
+        </div>
+
+        <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-[#FFB900] via-white to-[#244584]" />
+      </section>
+
+     
+
+      {/* ==============================
+          ABOUT INTRODUCTION
+      ============================== */}
+
+      <section className="px-6 py-20 md:px-12 md:py-28">
+
+        <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-2">
+
+          {/* Images */}
+
+          <div data-aos="fade-right" className="relative">
+
+            <div className="grid grid-cols-2 gap-4">
+
+              <img
+                src="/assets/images/ab1.jpg"
+                alt="Ashram property and surroundings"
+                className="mt-12 h-[260px] w-full rounded-xl object-cover shadow-lg transition-transform duration-700 hover:scale-[1.03] md:h-[380px]"
+              />
+
+              <img
+                src="/assets/images/ab2.jpg"
+                alt="Temple within the Ashram"
+                className="h-[260px] w-full rounded-xl object-cover shadow-lg transition-transform duration-700 hover:scale-[1.03] md:h-[380px]"
+              />
+
+            </div>
+
+            <div className="absolute -bottom-7 left-1/2 w-[85%] -translate-x-1/2 rounded-xl bg-white p-5 text-center shadow-xl md:p-7">
+
+              <Flower2
+                size={26}
+                className="mx-auto mb-2 text-[#FFB900]"
+              />
+
+              <p className="text-lg font-bold text-[#294985] md:text-xl">
+                A Place of Peace & Devotion
+              </p>
+
+            </div>
+
+          </div>
+
+
+          {/* Content */}
+
+          <div data-aos="fade-left" className="pt-8 lg:pt-0">
+
+            <p className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[3px] text-[#294985]">
+              <span className="h-px w-9 bg-[#FFB900]" />
+              About Our Ashram
+            </p>
+
+            <h2 className="text-4xl font-extrabold uppercase leading-tight md:text-5xl">
+              ABOUT THE
+              <br />
+              <span className="text-[#FFB900]">
+                ASHRAM
+              </span>
+            </h2>
+
+            <p className="mt-7 text-[15px] font-medium leading-8 text-[#202D43]">
+              The Ashram is an ancestral property.
+            </p>
+
+            <p className="mt-4 text-[15px] leading-8 text-[#737F91]">
+              It is now open to guests seeking a peaceful,
+              comfortable, and spiritually enriching stay
+              in Vrindavan.
+            </p>
+
+            <p className="mt-4 text-[15px] leading-8 text-[#737F91]">
+              The property offers a serene atmosphere,
+              spacious rooms, a well-maintained garden,
+              and a temple within the premises.
+            </p>
+
+            <div className="mt-9 flex flex-wrap gap-4">
+
+              <Link
+                href="/accommodation"
+                className="inline-flex items-center gap-3 rounded-full bg-[#294985] px-7 py-4 text-xs font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#FFB900] hover:text-[#202D43]"
+              >
+                BOOK YOUR STAY NOW
+                <ArrowRight size={16} />
+              </Link>
+
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-3 rounded-full border border-[#294985] px-7 py-4 text-xs font-bold text-[#294985] transition-all duration-300 hover:bg-[#294985] hover:text-white"
+              >
+                CONTACT US
+              </Link>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ==============================
+          02. FACILITIES & ACCOMMODATION
+      ============================== */}
+
+      <section className="bg-[#F5F7FB] px-6 py-20 md:px-12 md:py-28">
+
+        <div className="mx-auto max-w-7xl">
+
+          {/* Section Heading */}
+
+          <div
+            data-aos="fade-up"
+            className="mx-auto mb-16 max-w-2xl text-center"
+          >
+
+            <div className="mb-5 flex items-center justify-center gap-3 text-xs font-bold uppercase tracking-[3px] text-[#294985]">
+              <span className="h-px w-9 bg-[#FFB900]" />
+              Comfort Meets Spirituality
+              <span className="h-px w-9 bg-[#FFB900]" />
+            </div>
+
+            <h2 className="text-4xl font-extrabold text-[#294985] md:text-5xl">
+              Thoughtful Facilities
+            </h2>
+
+            <p className="mt-3 text-xl font-semibold italic text-[#FFB900] md:text-2xl">
+              For a Peaceful Stay
+            </p>
+
+            <p className="mt-6 text-sm leading-8 text-[#737F91]">
+              Thoughtfully arranged facilities and comfortable
+              spaces make your stay peaceful, convenient and
+              spiritually enriching.
+            </p>
+
+          </div>
+
+
+          {/* Facilities Grid */}
+
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+
+            {facilities.map((item, index) => {
+
+              const Icon = item.icon;
+
+              return (
+                <div
+                  key={item.title}
+                  data-aos="fade-up"
+                  data-aos-delay={(index % 5) * 80}
+                  className="group rounded-xl border border-[#E5EAF2] bg-white p-6 transition-all duration-500 hover:-translate-y-2 hover:border-[#FFB900] hover:shadow-[0_18px_45px_rgba(41,73,133,0.12)]"
+                >
+
+                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-[#F5F7FB] text-[#294985] transition-all duration-300 group-hover:bg-[#FFB900] group-hover:text-[#202D43]">
+
+                    <Icon size={27} strokeWidth={1.7} />
+
+                  </div>
+
+                  <h3 className="text-lg font-bold leading-snug text-[#294985]">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-3 text-sm leading-7 text-[#737F91]">
+                    {item.description}
+                  </p>
+
+                  <div className="mt-6 h-[2px] w-9 bg-[#FFB900] transition-all duration-500 group-hover:w-full" />
+
+                </div>
+              );
+
+            })}
+
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ==============================
+          03. LOCATION & ACCESSIBILITY
+      ============================== */}
+
+      <section className="px-6 py-20 md:px-12 md:py-28">
+
+        <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-2">
+
+          {/* Location Image */}
+
+          <div data-aos="fade-right" className="relative">
+
+            <img
+              src="/assets/images/chs.jpg"
+              alt="Vrindavan spiritual surroundings"
+              className="h-[380px] w-full rounded-xl object-cover shadow-xl md:h-[520px]"
+            />
+
+            <div className="absolute bottom-5 left-5 right-5 rounded-xl bg-white p-5 shadow-lg md:bottom-8 md:left-8 md:right-8">
+
+              <div className="flex items-center gap-4">
+
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#F5F7FB] text-[#294985]">
+                  <MapPin size={25} />
+                </div>
+
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#737F91]">
+                    Our Location
+                  </p>
+                  <h3 className="mt-1 text-lg font-bold text-[#294985]">
+                    Vrindavan, Uttar Pradesh
+                  </h3>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          {/* Location Content */}
+
+          <div data-aos="fade-left">
+
+            <p className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[3px] text-[#294985]">
+              <span className="h-px w-9 bg-[#FFB900]" />
+              Location & Accessibility
+            </p>
+
+            <h2 className="text-4xl font-extrabold leading-tight text-[#294985] md:text-5xl">
+              Close to the
+              <br />
+              <span className="text-[#FFB900]">
+                Sacred Temples
+              </span>
+            </h2>
+
+            <p className="mt-7 text-sm leading-8 text-[#737F91]">
+              Centrally located in Vrindavan, the Ashram
+              provides convenient access to major temples
+              and important religious destinations.
+            </p>
+
+            <p className="mt-4 text-sm leading-8 text-[#737F91]">
+              Restaurants, ATMs, banks, grocery stores and
+              local shops are available nearby. Rickshaws
+              and other local transportation options help
+              guests explore Vrindavan.
+            </p>
+
+            <div className="mt-9">
+
+              <h3 className="mb-5 flex items-center gap-3 text-lg font-bold text-[#294985]">
+                <MapPin size={21} className="text-[#FFB900]" />
+                Nearby Religious Destinations
+              </h3>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+
+                {attractions.map((place) => (
+
+                  <div
+                    key={place.name}
+                    className="group flex items-center justify-between gap-3 rounded-lg border border-[#E5EAF2] bg-white p-4 transition-all duration-300 hover:border-[#FFB900] hover:bg-[#F5F7FB]"
+                  >
+
+                    <span className="text-sm font-semibold text-[#294985]">
+                      {place.name}
+                    </span>
+
+                    <span className="shrink-0 rounded-full bg-[#FFF6D9] px-3 py-1 text-xs font-bold text-[#294985]">
+                      {place.distance}
+                    </span>
+
+                  </div>
+
+                ))}
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ==============================
+          04. SPIRITUAL ACTIVITIES
+      ============================== */}
+
+      <section className="bg-[#F5F7FB] px-6 py-20 md:px-12 md:py-28">
+
+        <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-2">
+
+          {/* Image */}
+
+          <div data-aos="fade-right">
+
+            <div className="mb-6">
+
+              <p className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[3px] text-[#294985]">
+                <span className="h-px w-9 bg-[#FFB900]" />
+                Daily Ashram Life
+              </p>
+
+              <h2 className="text-4xl font-extrabold leading-tight text-[#294985] md:text-5xl">
+                Experience the
+                <br />
+                <span className="text-[#FFB900]">
+                  Spiritual Activities
+                </span>
+              </h2>
+
+              <p className="mt-6 text-sm leading-8 text-[#737F91]">
+                Guests are welcome to participate in the
+                Ashram's daily activities, including morning
+                prayers, evening prayers and food distribution.
+              </p>
+
+            </div>
+
+            <div className="group relative overflow-hidden rounded-xl">
+
+              <img
+                src="/assets/images/ac2.jpg"
+                alt="Daily spiritual prayers at the Ashram"
+                className="h-[300px] w-full object-cover transition-transform duration-700 group-hover:scale-105 md:h-[410px]"
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-[#14233F]/60 to-transparent" />
+
+              <div className="absolute bottom-6 left-6 flex items-center gap-3 text-white">
+
+                <Flower2 size={27} className="text-[#FFB900]" />
+
+                <span className="text-lg font-bold">
+                  Prayer & Devotion
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          {/* Daily Schedule */}
+
+          <div data-aos="fade-left">
+
+            <div className="mb-9 flex items-center gap-3">
+
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#FFF6D9] text-[#294985]">
+                <CalendarDays size={24} />
+              </div>
+
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-[#737F91]">
+                  Ashram Timings
+                </p>
+
+                <h3 className="text-2xl font-extrabold text-[#294985]">
+                  Daily Schedule
+                </h3>
+              </div>
+
+            </div>
+
+
+            <div className="relative space-y-9 border-l-2 border-[#DCE4F0] pl-8">
+
+              {activities.map((activity, index) => {
+
+                const Icon = activity.icon;
+
+                return (
+                  <div
+                    key={activity.title}
+                    data-aos="fade-up"
+                    data-aos-delay={index * 150}
+                    className="relative"
+                  >
+
+                    <div className="absolute -left-[49px] top-0 flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#FFB900] bg-white text-[#294985] shadow-sm transition-all duration-300 hover:bg-[#FFB900]">
+
+                      <Icon size={19} />
+
+                    </div>
+
+                    <p className="text-xs font-extrabold tracking-[2px] text-[#294985]">
+                      {activity.time}
+                    </p>
+
+                    <h3 className="mt-2 text-xl font-bold text-[#202D43]">
+                      {activity.title}
+                    </h3>
+
+                    <p className="mt-3 max-w-md text-sm leading-7 text-[#737F91]">
+                      {activity.description}
+                    </p>
+
+                  </div>
+                );
+
+              })}
+
+            </div>
+
+
+            <div className="mt-12 rounded-xl border border-[#E5EAF2] bg-white p-6">
+
+              <div className="flex items-start gap-4">
+
+                <Sparkles
+                  size={23}
+                  className="mt-1 shrink-0 text-[#FFB900]"
+                />
+
+                <p className="text-sm leading-7 text-[#737F91]">
+                  Guests can also inquire about other spiritual
+                  and religious activities taking place inside
+                  and outside the Ashram.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ==============================
+          05. HOSPITALITY & GUEST ASSISTANCE
+      ============================== */}
+
+      <section className="px-6 py-20 md:px-12 md:py-28">
+
+        <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-2">
+
+          {/* Hospitality Content */}
+
+          <div data-aos="fade-right">
+
+            <p className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[3px] text-[#294985]">
+              <span className="h-px w-9 bg-[#FFB900]" />
+              Hospitality & Guest Assistance
+            </p>
+
+            <h2 className="text-4xl font-extrabold leading-tight text-[#294985] md:text-5xl">
+              A Warm Welcome,
+              <br />
+              <span className="text-[#FFB900]">
+                Personal Care
+              </span>
+            </h2>
+
+            <p className="mt-7 text-sm leading-8 text-[#737F91]">
+              The family emphasizes devotion, sincere service
+              and personal care for guests, creating a welcoming
+              atmosphere throughout their stay.
+            </p>
+
+            <p className="mt-5 text-sm leading-8 text-[#737F91]">
+              Caretakers can assist with information about
+              Vrindavan's religious sites and help arrange local
+              transportation, subject to availability.
+            </p>
+
+            <p className="mt-5 text-sm leading-8 text-[#737F91]">
+              Guests can receive guidance about significant
+              places associated with the lives of Shri Radha
+              and Krishna.
+            </p>
+
+            <p className="mt-5 text-sm leading-8 text-[#737F91]">
+              Restaurants nearby offer dining options, and
+              some provide food delivery to the Ashram.
+            </p>
+
+
+            <div className="mt-9 flex items-center gap-4 rounded-xl bg-[#F5F7FB] p-5">
+
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#FFB900] text-[#294985]">
+                <HandHeart size={25} />
+              </div>
+
+              <div>
+                <h3 className="font-bold text-[#294985]">
+                  Serving with Love
+                </h3>
+
+                <p className="mt-1 text-sm text-[#737F91]">
+                  Devotion, sincere service and personal care.
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          {/* Hospitality Images */}
+
+          <div data-aos="fade-left" className="relative">
+
+            <img
+              src="/assets/images/about5.jpg"
+              alt="Family hospitality at Shree Krishna Bhakti Ashram"
+              className="h-[400px] w-full rounded-xl object-cover shadow-xl transition-transform duration-700 hover:scale-[1.02] md:h-[530px]"
+            />
+
+            <div className="absolute -bottom-7 -left-4 rounded-xl border border-[#E5EAF2] bg-white p-5 shadow-xl md:-left-8 md:p-7">
+
+              <div className="flex items-center gap-3">
+
+                <Heart
+                  size={25}
+                  className="fill-[#FFB900] text-[#FFB900]"
+                />
+
+                <div>
+                  <p className="font-bold text-[#294985]">
+                    Feel at Home
+                  </p>
+
+                  <p className="mt-1 text-xs text-[#737F91]">
+                    Your stay in Vrindavan
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+
+     
+
+     <ContactSection />
+      <Footer />
+    </main>
+  );
+}
