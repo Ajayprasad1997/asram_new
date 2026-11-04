@@ -14,6 +14,7 @@ import {
   ChevronRight,
   Maximize2,
   ArrowUpRight,
+  BedDouble,
   CheckCircle2,
 } from "lucide-react";
 
@@ -28,34 +29,34 @@ const roomSections = [
       "Experience premium comfort and elegance in our Super Deluxe Rooms. Thoughtfully designed interiors, spacious accommodation and beautiful surroundings create a peaceful and relaxing stay in Vrindavan.",
     images: [
       {
-        src: "/assets/images/sd/1.jpg",
+        src: "assets/images/sd/1.jpg",
         alt: "Super deluxe bedroom",
-        caption: "Super Deluxe Bedroom",
+        caption: "Super Deluxe Rooms",
       },
       {
-        src: "/assets/images/sd/2.jpg",
+        src: "assets/images/sd/2.jpg",
         alt: "Premium room interior",
-        caption: "Comfortable Double Bed",
+         caption: "kitchen Room",
       },
       {
-        src: "/assets/images/sd/3.jpg",
+        src: "assets/images/sd/3.jpg",
         alt: "Elegant room design",
-        caption: "Elegant Room Interior",
+         caption: "Double Bedroom",
       },
       {
-        src: "/assets/images/sd/4.jpg",
+        src: "assets/images/sd/4.jpg",
         alt: "Luxury bedroom interior",
-        caption: "Premium Bedroom",
+         caption: "Double Bedroom",
       },
       {
-        src: "/assets/images/sd/5.jpg",
+        src: "assets/images/sd/5.jpg",
         alt: "Luxury bedroom interior",
-        caption: "Room Interior",
+         caption: "Bathroom",
       },
       {
-        src: "/assets/images/sd/6.jpg",
+        src: "assets/images/sd/6.jpg",
         alt: "Luxury bedroom interior",
-        caption: "Room View",
+         caption: "Room Outlook",
       },
     ],
   },
@@ -67,64 +68,60 @@ const roomSections = [
       "Discover our comfortable Deluxe Rooms with a perfect blend of simplicity and modern amenities. Book directly with us for a convenient and personalized experience during your stay.",
     images: [
       {
-        src: "/assets/images/db/1.jpg",
+        src: "assets/images/db/1.jpg",
         alt: "Deluxe room",
-        caption: "Deluxe Bedroom",
+         caption: "Deluxe Rooms",
       },
       {
-        src: "/assets/images/db/2.jpg",
+        src: "assets/images/db/2.jpg",
         alt: "Deluxe bedroom",
-        caption: "Double Bed",
+         caption: "Single Bedroom",
       },
+      
       {
-        src: "/assets/images/db/3.jpg",
-        alt: "Deluxe room interior",
-        caption: "Room Interior",
-      },
-      {
-        src: "/assets/images/db/4.jpg",
+        src: "assets/images/db/4.jpg",
         alt: "Deluxe bedroom interior",
-        caption: "Comfortable Bedroom",
+         caption: "Single Bedroom",
       },
-      {
-        src: "/assets/images/db/5.jpg",
+       {
+        src: "assets/images/db/5.jpg",
         alt: "Deluxe bedroom interior",
-        caption: "Single Room Bed",
+         caption: "Double Bedroom",
       },
-      {
-        src: "/assets/images/db/6.jpg",
+       {
+        src: "assets/images/db/6.jpg",
         alt: "Deluxe bedroom interior",
-        caption: "Double Room Bed",
+         caption: "Double Bedroom",
       },
-      {
-        src: "/assets/images/db/7.jpg",
+       {
+        src: "assets/images/db/7.jpg",
         alt: "Deluxe bedroom interior",
-        caption: "Room Interior",
+         caption: "Double Bedroom",
       },
-      {
-        src: "/assets/images/db/8.jpg",
+       {
+        src: "assets/images/db/8.jpg",
         alt: "Deluxe bedroom interior",
-        caption: "Bedroom View",
+         caption: "Double Bedroom",
       },
-      {
-        src: "/assets/images/db/9.jpg",
+       {
+        src: "assets/images/db/9.jpg",
         alt: "Deluxe bedroom interior",
-        caption: "Room View",
+         caption: "Double Bedroom",
       },
-      {
-        src: "/assets/images/db/10.jpg",
+       {
+        src: "assets/images/db/10.jpg",
         alt: "Deluxe bedroom interior",
-        caption: "Deluxe Room",
+         caption: "Single Bedroom",
       },
-      {
-        src: "/assets/images/db/11.jpg",
+       {
+        src: "assets/images/db/11.jpg",
         alt: "Deluxe bedroom interior",
-        caption: "Room Interior",
+         caption: "Bathroom",
       },
-      {
-        src: "/assets/images/db/12.jpg",
+       {
+        src: "assets/images/db/12.jpg",
         alt: "Deluxe bedroom interior",
-        caption: "Bedroom View",
+         caption: "Bathroom ",
       },
     ],
   },
@@ -136,29 +133,29 @@ const roomSections = [
       "Explore our Deluxe Room options available through popular booking platforms. Enjoy a peaceful atmosphere, comfortable accommodation and a memorable stay at Shree Krishna Bhakti Ashram.",
     images: [
       {
-        src: "/assets/images/dr/1.jpg",
+        src: "assets/images/dr/1.jpg",
         alt: "Booking site deluxe room",
-        caption: "Deluxe Bedroom",
+         caption: "Deluxe Rooms",
       },
       {
-        src: "/assets/images/dr/2.jpg",
+        src: "assets/images/dr/2.jpg",
         alt: "Room details",
-        caption: "Room Interior",
+         caption: "Comfortable Seating Area",
       },
       {
-        src: "/assets/images/dr/3.jpg",
+        src: "assets/images/dr/3.jpg",
         alt: "Bedroom interior",
-        caption: "Comfortable Bed",
+         caption: "Room Facilities",
       },
       {
-        src: "/assets/images/dr/4.jpg",
+        src: "assets/images/dr/4.jpg",
         alt: "Room view",
-        caption: "Bedroom View",
+         caption: "Double Bedroom",
       },
       {
-        src: "/assets/images/dr/5.jpg",
+        src: "assets/images/dr/5.jpg",
         alt: "Room view",
-        caption: "Deluxe Room",
+         caption: "Room Interior",
       },
     ],
   },
@@ -206,7 +203,7 @@ export default function AccommodationPage() {
     };
   }, []);
 
-  /* ACTIVE SECTION OBSERVER */
+  /* STICKY TAB ACTIVE SECTION OBSERVER */
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -371,9 +368,39 @@ export default function AccommodationPage() {
 
       </section>
 
-      {/* ================= ROOM TABS ================= */}
+      {/* ================= INTRODUCTION ================= */}
 
-      <nav className="relative z-10 border-y border-[#244584]/10 bg-white px-3 py-4 shadow-md sm:px-6">
+      {/* <section className="bg-white px-5 py-16 sm:py-20">
+
+        <div
+          data-aos="fade-up"
+          className="mx-auto max-w-3xl text-center"
+        >
+
+          <span className="text-xs font-bold uppercase tracking-[4px] text-[#244584]">
+            <span className="text-[#fdbb00]">●</span> Stay With Us
+          </span>
+
+          <h2 className="mt-4 text-3xl font-bold leading-tight text-[#244584] sm:text-4xl md:text-5xl">
+            A Peaceful Stay in the
+            <span className="text-[#fdbb00]"> Heart of Vrindavan</span>
+          </h2>
+
+          <p className="mt-5 text-sm leading-8 text-gray-600 sm:text-base">
+            At Shree Krishna Bhakti Ashram, we offer a peaceful
+            environment where comfort meets spirituality.
+            Choose from our accommodation options and enjoy
+            a relaxing experience surrounded by devotion
+            and tranquility.
+          </p>
+
+        </div>
+
+      </section> */}
+
+      {/* ================= STICKY ROOM TABS ================= */}
+
+      <nav className="sticky top-0 z-50 border-y border-[#244584]/10 bg-white px-3 py-4 shadow-md sm:px-6">
 
         <div className="mx-auto flex max-w-[1250px] gap-3 overflow-x-auto scrollbar-hide sm:justify-center">
 
@@ -429,6 +456,8 @@ export default function AccommodationPage() {
                   {section.description}
                 </p>
 
+               
+
                 <div className="mt-5 flex flex-wrap gap-3">
 
                   <a
@@ -451,7 +480,7 @@ export default function AccommodationPage() {
 
               </div>
 
-              {/* FEATURED IMAGE WITH HOVER CAPTION */}
+              {/* FEATURED IMAGE */}
 
               <button
                 type="button"
@@ -461,15 +490,15 @@ export default function AccommodationPage() {
                 className="group relative h-[260px] cursor-pointer overflow-hidden rounded-[18px] bg-gray-100 text-left sm:h-[360px] lg:h-[390px]"
               >
 
-                <img
+                              <img
                   src={section.images[0].src}
                   alt={section.images[0].alt}
                   className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                 />
 
-                <div className="absolute inset-0 bg-[#244584]/0 transition duration-500 group-hover:bg-[#244584]/25" />
+                <div className="absolute inset-0 bg-[#244584]/0 transition duration-500 group-hover:bg-[#244584]/20" />
 
-                {/* FEATURED IMAGE CAPTION */}
+                {/* HOVER CAPTION */}
 
                 <div className="absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-between bg-[#244584] px-5 py-4 transition-transform duration-500 ease-out group-hover:translate-y-0">
 
@@ -489,7 +518,7 @@ export default function AccommodationPage() {
 
             </div>
 
-            {/* IMAGE GRID WITH HOVER CAPTIONS */}
+            {/* IMAGE GRID */}
 
             <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
 
@@ -503,37 +532,37 @@ export default function AccommodationPage() {
                   onClick={() =>
                     openLightbox(sectionIndex, imageIndex + 1)
                   }
-                  aria-label={`View ${image.caption}`}
+                  aria-label={`View ${image.alt}`}
                   className="group relative h-[180px] cursor-pointer overflow-hidden rounded-[16px] bg-gray-100 text-left sm:h-[210px] lg:h-[250px]"
                 >
 
                   <img
-                    src={image.src}
-                    alt={image.alt}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
-                  />
+                src={image.src}
+                alt={image.alt}
+                loading="lazy"
+                className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+              />
 
-                  <div className="absolute inset-0 bg-[#244584]/0 transition duration-300 group-hover:bg-[#244584]/20" />
+              <div className="absolute inset-0 bg-[#244584]/0 transition duration-300 group-hover:bg-[#244584]/20" />
 
-                  {/* CAPTION SLIDES UP ON HOVER */}
+              {/* HOVER CAPTION */}
 
-                  <div className="absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-between bg-[#244584] px-3 py-3 transition-transform duration-500 ease-out group-hover:translate-y-0 sm:px-4 sm:py-4">
+              <div className="absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-between bg-[#244584] px-3 py-3 transition-transform duration-500 ease-out group-hover:translate-y-0 sm:px-4 sm:py-4">
 
-                    <div className="flex min-w-0 items-center gap-2">
-                      <span className="h-6 w-1 shrink-0 rounded-full bg-[#fdbb00]" />
+                <div className="flex min-w-0 items-center gap-2">
+                  <span className="h-6 w-1 shrink-0 rounded-full bg-[#fdbb00]" />
 
-                      <span className="truncate text-xs font-bold text-white sm:text-sm">
-                        {image.caption}
-                      </span>
-                    </div>
+                  <span className="truncate text-xs font-bold text-white sm:text-sm">
+                    {image.caption}
+                  </span>
+                </div>
 
-                    <Maximize2
-                      size={15}
-                      className="ml-2 shrink-0 text-[#fdbb00]"
-                    />
+                <Maximize2
+                  size={15}
+                  className="ml-2 shrink-0 text-[#fdbb00]"
+                />
 
-                  </div>
+             </div>
 
                 </button>
 
@@ -593,13 +622,13 @@ export default function AccommodationPage() {
 
             <img
               key={`${lightbox.sectionIndex}-${lightbox.imageIndex}`}
-              src={roomSections[lightbox.sectionIndex].images[lightbox.imageIndex].src}
+              src={roomSections[lightbox.sectionIndex].images[lightbox.imageIndex].src.replace(/w=\d+/, "w=1800")}
               alt={roomSections[lightbox.sectionIndex].images[lightbox.imageIndex].alt}
               className="max-h-full max-w-full rounded-xl object-contain animate-[fadeIn_0.3s_ease]"
             />
 
             <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap text-sm font-medium text-white">
-              {roomSections[lightbox.sectionIndex].images[lightbox.imageIndex].caption}
+              {roomSections[lightbox.sectionIndex].title}
               {" — "}
               {lightbox.imageIndex + 1} /{" "}
               {roomSections[lightbox.sectionIndex].images.length}
@@ -667,7 +696,7 @@ export default function AccommodationPage() {
                   <CheckCircle2 size={20} />
                 </div>
 
-                <p className="text-sm leading-7 text-[#46536A] transition-colors duration-300 group-hover:text-[#244584] sm:text-base">
+                <p className="text-sm leading-7 text-[#46536A] sm:text-base transition-colors duration-300 group-hover:text-[#244584]">
                   {item}
                 </p>
 
@@ -703,7 +732,7 @@ export default function AccommodationPage() {
 
           <a
             href="#contact"
-            className="mt-8 inline-flex items-center gap-3 rounded-full border border-[#fdbb00] bg-[#fdbb00] px-8 py-4 text-xs font-bold uppercase tracking-wider text-[#244584] transition duration-300 hover:border-white hover:bg-white"
+            className="mt-8 inline-flex items-center gap-3 rounded-full border border-[#fdbb00] bg-[#fdbb00] px-8 py-4 text-xs font-bold uppercase tracking-wider text-[#244584] transition duration-300 hover:bg-white hover:border-white"
           >
             Contact Us
             <ArrowUpRight size={17} />

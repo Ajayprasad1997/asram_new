@@ -113,7 +113,7 @@ export default function AboutAshram() {
             </div>
 
             {/* Parallax Image Accent Box Panel */}
-            <motion.div 
+            {/* <motion.div 
               style={{ 
                 y: yParallax,
                 backgroundImage: "url('/assets/images/about-accent.jpg')" 
@@ -121,7 +121,7 @@ export default function AboutAshram() {
               className="absolute -bottom-12 right-4 z-40 hidden h-[75%] w-[28%] bg-cover bg-center p-4 sm:block lg:right-6 xl:right-12 rounded-sm shadow-2xl"
             >
              
-            </motion.div>
+            </motion.div> */}
           </div>
 
           {/* RIGHT SIDE: Text Content Block with Staggered Fade Up */}
