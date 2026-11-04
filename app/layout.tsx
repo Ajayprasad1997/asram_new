@@ -10,9 +10,9 @@ const raleway = Raleway({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-raleway",
-  display: "swap",
+  display: "swap",  
 });
-
+  
 export const metadata = {
   title: "Shree Krishna Bhakti Ashram",
   description:

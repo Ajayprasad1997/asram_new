@@ -69,14 +69,14 @@ const roomSections = [
     images: [
       {
         src: "assets/images/db/1.jpg",
-        alt: "Deluxe room",
+        alt: "Deluxe room",  
          caption: "Deluxe Rooms",
       },
       {
         src: "assets/images/db/2.jpg",
         alt: "Deluxe bedroom",
          caption: "Single Bedroom",
-      },
+      },   
       
       {
         src: "assets/images/db/4.jpg",
