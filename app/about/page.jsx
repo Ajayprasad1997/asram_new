@@ -1,11 +1,11 @@
 
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import NextImage from "next/image";
 import AOS from "aos";
 import "aos/dist/aos.css";
+
 import ContactSection from "@/app/components/ContactSection";
 import Footer from "@/app/components/Footer";
 
@@ -29,16 +29,269 @@ import {
   HandHeart,
   CalendarDays,
   Sparkles,
-  CheckCircle2,
-  Car,
-  Wind,
-  Clock,
 } from "lucide-react";
 
-// Brand Colors
-// Royal Blue: #294985
-// Golden Yellow: #FFB900
-// Light Background: #F5F7FB
+// ==========================================
+// COUNTER ANIMATION HOOK
+// ==========================================
+
+function useCountUp(target, duration = 2000) {
+  const [count, setCount] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
+  const elementRef = useRef(null);
+
+  useEffect(() => {
+    const element = elementRef.current;
+
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+
+    const end = parseInt(target.replace(/[^0-9]/g, ""), 10);
+
+    if (!Number.isFinite(end) || end <= 0) return;
+
+    let start = 0;
+    const interval = 20;
+    const steps = Math.max(1, Math.ceil(duration / interval));
+    const increment = end / steps;
+
+    const timer = setInterval(() => {
+      start += increment;
+
+      if (start >= end) {
+        clearInterval(timer);
+        setCount(end);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, [hasStarted, target, duration]);
+
+  const suffix = target.replace(/[0-9]/g, "");
+
+  return {
+    ref: elementRef,
+    value: count.toLocaleString() + suffix,
+  };
+}
+
+// ==========================================
+// THREE COLUMN ABOUT SECTION
+// ==========================================
+
+function AboutThreeColumnSection() {
+  const counter1 = useCountUp("10000+");
+  const counter2 = useCountUp("94%");
+  const counter3 = useCountUp("100");
+  const counter4 = useCountUp("7+");
+
+  return (
+    <section className="relative w-full bg-white px-6 py-20 text-[#202D43] md:px-12 md:py-28">
+      <div className="mx-auto max-w-7xl">
+
+        <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:items-center">
+
+          {/* COLUMN 1 */}
+          <div
+            data-aos="fade-right"
+            className="flex flex-col justify-center lg:col-span-4"
+          >
+            <p className="mb-4 flex items-center gap-3 text-xs font-bold uppercase tracking-[3px] text-[#294985]">
+              <span className="h-px w-9 bg-[#FFB900]" />
+              About Our Ashram
+            </p>
+
+            <h2 className="text-4xl font-extrabold uppercase leading-tight text-[#202D43] md:text-5xl">
+              About The
+              <br />
+              <span className="text-[#FFB900]">Ashram</span>
+            </h2>
+
+            <p className="mt-5 text-[15px] font-medium leading-7 text-[#202D43]">
+              The Ashram is an ancestral property now open to guests
+              seeking a peaceful, comfortable, and spiritually
+              enriching stay in Vrindavan.
+            </p>
+
+            {/* COUNTERS */}
+            <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-gray-100 pt-6">
+
+              <div>
+                <span
+                  ref={counter1.ref}
+                  className="block text-3xl font-extrabold text-[#294985]"
+                >
+                  {counter1.value}
+                </span>
+
+                <span className="mt-1 block text-xs text-[#737F91]">
+                  Yearly seekers & visitors
+                </span>
+              </div>
+
+              <div>
+                <span
+                  ref={counter2.ref}
+                  className="block text-3xl font-extrabold text-[#294985]"
+                >
+                  {counter2.value}
+                </span>
+
+                <span className="mt-1 block text-xs text-[#737F91]">
+                  Peaceful return rate
+                </span>
+              </div>
+
+              <div>
+                <span
+                  ref={counter3.ref}
+                  className="block text-3xl font-extrabold text-[#294985]"
+                >
+                  <span className="mr-1 text-sm font-bold text-[#737F91]">
+                    Top
+                  </span>
+                  {counter3.value}
+                </span>
+
+                <span className="mt-1 block text-xs text-[#737F91]">
+                  Spiritual destinations
+                </span>
+              </div>
+
+              <div>
+                <span
+                  ref={counter4.ref}
+                  className="block text-3xl font-extrabold text-[#294985]"
+                >
+                  {counter4.value}
+                </span>
+
+                <span className="mt-1 block text-xs text-[#737F91]">
+                  Sacred facilities
+                </span>
+              </div>
+
+            </div>
+
+            {/* BOOKING BUTTON */}
+            <div className="mt-8">
+              <Link
+                href="/accommodation"
+                className="inline-flex items-center gap-3 rounded-full bg-[#294985] px-7 py-4 text-xs font-bold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#FFB900] hover:text-[#202D43]"
+              >
+                BOOK YOUR STAY NOW
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+          </div>
+
+          {/* COLUMN 2 - IMAGES */}
+          <div
+            data-aos="fade-up"
+            className="relative my-6 flex min-h-[460px] flex-col items-center justify-center lg:col-span-4 lg:my-0"
+          >
+            <div className="absolute right-2 top-0 z-10 h-[140px] w-[78%] overflow-hidden rounded-xl shadow-lg">
+              <img
+                src="/assets/images/about1.jpg"
+                alt="Ashram"
+                className="h-full w-full object-cover"
+              />
+            </div>
+
+            <div className="relative z-20 my-4 h-[210px] w-[72%] overflow-hidden rounded-xl border-2 border-white shadow-xl">
+              <img
+                src="/assets/images/about3.jpg"
+                alt="Temple"
+                className="h-full w-full object-cover"
+              />
+            </div>
+
+            <div className="absolute right-[-8px] top-[48%] z-30 flex max-w-[145px] -translate-y-1/2 flex-col items-start gap-2 rounded-xl border border-white/10 bg-[#294985] p-4 text-white shadow-xl">
+              <div className="rounded-lg bg-[#FFB900] p-1.5 text-[#202D43]">
+                <Flower2 size={20} />
+              </div>
+
+              <span className="text-xs font-bold leading-snug text-white">
+                Embrace the Tradition
+              </span>
+            </div>
+
+            <div className="absolute bottom-0 left-2 z-10 h-[140px] w-[78%] overflow-hidden rounded-xl shadow-lg">
+              <img
+                src="/assets/images/about5.jpg"
+                alt="Ashram surroundings"
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+
+          {/* COLUMN 3 */}
+          <div
+            data-aos="fade-left"
+            className="flex flex-col justify-center lg:col-span-4"
+          >
+            <h3 className="text-2xl font-extrabold leading-snug tracking-tight text-[#202D43] md:text-3xl">
+              Authentic Culture and Charm, Where Beauty Knows No Bounds
+            </h3>
+
+            <p className="mt-4 text-[15px] leading-8 text-[#737F91]">
+              The property offers a serene atmosphere, spacious
+              rooms, a well-maintained garden, and a temple within
+              the premises.
+            </p>
+
+            <ul className="mt-6 space-y-4 text-[14px] font-bold uppercase tracking-wide text-[#202D43]">
+              {[
+                "Fresh Air, Feel the Nature",
+                "Peaceful, Tranquil Space",
+                "Rich Vedic Culture",
+                "Far from Hustle-bustle",
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-3">
+                  <span className="h-2 w-2 rounded-full bg-[#FFB900]" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-8 flex items-center gap-4">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full border-2 border-[#294985] px-7 py-3.5 text-xs font-bold text-[#294985] transition-all duration-300 hover:bg-[#294985] hover:text-white"
+              >
+                CONTACT US FOR INQUIRIES
+              </Link>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ==========================================
+// FACILITIES DATA
+// ==========================================
 
 const facilities = [
   {
@@ -103,40 +356,24 @@ const facilities = [
   },
 ];
 
+// ==========================================
+// NEARBY ATTRACTIONS DATA
+// ==========================================
+
 const attractions = [
-  {
-    name: "Shri Banke Bihari Temple",
-    distance: "1 km",
-  },
-  {
-    name: "Radha Ballabh Mandir",
-    distance: "1 km",
-  },
-  {
-    name: "ISKCON Temple",
-    distance: "0.75 km",
-  },
-  {
-    name: "Prem Mandir",
-    distance: "Nearby",
-  },
-  {
-    name: "Nidhivan",
-    distance: "Nearby",
-  },
-  {
-    name: "Shri Rangji Mandir",
-    distance: "Nearby",
-  },
-  {
-    name: "Neem Karori Baba Ashram",
-    distance: "Nearby",
-  },
-  {
-    name: "Jugal Kishore Temple",
-    distance: "Nearby",
-  },
+  { name: "Shri Banke Bihari Temple", distance: "1 km" },
+  { name: "Radha Ballabh Mandir", distance: "1 km" },
+  { name: "ISKCON Temple", distance: "0.75 km" },
+  { name: "Prem Mandir", distance: "Nearby" },
+  { name: "Nidhivan", distance: "Nearby" },
+  { name: "Shri Rangji Mandir", distance: "Nearby" },
+  { name: "Neem Karori Baba Ashram", distance: "Nearby" },
+  { name: "Jugal Kishore Temple", distance: "Nearby" },
 ];
+
+// ==========================================
+// DAILY ACTIVITIES DATA
+// ==========================================
 
 const activities = [
   {
@@ -162,7 +399,13 @@ const activities = [
   },
 ];
 
+// ==========================================
+// MAIN ABOUT PAGE
+// ==========================================
+
 export default function AboutPage() {
+
+  // AOS INITIALIZATION
   useEffect(() => {
     AOS.init({
       duration: 900,
@@ -181,38 +424,41 @@ export default function AboutPage() {
   return (
     <main className="overflow-hidden bg-white text-[#202D43]">
 
-      {/* ==============================
-          01. ABOUT THE ASHRAM
-      ============================== */}
+      {/* =====================================
+          01. ABOUT HERO SECTION
+      ===================================== */}
 
       <section className="relative flex min-h-[350px] items-center overflow-hidden md:min-h-[440px]">
+
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-[7000ms] hover:scale-105"
           style={{
-            backgroundImage:
-              "url('/assets/images/about1.jpg')",
+            backgroundImage: "url('/assets/images/about1.jpg')",
           }}
         />
 
         <div className="absolute inset-0 bg-[#102B58]/75" />
+
         <div className="absolute inset-0 bg-gradient-to-r from-[#102B58]/90 via-[#102B58]/50 to-transparent" />
 
         <div className="relative mx-auto w-full max-w-7xl px-5 py-20 md:px-10">
+
           <div data-aos="fade-up" className="max-w-2xl">
 
             <div className="mb-5 flex items-center gap-3">
               <span className="h-[2px] w-12 bg-[#FFB900]" />
+
               <span className="text-xs font-bold uppercase tracking-[4px] text-[#FFCA45]">
                 Your Peaceful Stay in Vrindavan
               </span>
             </div>
 
             <h1 className="text-4xl font-bold leading-tight text-white md:text-6xl">
-                About The Ashram
+              About The Ashram
             </h1>
 
             <p className="mt-5 max-w-xl text-base leading-8 text-white/85 md:text-lg">
-               We are here to help you plan your stay, answer your
+              We are here to help you plan your stay, answer your
               questions, and make your experience at our Ashram
               comfortable and memorable.
             </p>
@@ -221,129 +467,36 @@ export default function AboutPage() {
               <Link href="/" className="transition hover:text-[#FFB900]">
                 Home
               </Link>
+
               <span>/</span>
-              <span className="font-semibold text-[#FFB900]">About Us</span>
+
+              <span className="font-semibold text-[#FFB900]">
+                About Us
+              </span>
             </div>
 
           </div>
         </div>
 
         <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-[#FFB900] via-white to-[#244584]" />
-      </section>
 
-     
-
-      {/* ==============================
-          ABOUT INTRODUCTION
-      ============================== */}
-
-      <section className="px-6 py-20 md:px-12 md:py-28">
-
-        <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-2">
-
-          {/* Images */}
-
-          <div data-aos="fade-right" className="relative">
-
-            <div className="grid grid-cols-2 gap-4">
-
-              <img
-                src="/assets/images/ab1.jpg"
-                alt="Ashram property and surroundings"
-                className="mt-12 h-[260px] w-full rounded-xl object-cover shadow-lg transition-transform duration-700 hover:scale-[1.03] md:h-[380px]"
-              />
-
-              <img
-                src="/assets/images/ab2.jpg"
-                alt="Temple within the Ashram"
-                className="h-[260px] w-full rounded-xl object-cover shadow-lg transition-transform duration-700 hover:scale-[1.03] md:h-[380px]"
-              />
-
-            </div>
-
-            <div className="absolute -bottom-7 left-1/2 w-[85%] -translate-x-1/2 rounded-xl bg-white p-5 text-center shadow-xl md:p-7">
-
-              <Flower2
-                size={26}
-                className="mx-auto mb-2 text-[#FFB900]"
-              />
-
-              <p className="text-lg font-bold text-[#294985] md:text-xl">
-                A Place of Peace & Devotion
-              </p>
-
-            </div>
-
-          </div>
-
-
-          {/* Content */}
-
-          <div data-aos="fade-left" className="pt-8 lg:pt-0">
-
-            <p className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[3px] text-[#294985]">
-              <span className="h-px w-9 bg-[#FFB900]" />
-              About Our Ashram
-            </p>
-
-            <h2 className="text-4xl font-extrabold uppercase leading-tight md:text-5xl">
-              ABOUT THE
-              <br />
-              <span className="text-[#FFB900]">
-                ASHRAM
-              </span>
-            </h2>
-
-            <p className="mt-7 text-[15px] font-medium leading-8 text-[#202D43]">
-              The Ashram is an ancestral property.
-            </p>
-
-            <p className="mt-4 text-[15px] leading-8 text-[#737F91]">
-              It is now open to guests seeking a peaceful,
-              comfortable, and spiritually enriching stay
-              in Vrindavan.
-            </p>
-
-            <p className="mt-4 text-[15px] leading-8 text-[#737F91]">
-              The property offers a serene atmosphere,
-              spacious rooms, a well-maintained garden,
-              and a temple within the premises.
-            </p>
-
-            <div className="mt-9 flex flex-wrap gap-4">
-
-              <Link
-                href="/accommodation"
-                className="inline-flex items-center gap-3 rounded-full bg-[#294985] px-7 py-4 text-xs font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#FFB900] hover:text-[#202D43]"
-              >
-                BOOK YOUR STAY NOW
-                <ArrowRight size={16} />
-              </Link>
-
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-3 rounded-full border border-[#294985] px-7 py-4 text-xs font-bold text-[#294985] transition-all duration-300 hover:bg-[#294985] hover:text-white"
-              >
-                CONTACT US
-              </Link>
-
-            </div>
-
-          </div>
-
-        </div>
       </section>
 
 
-      {/* ==============================
-          02. FACILITIES & ACCOMMODATION
-      ============================== */}
+      {/* =====================================
+          02. ABOUT THREE COLUMN SECTION
+      ===================================== */}
+
+      <AboutThreeColumnSection />
+
+
+      {/* =====================================
+          03. FACILITIES & ACCOMMODATION
+      ===================================== */}
 
       <section className="bg-[#F5F7FB] px-6 py-20 md:px-12 md:py-28">
 
         <div className="mx-auto max-w-7xl">
-
-          {/* Section Heading */}
 
           <div
             data-aos="fade-up"
@@ -372,13 +525,11 @@ export default function AboutPage() {
 
           </div>
 
-
-          {/* Facilities Grid */}
+          {/* FACILITIES GRID */}
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
 
             {facilities.map((item, index) => {
-
               const Icon = item.icon;
 
               return (
@@ -390,9 +541,7 @@ export default function AboutPage() {
                 >
 
                   <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-[#F5F7FB] text-[#294985] transition-all duration-300 group-hover:bg-[#FFB900] group-hover:text-[#202D43]">
-
                     <Icon size={27} strokeWidth={1.7} />
-
                   </div>
 
                   <h3 className="text-lg font-bold leading-snug text-[#294985]">
@@ -407,7 +556,6 @@ export default function AboutPage() {
 
                 </div>
               );
-
             })}
 
           </div>
@@ -416,15 +564,15 @@ export default function AboutPage() {
       </section>
 
 
-      {/* ==============================
-          03. LOCATION & ACCESSIBILITY
-      ============================== */}
+      {/* =====================================
+          04. LOCATION & ACCESSIBILITY
+      ===================================== */}
 
       <section className="px-6 py-20 md:px-12 md:py-28">
 
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-2">
 
-          {/* Location Image */}
+          {/* LOCATION IMAGE */}
 
           <div data-aos="fade-right" className="relative">
 
@@ -446,19 +594,17 @@ export default function AboutPage() {
                   <p className="text-xs font-bold uppercase tracking-wider text-[#737F91]">
                     Our Location
                   </p>
+
                   <h3 className="mt-1 text-lg font-bold text-[#294985]">
                     Vrindavan, Uttar Pradesh
                   </h3>
                 </div>
 
               </div>
-
             </div>
-
           </div>
 
-
-          {/* Location Content */}
+          {/* LOCATION CONTENT */}
 
           <div data-aos="fade-left">
 
@@ -498,7 +644,6 @@ export default function AboutPage() {
               <div className="grid gap-3 sm:grid-cols-2">
 
                 {attractions.map((place) => (
-
                   <div
                     key={place.name}
                     className="group flex items-center justify-between gap-3 rounded-lg border border-[#E5EAF2] bg-white p-4 transition-all duration-300 hover:border-[#FFB900] hover:bg-[#F5F7FB]"
@@ -513,28 +658,25 @@ export default function AboutPage() {
                     </span>
 
                   </div>
-
                 ))}
 
               </div>
-
             </div>
-
           </div>
 
         </div>
       </section>
 
 
-      {/* ==============================
-          04. SPIRITUAL ACTIVITIES
-      ============================== */}
+      {/* =====================================
+          05. SPIRITUAL ACTIVITIES
+      ===================================== */}
 
       <section className="bg-[#F5F7FB] px-6 py-20 md:px-12 md:py-28">
 
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-2">
 
-          {/* Image */}
+          {/* IMAGE */}
 
           <div data-aos="fade-right">
 
@@ -572,21 +714,17 @@ export default function AboutPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#14233F]/60 to-transparent" />
 
               <div className="absolute bottom-6 left-6 flex items-center gap-3 text-white">
-
                 <Flower2 size={27} className="text-[#FFB900]" />
 
                 <span className="text-lg font-bold">
                   Prayer & Devotion
                 </span>
-
               </div>
 
             </div>
-
           </div>
 
-
-          {/* Daily Schedule */}
+          {/* DAILY SCHEDULE */}
 
           <div data-aos="fade-left">
 
@@ -608,11 +746,9 @@ export default function AboutPage() {
 
             </div>
 
-
             <div className="relative space-y-9 border-l-2 border-[#DCE4F0] pl-8">
 
               {activities.map((activity, index) => {
-
                 const Icon = activity.icon;
 
                 return (
@@ -624,9 +760,7 @@ export default function AboutPage() {
                   >
 
                     <div className="absolute -left-[49px] top-0 flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#FFB900] bg-white text-[#294985] shadow-sm transition-all duration-300 hover:bg-[#FFB900]">
-
                       <Icon size={19} />
-
                     </div>
 
                     <p className="text-xs font-extrabold tracking-[2px] text-[#294985]">
@@ -643,11 +777,9 @@ export default function AboutPage() {
 
                   </div>
                 );
-
               })}
 
             </div>
-
 
             <div className="mt-12 rounded-xl border border-[#E5EAF2] bg-white p-6">
 
@@ -665,24 +797,22 @@ export default function AboutPage() {
                 </p>
 
               </div>
-
             </div>
-
           </div>
 
         </div>
       </section>
 
 
-      {/* ==============================
-          05. HOSPITALITY & GUEST ASSISTANCE
-      ============================== */}
+      {/* =====================================
+          06. HOSPITALITY & GUEST ASSISTANCE
+      ===================================== */}
 
       <section className="px-6 py-20 md:px-12 md:py-28">
 
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-2">
 
-          {/* Hospitality Content */}
+          {/* HOSPITALITY CONTENT */}
 
           <div data-aos="fade-right">
 
@@ -722,7 +852,6 @@ export default function AboutPage() {
               some provide food delivery to the Ashram.
             </p>
 
-
             <div className="mt-9 flex items-center gap-4 rounded-xl bg-[#F5F7FB] p-5">
 
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#FFB900] text-[#294985]">
@@ -740,11 +869,9 @@ export default function AboutPage() {
               </div>
 
             </div>
-
           </div>
 
-
-          {/* Hospitality Images */}
+          {/* HOSPITALITY IMAGE */}
 
           <div data-aos="fade-left" className="relative">
 
@@ -774,19 +901,26 @@ export default function AboutPage() {
                 </div>
 
               </div>
-
             </div>
-
           </div>
 
         </div>
       </section>
 
 
-     
+      {/* =====================================
+          07. CONTACT SECTION
+      ===================================== */}
 
-     <ContactSection />
+      <ContactSection />
+
+
+      {/* =====================================
+          08. FOOTER
+      ===================================== */}
+
       <Footer />
+
     </main>
   );
 }

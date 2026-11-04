@@ -37,7 +37,7 @@ export default function ContactSection() {
           
           {/* LEFT SIDE BLOCK: Copy & Quick Identity Metadata details */}
           <div className="flex flex-col lg:col-span-6 xl:pr-12" data-aos="fade-right">
-            <h2 className="font-serif text-4xl font-light uppercase tracking-wide leading-tight text-white sm:text-5xl lg:text-6xl">
+            <h2 className="text-4xl font-light uppercase tracking-wide leading-tight text-white sm:text-5xl lg:text-6xl">
               You Have Questions,<br />We Have Answers
             </h2>
             

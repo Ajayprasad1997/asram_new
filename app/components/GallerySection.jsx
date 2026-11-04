@@ -248,7 +248,7 @@ useEffect(() => {
               When you travel and relax you can&apos;t miss the new discoveries tour, our hotel has a guided tour for tourists to explore the city.
             </p>
             <Link
-              href="/#"
+              href="/gallery"
               className="mt-8 inline-flex min-h-11 items-center justify-center rounded-full border border-[#fff] px-6 text-xs font-bold uppercase tracking-wider text-[#fff] transition hover:bg-[#fdbb00] hover:text-whiteinline-flex min-h-11 items-center justify-center gap-3 rounded-full bg-[#244584] px-6 text-xs font-bold uppercase tracking-wide text-white transition hover:bg-[#fdbb00]"
             >
               Discovery Gallery

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Footer from "@/app/components/Footer";
 import {
   FaInstagram as Instagram,
   FaFacebookF as Facebook,
@@ -550,6 +551,7 @@ export default function ContactPage() {
 
       </section>
 
+ <Footer />
     </main>
   );
 }

@@ -24,13 +24,13 @@ import {
 // Quick Links
 const quickLinks = [
   { name: "Home", href: "/" },
-  { name: "About", href: "/#" },
-  { name: "Accommodation", href: "/#" },
-  { name: "Events & Activities", href: "/#" },
-  { name: "Our Gallery", href: "/#" },
-  { name: "Booking", href: "/#" },
+  { name: "About", href: "/about" },
+  { name: "Accommodation", href: "/accommodation" },
+  { name: "Events & Activities", href: "/events" },
+  { name: "Our Gallery", href: "/gallery" },
+  { name: "Booking", href: "/contact" },
    { name: "Reservation Policies", href: "/#" },
-  { name: "Contact", href: "/#" },
+  { name: "Contact", href: "/contact" },
 ];
 
 // Social Media Links

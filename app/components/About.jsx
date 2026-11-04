@@ -158,7 +158,7 @@ export default function AboutAshram() {
               data-aos-delay="400"
             >
               <Link
-                href="/booking"
+                href="/accommodation"
                 className="inline-flex min-h-11 items-center justify-center gap-3 rounded-full bg-[#244584] px-6 text-xs font-bold uppercase tracking-wide text-white transition hover:bg-[#fdbb00]"
               >
                 Book Your Stay Now

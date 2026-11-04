@@ -24,6 +24,9 @@ const galleryCategories = [
       "/assets/images/about2.jpg",
       "/assets/images/about3.jpg",
       "/assets/images/about4.jpg",
+      "/assets/images/gallery1.jpg",
+       "/assets/images/gallery2.jpg",
+        "/assets/images/gallery3.jpg",
     ],
   },
   {
@@ -44,6 +47,12 @@ const galleryCategories = [
       "/assets/images/gl2.jpg",
       "/assets/images/gl3.jpg",
       "/assets/images/gl4.jpg",
+      "/assets/images/guests/1.jpg",
+      "/assets/images/guests/2.jpg",
+      "/assets/images/guests/3.jpg",
+      "/assets/images/guests/4.jpg",
+      "/assets/images/guests/5.jpg",
+      "/assets/images/guests/6.jpg",
     ],
   },
   {

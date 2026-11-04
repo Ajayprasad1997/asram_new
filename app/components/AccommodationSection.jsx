@@ -30,16 +30,16 @@ const roomCategories = [
       },
       {
         id: 2,
-        name: "Super Deluxe Garden Room",
-        image: "/assets/images/super-deluxe-rooms/1.jpg",
+        name: "Super Deluxe Kitchen Room",
+        image: "/assets/images/super-deluxe-rooms/2.jpg",
         guests: "2–3 Guests",
-        detail: "Garden Retreat",
+        detail: "Premium Comfort",
         // description:
         //   "Enjoy a restful atmosphere and a welcoming space surrounded by tranquillity.",
       },
       {
         id: 3,
-        name: "Super Deluxe Family Room",
+        name: "Super Deluxe Double Bedroom",
         image: "/assets/images/super-deluxe-rooms/3.jpg",
         guests: "Up to 4 Guests",
         detail: "Family Comfort",
@@ -48,7 +48,7 @@ const roomCategories = [
       },
       {
         id: 4,
-        name: "Super Deluxe Family Room",
+        name: "Super Deluxe Bathroom",
         image: "/assets/images/super-deluxe-rooms/4.jpg",
         guests: "Up to 4 Guests",
         detail: "Family Comfort",
@@ -64,33 +64,7 @@ const roomCategories = [
         // description:
         //   "Relax in a welcoming space designed for a restful stay.",
       },
-      {
-        id: 6,
-        name: "Super Deluxe Family Room",
-        image: "/assets/images/super-deluxe-rooms/6.jpg",
-        guests: "Up to 4 Guests",
-        detail: "Family Comfort",
-        // description:
-        //   "Discover comfort and tranquillity in our accommodation.",
-      },
-      {
-        id: 7,
-        name: "Super Deluxe Family Room",
-        image: "/assets/images/super-deluxe-rooms/7.jpg",
-        guests: "Up to 4 Guests",
-        detail: "Family Comfort",
-        // description:
-        //   "Make your spiritual visit comfortable with a relaxing place to stay.",
-      },
-      {
-        id: 8,
-        name: "Super Deluxe Family Room",
-        image: "/assets/images/super-deluxe-rooms/8.jpg",
-        guests: "Up to 4 Guests",
-        detail: "Family Comfort",
-        // description:
-        //   "Find a peaceful retreat for your time at the ashram.",
-      },
+     
     ],
   },
   {
@@ -101,84 +75,72 @@ const roomCategories = [
     rooms: [
       {
         id: 9,
-        name: "Deluxe Comfort Room",
+        name: "Deluxe Outlook",
         image: "/assets/images/diffrent-booking-sites/1.jpg",
         guests: "2 Guests",
-        detail: "Direct Enquiry",
+        detail: "Family Comfort",
         // description:
         //   "Contact our team directly to enquire about availability and your preferred dates.",
       },
       {
         id: 10,
-        name: "Deluxe Twin Room",
+        name: "Deluxe Double Bedroom",
         image: "/assets/images/diffrent-booking-sites/2.jpg",
         guests: "2 Guests",
-        detail: "Direct Enquiry",
+        detail: "Family Comfort",
         // description:
         //   "A simple and welcoming room for guests seeking a peaceful visit.",
       },
-      {
-        id: 11,
-        name: "Deluxe Family Stay",
-        image: "/assets/images/diffrent-booking-sites/3.jpg",
-        guests: "Family Stay",
-        detail: "Direct Enquiry",
-      },
+      
       {
         id: 12,
-        name: "Deluxe Family Stay",
+        name: "Attach Bathroom",
         image: "/assets/images/diffrent-booking-sites/10.jpg",
         guests: "Family Stay",
-        detail: "Direct Enquiry",
+        detail: "Family Comfort",
       },
       {
         id: 13,
-        name: "Deluxe Family Stay",
+        name: "Deluxe Bathroom",
         image: "/assets/images/diffrent-booking-sites/4.jpg",
         guests: "Family Stay",
-        detail: "Direct Enquiry",
+        detail: "Family Comfort",
       },
       {
         id: 14,
-        name: "Deluxe Family Stay",
+        name: "Deluxe Double Bedroom",
         image: "/assets/images/diffrent-booking-sites/11.jpg",
         guests: "Family Stay",
-        detail: "Direct Enquiry",
+        detail: "Family Comfort",
       },
       {
         id: 15,
-        name: "Deluxe Family Stay",
+        name: "Deluxe Out Side Look",
         image: "/assets/images/diffrent-booking-sites/5.jpg",
         guests: "Family Stay",
-        detail: "Direct Enquiry",
+        detail: "Family Comfort",
       },
-      {
-        id: 16,
-        name: "Deluxe Family Stay",
-        image: "/assets/images/diffrent-booking-sites/6.jpg",
-        guests: "Family Stay",
-        detail: "Direct Enquiry",
-      },
-      {
-        id: 17,
-        name: "Deluxe Family Stay",
-        image: "/assets/images/diffrent-booking-sites/7.jpg",
-        guests: "Family Stay",
-        detail: "Direct Enquiry",
-      },
+      
+      // {
+      //   id: 17,
+      //   name: "Deluxe Family Stay",
+      //   image: "/assets/images/diffrent-booking-sites/7.jpg",
+      //   guests: "Family Stay",
+      //   detail: "Direct Enquiry",
+      // },
       {
         id: 18,
-        name: "Deluxe Family Stay",
+        name: "Deluxe Double Bedroom",
         image: "/assets/images/diffrent-booking-sites/8.jpg",
         guests: "Family Stay",
-        detail: "Direct Enquiry",
+        detail: "Family Comfort",
       },
       {
         id: 19,
-        name: "Deluxe Family Stay",
+        name: "Deluxe Bathroom",
         image: "/assets/images/diffrent-booking-sites/9.jpg",
         guests: "Family Stay",
-        detail: "Direct Enquiry",
+        detail: "Family Comfort",
       },
     ],
   },
@@ -199,20 +161,10 @@ const roomCategories = [
         bookingUrl: "",
         bookingSite: "View Booking Options",
       },
-      {
-        id: 21,
-        name: "Deluxe Double Room",
-        image: "/assets/images/deluxe-booking-sites/2.jpg",
-        guests: "2 Guests",
-        detail: "Online Listing",
-        // description:
-        //   "Compare available booking options and select the stay that suits your plans.",
-        bookingUrl: "",
-        bookingSite: "View Booking Options",
-      },
+      
       {
         id: 22,
-        name: "Deluxe Stay Room",
+        name: "Deluxe Double Bedroom",
         image: "/assets/images/deluxe-booking-sites/3.jpg",
         guests: "2–3 Guests",
         detail: "Online Listing",
@@ -245,7 +197,7 @@ const roomCategories = [
       },
       {
         id: 25,
-        name: "Deluxe Stay Room",
+        name: "Deluxe Double Bedroom",
         image: "/assets/images/deluxe-booking-sites/6.jpg",
         guests: "2–3 Guests",
         detail: "Online Listing",
@@ -260,7 +212,9 @@ const roomCategories = [
 
 export default function AccommodationSection() {
   const [activeTab, setActiveTab] = useState(roomCategories[0].id);
-  const sliderRef = useRef(null);
+const [isHovered, setIsHovered] = useState(false);
+
+const sliderRef = useRef(null);
 
   const dragRef = useRef({
     dragging: false,
@@ -274,11 +228,11 @@ export default function AccommodationSection() {
     (category) => category.id === activeTab
   );
 
-  useEffect(() => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollLeft = 0;
-    }
-  }, [activeTab]);
+  // useEffect(() => {
+  //   if (sliderRef.current) {
+  //     sliderRef.current.scrollLeft = 0;
+  //   }
+  // }, [activeTab]);
 
   function changeTab(tabId) {
     setActiveTab(tabId);
@@ -302,7 +256,10 @@ export default function AccommodationSection() {
   }
 
 // Auto slider every 3 seconds
+// Auto slider every 3 seconds (Pause on Hover)
 useEffect(() => {
+  if (isHovered) return;
+
   const interval = setInterval(() => {
     const slider = sliderRef.current;
 
@@ -311,9 +268,8 @@ useEffect(() => {
     const firstCard = slider.querySelector("[data-room-card]");
     if (!firstCard) return;
 
-    const gap = parseFloat(
-      window.getComputedStyle(slider).columnGap
-    ) || 0;
+    const gap =
+      parseFloat(window.getComputedStyle(slider).columnGap) || 0;
 
     const distance =
       firstCard.getBoundingClientRect().width + gap;
@@ -321,7 +277,8 @@ useEffect(() => {
     const maxScroll =
       slider.scrollWidth - slider.clientWidth;
 
-    // Return to the first room after reaching the end
+    if (maxScroll <= 0) return;
+
     if (slider.scrollLeft >= maxScroll - 5) {
       slider.scrollTo({
         left: 0,
@@ -336,7 +293,7 @@ useEffect(() => {
   }, 3000);
 
   return () => clearInterval(interval);
-}, [activeTab]);
+}, [activeTab, isHovered]);
 
   function handlePointerDown(event) {
     // Only begin dragging with the primary mouse button.
@@ -525,6 +482,8 @@ useEffect(() => {
         >
           <div
             ref={sliderRef}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
@@ -616,13 +575,7 @@ useEffect(() => {
     <>
       <div className="mt-5 flex flex-wrap gap-3">
         <Link
-          href={`/booking?room=${room.id}`}
-          draggable={false}
-          onClick={(event) => {
-            if (dragRef.current.suppressClick) {
-              event.preventDefault();
-            }
-          }}
+          href="/contact"          
           className="inline-flex min-h-11 items-center justify-center gap-3 rounded-full bg-[#244584] px-6 text-xs font-bold uppercase tracking-wide text-white transition hover:bg-[#2c83a5]"
         >
           Enquire
@@ -630,13 +583,7 @@ useEffect(() => {
         </Link>
 
         <Link
-          href={`/booking}`}
-          draggable={false}
-          onClick={(event) => {
-            if (dragRef.current.suppressClick) {
-              event.preventDefault();
-            }
-          }}
+          href="/accommodation"                  
           className="inline-flex min-h-11 items-center justify-center gap-3 rounded-full bg-[#244584] px-6 text-xs font-bold uppercase tracking-wide text-white transition hover:bg-[#fdbb00]"
         >
           View All Rooms

@@ -78,7 +78,7 @@ export default function HeroBanner() {
   }, []);
 
   return (
-    <section className="isolate flex min-h-[680px] w-full items-center overflow-hidden bg-[#10251e] text-white sm:min-h-[740px] lg:min-h-[calc(100svh-178px)]">
+    <section className="isolate flex min-h-[680px] w-full items-center overflow-hidden bg-[#10251e] text-white sm:min-h-[740px] lg:min-h-[calc(100svh-278px)]">
       {/* Full-screen background video */}
       <video
         className="absolute inset-0 -z-30 h-full w-full object-cover"
@@ -107,20 +107,13 @@ export default function HeroBanner() {
       <div className="pointer-events-none absolute -left-32 top-1/4 -z-10 h-96 w-96 rounded-full bg-amber-200/10 blur-[120px]" />
 
  {/* Hero container layout */}
-<div className="mx-auto w-full max-w-[1320px] px-6 py-0 lg:py-15 sm:px-10 lg:px-16 relative">
+<div className="mx-auto w-full max-w-[1320px] px-6 py-0 lg:py-6 sm:px-10 lg:px-6 relative">
   <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
     
     {/* LEFT PANEL: Hero Typography Headers & Buttons */}
 <div className="lg:col-span-6 w-full">
   {/* Eyebrow */}
-  <motion.div
-    initial={{ opacity: 0, y: 18 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.7 }}
-    className="mb-7 flex items-center gap-3"
-  >
-   
-  </motion.div>
+  
 
   {/* Animated Headline */}
   <div className="min-h-[100px] sm:min-h-[180px]">
@@ -215,7 +208,7 @@ export default function HeroBanner() {
           ))}
         </div>
         <span className="text-[12px] font-medium text-neutral-500 mt-0.5 tracking-tight">
-          from 1688 reviews
+          from 262 reviews
         </span>
       </div>
     </div>
@@ -224,7 +217,7 @@ export default function HeroBanner() {
     <div className="grid grid-cols-2 gap-2.5 mb-2.5">
       {/* Google Review Badge Action Option */}
       <a 
-        href="https://google.com" 
+        href="https://www.google.com/search?kgmid=/g/11c529r4st&hl=en-IN&q=Shree+Krishna+Bhakti+Ashram&shem=epsd1,ltae,rimspwouoe&shndl=30&source=sh/x/loc/osrp/m1/2&kgs=31317842a6481b1e&utm_source=epsd1,ltae,rimspwouoe,sh/x/loc/osrp/m1/2" 
         target="_blank" 
         rel="noopener noreferrer"
         className="flex items-center justify-between p-2.5 rounded-lg border border-neutral-100 bg-neutral-50/50 hover:bg-neutral-50 transition-colors group text-left"
@@ -232,22 +225,22 @@ export default function HeroBanner() {
         <div className="flex flex-col">
           <span className="text-[10px] font-bold tracking-wide text-neutral-400 uppercase">Google</span>
           <div className="text-base font-extrabold text-neutral-900 leading-none mt-1">4.9 / 5</div>
-          <p className="text-[10px] text-neutral-400 mt-0.5">942 votes</p>
+          <p className="text-[10px] text-neutral-400 mt-0.5">75 votes</p>
         </div>
         <ArrowUpRight size={13} className="text-neutral-400 group-hover:text-neutral-700 transition-colors self-start" />
       </a>
 
       {/* Booking.com Rating Action Option */}
       <a 
-        href="https://booking.com" 
+        href="https://www.booking.com/hotel/in/shree-krishna-bhakti-ashram.en-gb.html?aid=311984&label=shree-krishna-bhakti-ashram-HKBWyKNw9X7sL1Xz4ChHWwSM714164372571%3Apl%3Ata%3Ap1%3Ap2%3Aac%3Aap%3Aneg%3Afi%3Atikwd-2589914360392%3Alp9061835%3Ali%3Adem%3Adm%3Appccp%3DUmFuZG9tSVYkc2RlIyh9YbSsBl3MCvHsD8UKUHIRFxY-Share-KnYMng%401791888618&sid=e3a8a5a2e9889c578ff795f6a2b26381&dest_id=-2114543&dest_type=city&dist=0&group_adults=2&group_children=0&hapos=1&hpos=1&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1793776641&srpvid=02bc333c4b6c006a&type=total&ucfs=1&" 
         target="_blank" 
         rel="noopener noreferrer"
         className="flex items-center justify-between p-2.5 rounded-lg border border-neutral-100 bg-neutral-50/50 hover:bg-[neutral-50] transition-colors group text-left"
       >
         <div className="flex flex-col">
           <span className="text-[10px] font-bold tracking-wide text-neutral-400 uppercase">Booking.com</span>
-          <div className="text-base font-extrabold text-neutral-900 leading-none mt-1">9.6 / 10</div>
-          <p className="text-[10px] text-neutral-400 mt-0.5">746 stays</p>
+          <div className="text-base font-extrabold text-neutral-900 leading-none mt-1">9.1 / 9.6</div>
+          <p className="text-[10px] text-neutral-400 mt-0.5">187 stays</p>
         </div>
         <ArrowUpRight size={13} className="text-neutral-400 group-hover:text-neutral-700 transition-colors self-start" />
       </a>
@@ -270,10 +263,10 @@ export default function HeroBanner() {
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.65, delay: 0.25 }}
-    className="mt-9 flex flex-col gap-4 sm:flex-row hidden sm:block"
+    className="mt-9 flex flex-col gap-4 sm:flex-row hidden sm:flex"
   >
     <Link
-      href="/booking"
+      href="/accommodation"
       className="group inline-flex min-h-[54px] uppercase items-center justify-center gap-3 rounded-full bg-amber-400 px-7 py-4 text-sm font-bold text-[#19271e] shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-1 hover:bg-amber-300 sm:px-8"
     >
       Book Your Stay Now
@@ -284,7 +277,7 @@ export default function HeroBanner() {
     </Link>
 
     <Link
-      href="/reviews"
+      href="/contact"
       className="inline-flex min-h-[54px] items-center uppercase justify-center gap-3 rounded-full border border-white/60 bg-white/10 px-7 py-4 text-sm font-semibold text-white backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-white hover:bg-white/20 sm:px-8"
     >
       <BiSolidContact size={18} />

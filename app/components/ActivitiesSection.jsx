@@ -13,7 +13,7 @@ const activitySlides = [
     image: "/assets/images/activitie1.jpg", 
     videoSrc: "/assets/videos/activitie1.mp4",
     // description: "Dive into the depths of the Indian Ocean, where vibrant marine life awaits. From graceful manta rays to majestic whale sharks, every encounter promises unforgettable memories.",
-    link: "/activities/ocean-dive"
+    link: "/events"
   },
   {
     id: 2,
@@ -22,7 +22,7 @@ const activitySlides = [
     image: "/assets/images/activitie2.jpg", 
     videoSrc: "/assets/videos/activitie2.mp4",
     // description: "Align your mind, body, and spirit along the peaceful shorelines. Experience traditional ashram practices designed to awaken inner consciousness and profound calm.",
-    link: "/activities/yoga"
+    link: "/events"
   },
   {
     id: 3,
@@ -31,7 +31,7 @@ const activitySlides = [
     image: "/assets/images/activitie3.jpg",
     videoSrc: "/assets/videos/activitie3.mp4",
     // description: "Immerse yourself in ancestral devotional chants and sacred evening prayers within our temple courtyard, fostering unity and spiritual nourishment.",
-    link: "/activities/bhajans"
+    link: "/events"
   }
 ];
 

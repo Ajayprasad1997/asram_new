@@ -198,7 +198,58 @@ export default function EventsPage() {
 
         </div>
       </section>
+   {/* FOOD DISTRIBUTION / SEVA */}
+      <section className="bg-white px-5 py-20 md:px-10 md:py-24">
+        <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[30px] bg-[#244584] shadow-xl lg:grid-cols-2">
 
+          <div className="relative min-h-[320px] overflow-hidden lg:min-h-[440px]" data-aos="fade-right">
+            <img
+              src="/assets/images/ac2.jpg"
+              alt="Food distribution and seva"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#102B58]/55 to-transparent" />
+          </div>
+
+          <div className="flex flex-col justify-center p-8 text-white md:p-12 lg:p-14" data-aos="fade-left">
+            <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFB900] text-[#14233F]">
+              <HandHeart size={29} />
+            </div>
+
+            <span className="text-xs font-bold uppercase tracking-[3px] text-[#FFCA45]">
+              A Practice of Compassion
+            </span>
+
+            <h2 className="mt-4 text-3xl font-bold leading-tight md:text-4xl">
+              Food Distribution
+              <span className="block text-[#FFCA45]">
+                & Daily Seva
+              </span>
+            </h2>
+
+            <p className="mt-5 leading-8 text-white/80">
+              The Ashram conducts daily food distribution for yogis and
+              underprivileged people. Guests are welcome to learn more
+              about this service and the Ashram's spiritual activities.
+            </p>
+
+            <div className="mt-8 flex items-center gap-4 border-t border-white/20 pt-6">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/10">
+                <Clock className="text-[#FFCA45]" size={23} />
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-white/60">
+                  Daily Schedule
+                </p>
+                <p className="mt-1 text-lg font-bold">
+                  8:00 AM – 8:30 AM
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
       {/* DAILY SCHEDULE */}
       <section className="bg-white px-5 py-20 md:px-10 md:py-24">
         <div className="mx-auto max-w-7xl">
@@ -365,58 +416,7 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* FOOD DISTRIBUTION / SEVA */}
-      <section className="bg-white px-5 py-20 md:px-10 md:py-24">
-        <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[30px] bg-[#244584] shadow-xl lg:grid-cols-2">
-
-          <div className="relative min-h-[320px] overflow-hidden lg:min-h-[440px]" data-aos="fade-right">
-            <img
-              src="/assets/images/ac2.jpg"
-              alt="Food distribution and seva"
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#102B58]/55 to-transparent" />
-          </div>
-
-          <div className="flex flex-col justify-center p-8 text-white md:p-12 lg:p-14" data-aos="fade-left">
-            <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFB900] text-[#14233F]">
-              <HandHeart size={29} />
-            </div>
-
-            <span className="text-xs font-bold uppercase tracking-[3px] text-[#FFCA45]">
-              A Practice of Compassion
-            </span>
-
-            <h2 className="mt-4 text-3xl font-bold leading-tight md:text-4xl">
-              Food Distribution
-              <span className="block text-[#FFCA45]">
-                & Daily Seva
-              </span>
-            </h2>
-
-            <p className="mt-5 leading-8 text-white/80">
-              The Ashram conducts daily food distribution for yogis and
-              underprivileged people. Guests are welcome to learn more
-              about this service and the Ashram's spiritual activities.
-            </p>
-
-            <div className="mt-8 flex items-center gap-4 border-t border-white/20 pt-6">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/10">
-                <Clock className="text-[#FFCA45]" size={23} />
-              </div>
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-white/60">
-                  Daily Schedule
-                </p>
-                <p className="mt-1 text-lg font-bold">
-                  8:00 AM – 8:30 AM
-                </p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
+   
 
       {/* ENQUIRY CTA */}
       <section className="relative overflow-hidden bg-[#14233F] px-5 py-20 text-center md:px-10 md:py-24">
