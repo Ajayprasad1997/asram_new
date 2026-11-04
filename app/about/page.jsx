@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -29,6 +30,8 @@ import {
   HandHeart,
   CalendarDays,
   Sparkles,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 // ==========================================
@@ -120,7 +123,7 @@ function AboutThreeColumnSection() {
               About Our Ashram
             </p>
 
-            <h2 className="text-4xl font-extrabold uppercase leading-tight text-[#202D43] md:text-5xl">
+            <h2 className="text-4xl font-extrabold uppercase leading-tight text-[#2c4984] md:text-5xl">
               About The
               <br />
               <span className="text-[#FFB900]">Ashram</span>
@@ -288,6 +291,242 @@ function AboutThreeColumnSection() {
     </section>
   );
 }
+
+function FacilitiesArcShowcaseSection({ facilities = [] }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  const visibleFacilities = facilities.slice(0, 10);
+  const totalItems = visibleFacilities.length;
+
+  // Responsive layout
+  useEffect(() => {
+    const updateScreen = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    updateScreen();
+
+    window.addEventListener("resize", updateScreen);
+
+    return () => window.removeEventListener("resize", updateScreen);
+  }, []);
+
+  // Infinite autoplay
+  useEffect(() => {
+    if (isPaused || totalItems <= 1) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => prev + 1);
+    }, 2800);
+
+    return () => clearInterval(interval);
+  }, [isPaused, totalItems]);
+
+  if (!totalItems) return null;
+
+  // Circular position calculation
+  const getRelativePosition = (index) => {
+    const current = activeIndex % totalItems;
+
+    return (
+      (index - current + totalItems + Math.floor(totalItems / 2)) %
+        totalItems -
+      Math.floor(totalItems / 2)
+    );
+  };
+
+  // Move selected card to center
+  const selectCard = (position) => {
+    setActiveIndex((prev) => prev + position);
+  };
+
+  // Desktop: 7 cards | Mobile: 5 cards
+  const maxVisible = isMobile ? 2 : 3;
+
+  return (
+    <section className="relative w-full overflow-hidden bg-[#F5F7FB] px-4 py-20 text-[#202D43] sm:px-6 md:px-12 md:py-28">
+
+      {/* BACKGROUND DECORATION */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-40 top-20 h-96 w-96 rounded-full bg-[#294985]/5 blur-[100px]" />
+
+        <div className="absolute -right-40 bottom-0 h-96 w-96 rounded-full bg-[#FFB900]/10 blur-[100px]" />
+      </div>
+
+     
+
+      {/* INFINITE ROTATING CAROUSEL */}
+      <div
+        className="relative z-10 mx-auto max-w-7xl"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onFocus={() => setIsPaused(true)}
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget)) {
+            setIsPaused(false);
+          }
+        }}
+      >
+        {/* ARC STAGE */}
+        <div
+          className="relative h-[240px] w-full sm:h-[200px] md:h-[300px]"
+          style={{
+            perspective: "1400px",
+            transformStyle: "preserve-3d",
+          }}
+        >
+          {visibleFacilities.map((item, index) => {
+            const Icon = item.icon;
+
+            const position = getRelativePosition(index);
+            const distance = Math.abs(position);
+
+            // Hide cards outside the visible range
+            if (distance > maxVisible) return null;
+
+            // Arc geometry
+            const angle = position * (isMobile ? 25 : 22);
+            const angleRad = (angle * Math.PI) / 180;
+
+            const radiusX = isMobile ? 175 : 475;
+            const radiusY = isMobile ? 85 : 170;
+
+            const x = Math.sin(angleRad) * radiusX;
+            const y = (1 - Math.cos(angleRad)) * radiusY;
+
+            const isCenter = position === 0;
+
+            const scale = isCenter
+              ? 1
+              : isMobile
+                ? 0.82
+                : Math.max(0.72, 0.94 - distance * 0.065);
+
+            const rotate = position * (isMobile ? 9 : 10);
+
+            return (
+              <motion.button
+                key={item.id || item.title + "-" + index}
+                type="button"
+                onClick={() => {
+                  if (isCenter) return;
+                  selectCard(position);
+                }}
+                initial={false}
+                animate={{
+                  x,
+                  y,
+                  rotate,
+                  scale,
+                  opacity:
+                    distance === maxVisible
+                      ? 0.65
+                      : distance === 0
+                        ? 1
+                        : 0.88,
+                }}
+                transition={{
+                  duration: 1.15,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="absolute left-1/2 top-[8%] w-[145px] sm:w-[165px] md:w-[175px] lg:w-[190px]"
+                style={{
+                  marginLeft: isMobile ? "-72.5px" : "-95px",
+                  transformStyle: "preserve-3d",
+                  transformOrigin: "center center",
+                  backfaceVisibility: "hidden",
+                  willChange: "transform",
+                  zIndex: 20 - distance,
+                  cursor: isCenter ? "default" : "pointer",
+                }}
+              >
+                {/* FACILITY CARD */}
+                <div
+                  className={`relative flex aspect-square flex-col justify-between overflow-hidden rounded-2xl bg-white p-4 text-left transition-shadow duration-500 sm:rounded-3xl sm:p-5 ${
+                    isCenter
+                      ? "shadow-[0_25px_65px_rgba(41,73,133,0.20)]"
+                      : "shadow-[0_12px_35px_rgba(41,73,133,0.09)]"
+                  }`}
+                >
+                  {/* TOP ICON */}
+                  <div
+                    className={`flex h-11 w-11 items-center justify-center rounded-xl transition-all duration-500 sm:h-14 sm:w-14 ${
+                      isCenter
+                        ? "bg-[#294985] text-white"
+                        : "bg-[#F0F3F9] text-[#294985]"
+                    }`}
+                  >
+                    {Icon && <Icon size={24} strokeWidth={1.8} />}
+                  </div>
+
+                  {/* CARD CONTENT */}
+                  <div className="relative z-10">
+                    <h3
+                      className={`font-bold leading-tight text-[#294985] ${
+                        isCenter
+                          ? "text-sm sm:text-base"
+                          : "text-xs sm:text-sm"
+                      }`}
+                    >
+                      {item.title}
+                    </h3>
+
+                    <div
+                      className={`mt-2 h-[3px] rounded-full bg-[#FFB900] transition-all duration-500 ${
+                        isCenter ? "w-12" : "w-7"
+                      }`}
+                    />
+
+                    {isCenter && item.description && (
+                      <p className="mt-2 line-clamp-2 text-[10px] leading-5 text-[#737F91] sm:text-xs">
+                        {item.description}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* CENTER CARD GLOW */}
+                  {isCenter && (
+                    <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#FFB900]/10 blur-2xl" />
+                  )}
+                </div>
+              </motion.button>
+            );
+          })}
+        </div>
+      </div>
+       {/* SECTION HEADER */}
+      <div
+        data-aos="fade-up"
+        className="relative z-10 mx-auto mb-14 max-w-2xl text-center md:mb-20"
+      >
+        <div className="mb-5 flex items-center justify-center gap-3 text-xs font-bold uppercase tracking-[3px] text-[#294985]">
+          <span className="h-px w-9 bg-[#FFB900]" />
+
+          Comfort Meets Spirituality
+
+          <span className="h-px w-9 bg-[#FFB900]" />
+        </div>
+
+        <h2 className="text-3xl font-extrabold leading-tight text-[#294985] sm:text-4xl md:text-5xl">
+          Thoughtful Facilities
+        </h2>
+
+        <p className="mt-3 text-lg font-semibold italic text-[#FFB900] sm:text-xl md:text-2xl">
+          For a Peaceful Stay
+        </p>
+
+        <p className="mx-auto mt-5 max-w-md text-sm leading-8 text-[#737F91]">
+          Thoughtfully arranged facilities and comfortable spaces make your
+          stay peaceful, convenient and spiritually enriching.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+
 
 // ==========================================
 // FACILITIES DATA
@@ -494,74 +733,7 @@ export default function AboutPage() {
           03. FACILITIES & ACCOMMODATION
       ===================================== */}
 
-      <section className="bg-[#F5F7FB] px-6 py-20 md:px-12 md:py-28">
-
-        <div className="mx-auto max-w-7xl">
-
-          <div
-            data-aos="fade-up"
-            className="mx-auto mb-16 max-w-2xl text-center"
-          >
-
-            <div className="mb-5 flex items-center justify-center gap-3 text-xs font-bold uppercase tracking-[3px] text-[#294985]">
-              <span className="h-px w-9 bg-[#FFB900]" />
-              Comfort Meets Spirituality
-              <span className="h-px w-9 bg-[#FFB900]" />
-            </div>
-
-            <h2 className="text-4xl font-extrabold text-[#294985] md:text-5xl">
-              Thoughtful Facilities
-            </h2>
-
-            <p className="mt-3 text-xl font-semibold italic text-[#FFB900] md:text-2xl">
-              For a Peaceful Stay
-            </p>
-
-            <p className="mt-6 text-sm leading-8 text-[#737F91]">
-              Thoughtfully arranged facilities and comfortable
-              spaces make your stay peaceful, convenient and
-              spiritually enriching.
-            </p>
-
-          </div>
-
-          {/* FACILITIES GRID */}
-
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-
-            {facilities.map((item, index) => {
-              const Icon = item.icon;
-
-              return (
-                <div
-                  key={item.title}
-                  data-aos="fade-up"
-                  data-aos-delay={(index % 5) * 80}
-                  className="group rounded-xl border border-[#E5EAF2] bg-white p-6 transition-all duration-500 hover:-translate-y-2 hover:border-[#FFB900] hover:shadow-[0_18px_45px_rgba(41,73,133,0.12)]"
-                >
-
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-[#F5F7FB] text-[#294985] transition-all duration-300 group-hover:bg-[#FFB900] group-hover:text-[#202D43]">
-                    <Icon size={27} strokeWidth={1.7} />
-                  </div>
-
-                  <h3 className="text-lg font-bold leading-snug text-[#294985]">
-                    {item.title}
-                  </h3>
-
-                  <p className="mt-3 text-sm leading-7 text-[#737F91]">
-                    {item.description}
-                  </p>
-
-                  <div className="mt-6 h-[2px] w-9 bg-[#FFB900] transition-all duration-500 group-hover:w-full" />
-
-                </div>
-              );
-            })}
-
-          </div>
-
-        </div>
-      </section>
+     <FacilitiesArcShowcaseSection facilities={facilities} />
 
 
       {/* =====================================
