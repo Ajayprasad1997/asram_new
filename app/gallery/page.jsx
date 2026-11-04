@@ -3,6 +3,7 @@
 
 import { useEffect, useState , useRef } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import ContactSection from "@/app/components/ContactSection";
@@ -200,6 +201,244 @@ export default function GalleryPage() {
         return () => observer.disconnect();
       }, []);
 
+      
+function GalleryCarousel({ category, onImageClick }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [spacing, setSpacing] = useState(220);
+
+  const images = category.images || [];
+  const totalImages = images.length;
+
+  useEffect(() => {
+    const updateSpacing = () => {
+      setSpacing(window.innerWidth < 640 ? 125 : 220);
+    };
+
+    updateSpacing();
+
+    window.addEventListener("resize", updateSpacing);
+
+    return () => window.removeEventListener("resize", updateSpacing);
+  }, []);
+
+  // Infinite autoplay
+  useEffect(() => {
+    if (isPaused || totalImages <= 1) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % totalImages);
+    }, 2800);
+
+    return () => clearInterval(interval);
+  }, [isPaused, totalImages]);
+
+  const nextSlide = () => {
+    setActiveIndex((prev) => (prev + 1) % totalImages);
+  };
+
+  const prevSlide = () => {
+    setActiveIndex((prev) => (prev - 1 + totalImages) % totalImages);
+  };
+
+  if (!totalImages) return null;
+
+  return (
+    <div
+      className="relative w-full overflow-hidden"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocus={() => setIsPaused(true)}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          setIsPaused(false);
+        }
+      }}
+    >
+      {/* BACKGROUND DECORATION */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-20 top-10 h-64 w-64 rounded-full bg-[#FFB900]/10 blur-[100px]" />
+        <div className="absolute -right-20 bottom-0 h-64 w-64 rounded-full bg-blue-400/10 blur-[100px]" />
+
+        <div
+          className="absolute inset-0 opacity-[0.06]"
+        />
+      </div>
+
+
+      {/* 3D INFINITE CAROUSEL */}
+      <div
+        className="relative z-10 h-[280px] w-full sm:h-[390px] md:h-[440px]"
+        style={{ perspective: "1200px" }}
+      >
+        {[-2, -1, 0, 1, 2].map((offset) => {
+
+          const unwrappedIndex = activeIndex + offset;
+          const imageIndex =
+            ((unwrappedIndex % totalImages) + totalImages) % totalImages;
+          const cycle = Math.floor(unwrappedIndex / totalImages);
+
+          const image = images[imageIndex];
+
+          const isCenter = offset === 0;
+
+          return (
+            <motion.button
+              key={`${category.id}-${cycle}-${imageIndex}`}
+              type="button"
+              onClick={() => {
+                if (isCenter) {
+                  onImageClick(imageIndex);
+                } else {
+                  setActiveIndex(imageIndex);
+                }
+              }}
+              aria-label={
+                isCenter
+                  ? `View ${category.label} photo ${imageIndex + 1}`
+                  : `Show photo ${imageIndex + 1}`
+              }
+              initial={false}
+              animate={{
+                x: offset * spacing,
+                scale: isCenter ? 1 : Math.max(0.58, 0.84 - Math.abs(offset) * 0.09),
+                rotateY: offset * -28,
+                z: isCenter ? 100 : -Math.abs(offset) * 100,
+                opacity:
+                  totalImages < 3 && !isCenter
+                    ? 0
+                    : Math.abs(offset) === 2
+                      ? 0.35
+                      : Math.abs(offset) === 1
+                        ? 0.75
+                        : 1,
+              }}
+              transition={{
+                duration: 0.55,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="absolute left-1/2 top-1/2 w-[72vw] max-w-[430px] -translate-x-1/2 -translate-y-1/2"
+              style={{
+                transformStyle: "preserve-3d",
+                transformOrigin: "center center",
+                zIndex: 10 - Math.abs(offset),
+                pointerEvents:
+                  totalImages < 3 && !isCenter ? "none" : "auto",
+              }}
+            >
+              {/* IMAGE CARD */}
+              <div
+                className={`group relative aspect-[4/3] overflow-hidden rounded-2xl border-2 bg-white p-1.5 shadow-2xl transition-colors duration-500 sm:rounded-3xl sm:p-2 ${
+                  isCenter
+                    ? "border-[#FFB900] shadow-[#FFB900]/20"
+                    : "border-white/20"
+                }`}
+              >
+
+                <img
+                  src={image}
+                  alt={`${category.label} ${imageIndex + 1}`}
+                  loading="lazy"
+                  draggable="false"
+                  className="h-full w-full rounded-xl object-cover sm:rounded-2xl"
+                />
+
+                {/* IMAGE OVERLAY */}
+                <div className="absolute inset-1.5 rounded-xl bg-gradient-to-t from-[#071426]/80 via-transparent to-transparent sm:inset-2 sm:rounded-2xl" />
+
+                {/* CENTER IMAGE CONTENT */}
+                <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between sm:bottom-6 sm:left-6 sm:right-6">
+
+                  <div className="text-left">
+                    <p className="text-[10px] font-semibold uppercase tracking-[2px] text-[#FFCA45] sm:text-xs">
+                      {category.label}
+                    </p>
+
+                    <p className="mt-1 text-sm font-bold text-white sm:text-lg">
+                      Photo {imageIndex + 1}
+                    </p>
+                  </div>
+
+                  {isCenter && (
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FFB900] text-[#14233F] shadow-xl">
+                      <Maximize2 size={19} />
+                    </span>
+                  )}
+
+                </div>
+
+              </div>
+            </motion.button>
+          );
+        })}
+      </div>
+
+      {/* NAVIGATION */}
+      <div className="relative z-20 mt-5 flex items-center justify-center gap-5">
+
+        <button
+          type="button"
+          onClick={prevSlide}
+          aria-label="Previous slide"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-[#26437e] bg-white/10 text-[#26437e] backdrop-blur-md transition-all hover:border-[#FFB900] hover:bg-[#FFB900] hover:text-[#14233F]"
+        >
+          <ChevronLeft size={23} />
+        </button>
+
+        {/* IMAGE COUNTER */}
+        <div className="min-w-[100px] text-center">
+
+          <p className="text-sm font-bold tracking-widest text-[#26437e]">
+            <span className="text-[#FFCA45]">
+              {String(activeIndex + 1).padStart(2, "0")}
+            </span>
+            <span className="mx-2 text-white/40">/</span>
+            {String(totalImages).padStart(2, "0")}
+          </p>
+
+          <div className="mt-2 h-1 w-24 overflow-hidden rounded-full bg-white/20">
+            <motion.div
+              className="h-full rounded-full bg-[#FFB900]"
+              animate={{
+                width: `${((activeIndex + 1) / totalImages) * 100}%`,
+              }}
+              transition={{ duration: 0.4 }}
+            />
+          </div>
+
+        </div>
+
+        <button
+          type="button"
+          onClick={nextSlide}
+          aria-label="Next slide"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-[#26437e] bg-[#26437e] text-white backdrop-blur-md transition-all hover:border-[#FFB900] hover:bg-[#FFB900] hover:text-[#14233F]"
+        >
+          <ChevronRight size={23} />
+        </button>
+
+      </div>
+
+      {/* AUTOPLAY INDICATOR */}
+      {/* <div className="relative z-20 mt-5 flex items-center justify-center gap-2">
+
+        <span
+          className={`h-2 w-2 rounded-full ${
+            isPaused ? "bg-[#FFB900]" : "animate-pulse bg-green-400"
+          }`}
+        />
+
+        <span className="text-[10px] font-medium uppercase tracking-[2px] text-white/60">
+          {isPaused ? "Autoplay Paused" : "Infinite Experience"}
+        </span>
+
+      </div> */}
+
+    </div>
+  );
+}
+
+
   return (
     <main className="overflow-x-clip bg-[#F5F7FB] text-[#14233F]">
 
@@ -359,58 +598,15 @@ export default function GalleryPage() {
 
         </div>
 
-        {/* CATEGORY IMAGE GRID */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-
-          {category.images.map((image, index) => (
-
-            <button
-              key={`${category.id}-${image}`}
-              type="button"
-              onClick={() => {
-                setActiveTab(category.id);
-                setLightboxIndex(index);
-              }}
-              data-aos="fade-up"
-              data-aos-delay={(index % 4) * 100}
-              aria-label={`Open ${category.label} photo ${index + 1}`}
-              className="group relative block aspect-[4/3] overflow-hidden rounded-2xl border border-white bg-white p-1 text-left shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-[#FFB900]"
-            >
-
-              <img
-                src={image}
-                alt={`${category.label} ${index + 1}`}
-                loading="lazy"
-                className="h-full w-full rounded-xl object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-
-              {/* HOVER OVERLAY */}
-              <div className="absolute inset-1 flex items-center justify-center rounded-xl bg-[#102B58]/0 transition-all duration-500 group-hover:bg-[#102B58]/40">
-
-                <div className="flex h-12 w-12 scale-75 items-center justify-center rounded-full bg-[#FFB900] text-[#14233F] opacity-0 shadow-lg transition-all duration-500 group-hover:scale-100 group-hover:opacity-100">
-                  <Maximize2 size={21} />
-                </div>
-
-              </div>
-
-              {/* IMAGE CAPTION */}
-              <div className="absolute bottom-3 left-3 right-3 translate-y-3 rounded-xl bg-white/95 px-4 py-3 opacity-0 shadow-lg backdrop-blur-sm transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-
-                <p className="text-sm font-bold text-[#244584]">
-                  {category.label}
-                </p>
-
-                <p className="mt-1 text-xs text-[#8490A2]">
-                  View Photo {index + 1}
-                </p>
-
-              </div>
-
-            </button>
-
-          ))}
-
-        </div>
+      {/* 3D INFINITE GALLERY CAROUSEL */}
+        <GalleryCarousel
+          key={category.id}
+          category={category}
+          onImageClick={(index) => {
+            setActiveTab(category.id);
+            setLightboxIndex(index);
+          }}
+        />
 
       </div>
 
