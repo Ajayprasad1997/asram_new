@@ -593,11 +593,7 @@ function FacilitiesArcShowcaseSection({ facilities = [] }) {
         </div>
 
         {/* DRAG HINT */}
-        <p className="mt-3 text-center text-[10px] font-semibold uppercase tracking-[2px] text-[#737F91]">
-          <span className="mr-2">←</span>
-          Drag or Click to Explore Facilities
-          <span className="ml-2">→</span>
-        </p>
+       
       </div>
 
       {/* SECTION HEADER */}
