@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -34,6 +34,33 @@ import {
   ChevronRight,
 } from "lucide-react";
 
+
+const sliderImages = [
+  '/assets/images/about1.jpg',
+  '/assets/images/about3.jpg',
+  '/assets/images/about5.jpg',
+];
+
+  const boxSliderVariants = {
+    enter: {
+      x: '100%',
+      scale: 1.05,
+      rotate: 0.5,
+      zIndex: 10,
+    },
+    center: {
+      x: '0%',
+      scale: 1,
+      rotate: 0,
+      zIndex: 20,
+    },
+    exit: {
+      x: '-20%',
+      scale: 0.95,
+      rotate: -0.5,
+      zIndex: 0,
+    },
+  };
 // ==========================================
 // COUNTER ANIMATION HOOK
 // ==========================================
@@ -102,10 +129,19 @@ function useCountUp(target, duration = 2000) {
 // ==========================================
 
 function AboutThreeColumnSection() {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const counter1 = useCountUp("10000+");
   const counter2 = useCountUp("94%");
   const counter3 = useCountUp("100");
   const counter4 = useCountUp("7+");
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % sliderImages.length);
+    }, 4500);
+
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <section className="relative w-full bg-white px-6 py-20 text-[#202D43] md:px-12 md:py-28">
@@ -210,9 +246,9 @@ function AboutThreeColumnSection() {
           {/* COLUMN 2 - IMAGES */}
           <div
             data-aos="fade-up"
-            className="relative my-6 flex min-h-[460px] flex-col items-center justify-center lg:col-span-4 lg:my-0"
+            className="relative my-3 flex min-h-[330px] lg:min-h-[460px] flex-col items-center justify-center lg:col-span-4 lg:my-0"
           >
-            <div className="relative md:absolute right-0 md:right-2 top-0 z-10 h-[240px] w-full md:h-[140px] md:w-[78%] overflow-hidden rounded-xl shadow-lg">
+            <div className="hidden border-2 border-[#737F91] lg:block relative md:absolute right-0 md:right-2 top-0 z-10 h-[240px] w-full md:h-[140px] md:w-[78%] overflow-hidden rounded-xl shadow-lg">
               <img
                 src="/assets/images/about1.jpg"
                 alt="Ashram"
@@ -220,7 +256,7 @@ function AboutThreeColumnSection() {
               />
             </div>
 
-            <div className="relative z-20 my-4 h-[240px] md:h-[210px] md:w-[72%] overflow-hidden rounded-xl border-2 border-white shadow-xl">
+            <div className="hidden lg:block relative z-20 my-4 h-[240px] md:h-[210px] md:w-[72%] overflow-hidden rounded-xl border-2 border-white shadow-xl">
               <img
                 src="/assets/images/about3.jpg"
                 alt="Temple"
@@ -228,24 +264,44 @@ function AboutThreeColumnSection() {
               />
             </div>
 
-            {/* <div className="absolute right-[-8px] top-[48%] z-30 flex max-w-[145px] -translate-y-1/2 flex-col items-start gap-2 rounded-xl border border-white/10 bg-[#294985] p-4 text-white shadow-xl">
-              <div className="rounded-lg bg-[#FFB900] p-1.5 text-[#202D43]">
-                <Flower2 size={20} />
-              </div>
-
-              <span className="text-xs font-bold leading-snug text-white">
-                Embrace the Tradition
-              </span>
-            </div> */}
-
-            <div className="relative md:absolute bottom-0 left-0 md:left-2 z-10 h-[290px] md:h-[140px] md:w-[78%] overflow-hidden rounded-xl shadow-lg">
+            <div className="hidden border-2 border-[#737F91] lg:block relative md:absolute bottom-0 left-0 md:left-2 z-10 h-[290px] md:h-[140px] md:w-[78%] overflow-hidden rounded-xl shadow-lg">
               <img
                 src="/assets/images/about5.jpg"
                 alt="Ashram surroundings"
                 className="h-full w-full object-cover"
               />
             </div>
+
+             <div 
+            className="relative w-full lg:col-span-6"
+            data-aos="fade-right"
+          >
+            {/* about slide image */}
+            <div className="block lg:hidden aspect-[4/3] w-full overflow-hidden bg-gray-900 shadow-2xl lg:aspect-auto lg:h-[520px]">
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={currentIndex}
+                  variants={boxSliderVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{
+                    type: "spring",
+                    stiffness: 70,
+                    damping: 18,
+                    mass: 0.8
+                  }}
+                  className="absolute inset-0 h-full w-full bg-cover bg-center"
+                  style={{ backgroundImage: `url(${sliderImages[currentIndex]})` }}
+                />
+              </AnimatePresence>
+              
+              <div className="absolute inset-0 bg-black/5 pointer-events-none z-30" />
+            </div>
           </div>
+          </div>
+
+          
 
           {/* COLUMN 3 */}
           <div
@@ -309,17 +365,17 @@ function FacilitiesArcShowcaseSection({ facilities = [] }) {
 
   // Facility images
   const facilityImages = [
-    "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=85",
-    "https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=85",
-    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=85",
-    "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&q=85",
-    "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=85",
-    "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=85",
-    "https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=600&q=85",
-    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=85",
-    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600&q=85",
-    "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=85",
-  ];
+  "https://media.easemytrip.com/media/Hotel/SHL-20011021459192/Common/CommonI8PXKf.jpg",
+  "https://images.trvl-media.com/lodging/3000000/2880000/2871000/2870961/47e337d5.jpg",
+  "https://pandavhotels.com/web_components/images/greens-kitchen.webp",
+  "https://www.mvt.co/assets/gallery3.png",
+  "https://www.visionhari.com/images/bailur/bailur6.jpg",
+  "https://www.temples.bio/public/img/iskcongokulam/cow1.png",
+  "https://webfiles.amrita.edu/2024/12/amrita-sdg-6-free-drinking-water-img1.jpg",
+  "https://cdn0.weddingwire.in/vendor/1099/3_2/960/jpg/image-08_15_491099-176942573225861.jpeg",
+  "https://ens.viaxeo.com/ViaxeoWS/sp/files/V0xNZmFiTXBxRkV6ZnV2NnpJY2FmRm9GWTd5SGlVTHFhU2lqYU1hbk1TNFhQRmNzK0swTVdZTEV4OFc4QnJVa1A2NjNONDZyWVRvUVR1cUlxYlJlanc9PQ%3D%3D/th_hkt_dewa-phuket_005.jpg",
+  "https://clampera.com/assets/portfolio-2-CAHx4Z41.jpg",
+];
 
   // Responsive layout
   useEffect(() => {
@@ -513,9 +569,9 @@ function FacilitiesArcShowcaseSection({ facilities = [] }) {
                   duration: isDragging ? 0.55 : 0.65,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="absolute left-1/2 top-[8%] w-[145px] sm:w-[165px] md:w-[175px] lg:w-[190px]"
+                className="absolute left-1/2 top-[8%] w-[160px] sm:w-[250px] md:w-[275px] lg:w-[290px]"
                 style={{
-                  marginLeft: isMobile ? "-72.5px" : "-95px",
+                  marginLeft: isMobile ? "-80px" : "-140px",
                   transformStyle: "preserve-3d",
                   transformOrigin: "center center",
                   backfaceVisibility: "hidden",
@@ -743,7 +799,6 @@ const activities = [
 // ==========================================
 
 export default function AboutPage() {
-
   // AOS INITIALIZATION
   useEffect(() => {
     AOS.init({

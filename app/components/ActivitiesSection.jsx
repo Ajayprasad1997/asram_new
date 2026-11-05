@@ -40,8 +40,35 @@ export default function ActivitiesSection() {
   const containerRef = useRef(null);
   const activeTabRef = useRef(0);
   const isThrottled = useRef(false);
+  const [isTabFixed, setIsTabFixed] = useState(false);
 
+useEffect(() => {
+  const handleTabScroll = () => {
+    if (!containerRef.current) return;
 
+    const rect = containerRef.current.getBoundingClientRect();
+
+    const shouldFix =
+      rect.top <= 70 &&
+      rect.bottom > 200 &&
+      window.innerWidth < 1024;
+
+    setIsTabFixed(shouldFix);
+  };
+
+  window.addEventListener("scroll", handleTabScroll, {
+    passive: true,
+  });
+
+  window.addEventListener("resize", handleTabScroll);
+
+  handleTabScroll();
+
+  return () => {
+    window.removeEventListener("scroll", handleTabScroll);
+    window.removeEventListener("resize", handleTabScroll);
+  };
+}, []);
 
 useEffect(() => {
   AOS.init({
@@ -49,6 +76,10 @@ useEffect(() => {
     once: true,
     easing: "ease-out-quad",
   });
+   // Disable mouse wheel slide effect on mobile/tablet
+  if (window.innerWidth < 1024) {
+    return;
+  }
 
   const element = containerRef.current;
   if (!element) return;
@@ -190,10 +221,39 @@ useEffect(() => {
       className="relative w-full overflow-hidden bg-[#16222f]"
     >
       <div className="w-full">
+         {/* Mobile Sticky Activity Navigation */}
+            
+            <div
+              className={`z-[999] w-full justify-center bg-[#244584] px-3 py-4 lg:hidden ${
+                isTabFixed
+                  ? "fixed left-0 top-[70px] flex shadow-xl"
+                  : "relative flex"
+              }`}
+            >
+              <div className="flex w-full items-center justify-center gap-2">
+                {activitySlides.map((slide, index) => (
+                  <button
+                    key={slide.id}
+                    type="button"
+                    onClick={() => {
+                      activeTabRef.current = index;
+                      setActiveTab(index);
+                    }}
+                    className={`flex-1 rounded-full px-2 py-3 text-[15] font-bold transition-all duration-300 sm:text-[15px] ${
+                      activeTab === index
+                        ? "bg-[#fdbb00] text-white shadow-lg"
+                        : "border border-white/20 bg-[#244584] text-white hover:text-white"
+                    }`}
+                  >
+                    Activity {slide.id}
+                  </button>
+                ))}
+              </div>
+            </div>
         <div className="grid grid-cols-1 items-stretch lg:grid-cols-12">
           
           {/* LEFT SIDE: Dynamic Full-Screen Video Panel */}
-          <div className="relative w-full bg-black lg:col-span-6 min-h-[450px] lg:min-h-[750px] overflow-hidden">
+          <div className="relative w-full bg-black lg:col-span-6 min-h-[300px] sm:min-h-[450px] lg:min-h-[750px] overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
@@ -219,11 +279,13 @@ useEffect(() => {
 
           {/* RIGHT SIDE: Text Content with Integrated Highlight Schedule Box */}
           <div 
-            className="relative flex flex-col items-center justify-center bg-[#16222f] px-6 py-6 text-center text-white sm:px-6 lg:col-span-6 lg:py-16"
+            className="relative flex flex-col items-center justify-start bg-[#16222f] px-4 pb-5 md:pb-0 text-center text-white sm:px-6 lg:col-span-6 lg:justify-center lg:py-10"
             data-aos="fade-up"
           >
+
+           
             {/* Numeric Indicators */}
-            <div className="absolute right-4 top-1/2 flex -translate-y-1/2 flex-col gap-4 z-40 sm:right-6 lg:right-8">
+            <div className="hidden lg:absolute lg:right-8 lg:top-1/2 lg:z-40 lg:flex lg:-translate-y-1/2 lg:flex-col lg:gap-4">
               {activitySlides.map((slide, index) => (
                 <button
                   key={slide.id}

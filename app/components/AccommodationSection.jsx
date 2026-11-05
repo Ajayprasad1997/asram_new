@@ -366,7 +366,7 @@ useEffect(() => {
   return (
     <section
       id="accommodation"
-      className="overflow-hidden bg-white py-20 sm:py-24 lg:py-28"
+      className="overflow-hidden bg-white lg:pb-14 pb-14 lg:py-8"
     >
       {/* Section heading */}
       <motion.div
@@ -425,48 +425,64 @@ useEffect(() => {
 
       {/* Room category tabs */}
       <div className="mx-auto mb-8 max-w-[1320px] px-6 sm:px-10 lg:px-16">
-        <div
-          role="tablist"
-          aria-label="Accommodation categories"
-          className="flex gap-3 overflow-x-auto border-b border-gray-200 pb-3"
-        >
-          {roomCategories.map((category) => {
-            const selected = activeTab === category.id;
+  <div className="overflow-hidden border-b border-gray-200 pb-3">
+    <div className="accommodation-marquee">
 
-            return (
-              <button
-                key={category.id}
-                id={`tab-${category.id}`}
-                type="button"
-                role="tab"
-                aria-selected={selected}
-                aria-controls={`panel-${category.id}`}
-                onClick={() => changeTab(category.id)}
-                className={`shrink-0 rounded-full px-5 py-3 text-sm font-semibold transition duration-300 sm:px-6 ${
-                  selected
-                    ? "bg-[#244584] text-white shadow-md"
-                    : "bg-[#f3eee8] text-[#244584] hover:bg-[#e8e3dc]"
-                }`}
-              >
-                {category.label}
-              </button>
-            );
-          })}
-        </div>
-    <div className="mb-0 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-        <p className="mt-5 max-w-3xl text-sm leading-7 text-gray-600">
-          {activeCategory.description}
-        </p>
-         <Link
-          href="/accommodation"
-          className="inline-flex items-center gap-2 self-start text-sm font-bold text-[#244584] transition hover:text-[#2c83a5] sm:self-auto"
-        >
-          Explore All Accommodation
-          <ArrowRight size={17} />
-        </Link>
-        </div>
+      {/* First group */}
+      <div className="accommodation-marquee-group">
+        {roomCategories.map((category) => {
+          const selected = activeTab === category.id;
 
+          return (
+            <button
+              key={category.id}
+              type="button"
+              onClick={() => changeTab(category.id)}
+              className={`shrink-0 rounded-full px-5 py-3 text-sm font-semibold transition duration-300 ${
+                selected
+                  ? "bg-[#244584] text-white shadow-md"
+                  : "bg-[#f3eee8] text-[#244584]"
+              }`}
+            >
+              {category.label}
+            </button>
+          );
+        })}
       </div>
+
+      {/* Duplicate group - animation only */}
+      <div className="accommodation-marquee-group" aria-hidden="true">
+        {roomCategories.map((category) => (
+          <span
+            key={`copy-${category.id}`}
+            className={`shrink-0 rounded-full px-5 py-3 text-sm font-semibold ${
+              activeTab === category.id
+                ? "bg-[#244584] text-white shadow-md"
+                : "bg-[#f3eee8] text-[#244584]"
+            }`}
+          >
+            {category.label}
+          </span>
+        ))}
+      </div>
+
+    </div>
+  </div>
+
+  <div className="mb-0 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+    <p className="mt-5 max-w-3xl text-sm leading-7 text-gray-600">
+      {activeCategory.description}
+    </p>
+
+    <Link
+      href="/accommodation"
+      className="inline-flex items-center gap-2 self-start text-sm font-bold text-[#244584] transition hover:text-[#2c83a5] sm:self-auto"
+    >
+      Explore All Accommodation
+      <ArrowRight size={17} />
+    </Link>
+  </div>
+</div>
 
       {/* Active room category panel */}
       <AnimatePresence mode="wait">

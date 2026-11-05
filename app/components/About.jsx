@@ -111,21 +111,10 @@ export default function AboutAshram() {
               
               <div className="absolute inset-0 bg-black/5 pointer-events-none z-30" />
             </div>
-
-            {/* Parallax Image Accent Box Panel */}
-            {/* <motion.div 
-              style={{ 
-                y: yParallax,
-                backgroundImage: "url('/assets/images/about-accent.jpg')" 
-              }}
-              className="absolute -bottom-12 right-4 z-40 hidden h-[75%] w-[28%] bg-cover bg-center p-4 sm:block lg:right-6 xl:right-12 rounded-sm shadow-2xl"
-            >
-             
-            </motion.div> */}
           </div>
 
           {/* RIGHT SIDE: Text Content Block with Staggered Fade Up */}
-          <div className="flex flex-col justify-center px-6 sm:px-12 lg:col-span-6 lg:max-w-2xl lg:px-8 xl:pl-16">
+          <div className="flex flex-col justify-center px-4 sm:px-2 lg:col-span-6 lg:max-w-2xl lg:px-8 xl:pl-16">
             <h2 
               className="text-3xl font-bold uppercase tracking-wide text-[#244584] sm:text-4xl md:text-5xl" 
               data-aos="fade-up"

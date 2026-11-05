@@ -69,49 +69,67 @@ const slides = [
 
 export default function HeroBanner() {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveSlide((current) => (current + 1) % slides.length);
-    }, 4500);
+      useEffect(() => {
+      const interval = setInterval(() => {
+        setActiveSlide((current) => (current + 1) % slides.length);
+      }, 3500);
 
-    return () => clearInterval(interval);
-  }, []);
+      return () => clearInterval(interval);
+    }, []);
 
+      useEffect(() => {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 1024);
+      };
+
+      checkMobile();
+
+      window.addEventListener("resize", checkMobile);
+
+      return () => {
+        window.removeEventListener("resize", checkMobile);
+      };
+    }, []);
   return (
-    <section className="pt-[111px] sm:pt-0 isolate flex min-h-[100dvh] w-full overflow-hidden bg-[#10251e] text-white sm:min-h-[100dvh] lg:min-h-[calc(100dvh-278px)]">
-      {/* Full-screen background video */}
-      <video
-        className="absolute inset-0 -z-30 h-full w-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster="/assets/images/shree-krishna-ashram-banner.jpg"
-        aria-hidden="true"
-      >
-        <source
-          src="/assets/videos/ashram-hero.mp4"
-          type="video/mp4"
-        />
-      </video>
+   <section className="relative isolate flex min-h-[100dvh] w-full overflow-hidden bg-[#10251e] pt-[111px] text-white sm:min-h-[100dvh] sm:pt-0 lg:min-h-[calc(100dvh-278px)]">
 
-      {/* Cinematic dark layer mask */}
-      <div className="absolute inset-0 -z-20 bg-black/35" />
+  {/* Full-screen background video */}
+  <video
+    className="absolute inset-0 -z-30 h-full w-full object-cover"
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="metadata"
+    poster="/assets/images/shree-krishna-ashram-banner.jpg"
+    aria-hidden="true"
+  >
+    <source
+      src="/assets/videos/ashram-hero.mp4"
+      type="video/mp4"
+    />
+  </video>
 
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#071a15]/85 via-[#071a15]/45 to-transparent" />
+  {/* Cinematic dark layer mask */}
+  <div className="absolute inset-0 -z-20 bg-black/35" />
 
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#071a15]/70 via-transparent to-black/15" />
+  {/* Left gradient */}
+  <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#071a15]/85 via-[#071a15]/45 to-transparent" />
 
-      {/* Decorative glow */}
-      <div className="pointer-events-none absolute -left-32 top-1/4 -z-10 h-96 w-96 rounded-full bg-amber-200/10 blur-[120px]" />
+  {/* Bottom gradient */}
+  <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#071a15]/70 via-transparent to-black/15" />
+
+  {/* Decorative glow */}
+  <div className="pointer-events-none absolute -left-32 top-1/4 -z-10 h-96 w-96 rounded-full bg-amber-200/10 blur-[120px]" />
+
 
  
 {/* Hero container layout */}
-<div className="mx-auto relative w-full max-w-[1320px] px-6 py-0 sm:px-8 lg:px-8 sm:py-2 lg:py-12">
+<div className="mx-auto relative w-full max-w-[1320px] px-6 py-0 pb-4 sm:px-8 lg:px-8 sm:py-2 lg:py-12">
 
-  <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+  <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-12 items-center">
 
     {/* =========================================
         LEFT PANEL - HERO CONTENT
@@ -165,47 +183,7 @@ export default function HeroBanner() {
   <div className="order-3 lg:order-3 lg:col-span-6 flex w-full justify-center lg:justify-start hidden lg:block md:mt-6 mt-0">
 
       <div className="mt-0 w-full max-w-sm rounded-xl border border-neutral-100 bg-white px-4 py-3.5 text-neutral-800 shadow-[0_6px_24px_rgba(0,0,0,0.04)]">
-
-        {/* Top Segment: Avatar Stack & Star Combo */}
-        <div className="mb-3 flex items-center gap-3.5 border-b border-neutral-100 pb-3">
-
-          {/* Avatar Stack */}
-          <div className="isolate flex items-center -space-x-2.5">
-
-            {["LG", "AM", "JG", "CW"].map((avatar, index) => (
-              <div
-                key={avatar}
-                style={{ zIndex: 30 - index * 10 }}
-                className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-neutral-900 text-[10px] font-bold text-white shadow-sm"
-              >
-                {avatar}
-              </div>
-            ))}
-
-          </div>
-
-          {/* Stars and Totals */}
-          <div className="flex flex-col justify-center">
-
-            <div className="flex gap-0.5 text-[#ffc107]">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={13}
-                  fill="currentColor"
-                  stroke="none"
-                />
-              ))}
-            </div>
-
-            <span className="mt-0.5 text-[12px] font-medium tracking-tight text-neutral-500">
-              from 262 reviews
-            </span>
-
-          </div>
-        </div>
-
-        {/* Google and Booking.com */}
+  {/* Google and Booking.com */}
         <div className="mb-2.5 grid grid-cols-2 gap-2.5">
 
           {/* Google Review */}
@@ -273,6 +251,51 @@ export default function HeroBanner() {
           </a>
 
         </div>
+        {/* Top Segment: Avatar Stack & Star Combo */}
+        <div className="mb-3 flex items-center gap-3.5 border-b border-neutral-100 pb-3">
+
+          {/* Avatar Stack */}
+            <div className="isolate flex items-center -space-x-2.5">
+              {[
+                "https://randomuser.me/api/portraits/men/32.jpg",
+                "https://randomuser.me/api/portraits/women/44.jpg",
+                "https://randomuser.me/api/portraits/men/75.jpg",
+                "https://randomuser.me/api/portraits/women/68.jpg",
+              ].map((avatar, index) => (
+                <div
+                  key={index}
+                  style={{ zIndex: 30 - index * 10 }}
+                  className="h-8 w-8 overflow-hidden rounded-full border-2 border-white bg-neutral-200 shadow-sm"
+                >
+                  <img
+                    src={avatar}
+                    alt={`Customer ${index + 1}`}
+                    className="h-full w-full rounded-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+
+          {/* Stars and Totals */}
+          <div className="flex flex-col justify-center">
+
+            <div className="flex gap-0.5 text-[#ffc107]">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  size={13}
+                  fill="currentColor"
+                  stroke="none"
+                />
+              ))}
+            </div>
+
+            <span className="mt-0.5 text-[12px] font-medium tracking-tight text-neutral-500">
+              from 262 reviews
+            </span>
+
+          </div>
+        </div>
 
       </div>
 
@@ -282,11 +305,11 @@ export default function HeroBanner() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.65, delay: 0.25 }}
-        className="mt-9 hidden flex-col gap-4 sm:flex sm:flex-row"
+        className="mt-3 md:mt-9 flex-col gap-4 sm:flex sm:flex-row"
       >
         <Link
           href="/accommodation"
-          className="group inline-flex min-h-[54px] uppercase items-center justify-center gap-3 rounded-full bg-amber-400 px-7 py-4 text-sm font-bold text-[#19271e] shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-1 hover:bg-amber-300 sm:px-8"
+          className="group inline-flex min-h-[54px] uppercase items-center justify-center gap-3 rounded-full bg-amber-400 px-7 py-4 text-sm font-bold text-[#19271e] shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-1 hover:bg-amber-300 sm:px-8 md:mb-0 mb-2"
         >
           Book Your Stay Now
           <ArrowRight
@@ -314,47 +337,62 @@ export default function HeroBanner() {
     ========================================= */}
     <div className="order-2 lg:order-2 lg:col-span-6 mt-0 flex w-full flex-col items-center justify-center lg:items-end">
 
-      <div className="relative min-h-[211px] lg:min-h-[650px] w-full max-w-[500px] px-4 py-0 md:py-2">
+      <div className="relative h-[180px] w-full max-w-[500px] overflow-hidden px-4 py-0 lg:h-[650px] lg:overflow-visible md:py-2">
 
-        <AnimatePresence initial={false}>
-          {[0, 1, 2].map((offset) => {
+        <AnimatePresence initial={false}
+         mode={isMobile ? "wait" : "sync"}>
+            {[0, 1, 2].map((offset) => {
+              const slideIndex = (activeSlide + offset) % slides.length;
+              const reviewItem = slides[slideIndex]?.review;
 
-            const slideIndex = (activeSlide + offset) % slides.length;
-            const reviewItem = slides[slideIndex]?.review;
+              if (!reviewItem) return null;
 
-            if (!reviewItem) return null;
+              const isMiddleBox = offset === 1;
 
-            const isMiddleBox = offset === 1;
-
-            return (
-              <motion.div
-                key={`${slideIndex}-${reviewItem.name}`}
-                initial={{ opacity: 0, y: 220, scale: 0.95 }}
-                animate={{
-                  opacity: 1,
-                  y: offset * 195,
-                  x: isMiddleBox ? -65 : 0,
-                  scale: 1,
-                  zIndex: 3 - offset,
-                }}
-                exit={{
-                  opacity: 0,
-                  y: -150,
-                  scale: 0.95,
-                  filter: "blur(2px)",
-                }}
-                transition={{
-                  type: "spring",
-                  stiffness: 220,
-                  damping: 26,
-                }}
-                layout
-                onClick={() => setActiveSlide(slideIndex)}
-                className={`absolute left-0 md-left-4 flex min-h-[170px] w-[calc(100%)] md-w-[calc(100%-32px)] flex-col justify-between rounded-[20px] border border-neutral-100 bg-white p-5 text-left shadow-[0_12px_32px_rgba(0,0,0,0.08)] sm:p-0 md:p-6 ${
-                  offset > 0 ? "hidden lg:flex" : "flex"
-                }`}
-              >
-
+              return (
+               <motion.div
+                  key={`${slideIndex}-${reviewItem.name}`}
+                  initial={{
+                    opacity: 0,
+                    x: isMobile ? 120 : 0,
+                    y: isMobile ? 0 : 220,
+                    scale: isMobile ? 1 : 0.95,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    x: isMobile ? 0 : isMiddleBox ? -65 : 0,
+                    y: isMobile ? 0 : offset * 195,
+                    scale: 1,
+                    zIndex: 3 - offset,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    x: isMobile ? -120 : 0,
+                    y: isMobile ? 0 : -150,
+                    scale: isMobile ? 1 : 0.95,
+                  }}
+                  transition={{
+                    x: {
+                      duration: isMobile ? 1.5 : 0.8,
+                      ease: [0.25, 0.1, 0.25, 1],
+                    },
+                    opacity: {
+                      duration: isMobile ? 1.2 : 0.8,
+                      ease: "easeInOut",
+                    },
+                    y: {
+                      duration: 0.8,
+                      ease: [0.22, 1, 0.36, 1],
+                    },
+                    scale: {
+                      duration: 1.2,
+                    },
+                  }}
+                  onClick={() => setActiveSlide(slideIndex)}
+                  className={`absolute left-0 top-0 flex min-h-[120px] w-full flex-col justify-between rounded-[20px] border border-neutral-100 bg-white p-3 text-left shadow-[0_12px_32px_rgba(0,0,0,0.08)] sm:p-4 ${
+                    offset > 0 ? "hidden lg:flex" : "flex"
+                  }`}
+                >
                 <div>
 
                   {/* Card Header */}
@@ -472,47 +510,7 @@ export default function HeroBanner() {
     <div className="order-3 lg:order-3 lg:col-span-6 flex w-full justify-center lg:justify-start block lg:hidden">
 
       <div className="mt-0 w-full max-w-sm rounded-xl border border-neutral-100 bg-white px-4 py-3.5 text-neutral-800 shadow-[0_6px_24px_rgba(0,0,0,0.04)]">
-
-        {/* Top Segment: Avatar Stack & Star Combo */}
-        <div className="mb-3 flex items-center gap-3.5 border-b border-neutral-100 pb-3">
-
-          {/* Avatar Stack */}
-          <div className="isolate flex items-center -space-x-2.5">
-
-            {["LG", "AM", "JG", "CW"].map((avatar, index) => (
-              <div
-                key={avatar}
-                style={{ zIndex: 30 - index * 10 }}
-                className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-neutral-900 text-[10px] font-bold text-white shadow-sm"
-              >
-                {avatar}
-              </div>
-            ))}
-
-          </div>
-
-          {/* Stars and Totals */}
-          <div className="flex flex-col justify-center">
-
-            <div className="flex gap-0.5 text-[#ffc107]">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={13}
-                  fill="currentColor"
-                  stroke="none"
-                />
-              ))}
-            </div>
-
-            <span className="mt-0.5 text-[12px] font-medium tracking-tight text-neutral-500">
-              from 262 reviews
-            </span>
-
-          </div>
-        </div>
-
-        {/* Google and Booking.com */}
+   {/* Google and Booking.com */}
         <div className="mb-2.5 grid grid-cols-2 gap-2.5">
 
           {/* Google Review */}
@@ -580,6 +578,53 @@ export default function HeroBanner() {
           </a>
 
         </div>
+        {/* Top Segment: Avatar Stack & Star Combo */}
+        <div className="mb-3 flex items-center gap-3.5 border-b border-neutral-100 pb-3">
+
+          {/* Avatar Stack */}
+        <div className="isolate flex items-center -space-x-2.5">
+              {[
+                "https://randomuser.me/api/portraits/men/32.jpg",
+                "https://randomuser.me/api/portraits/women/44.jpg",
+                "https://randomuser.me/api/portraits/men/75.jpg",
+                "https://randomuser.me/api/portraits/women/68.jpg",
+              ].map((avatar, index) => (
+                <div
+                  key={index}
+                  style={{ zIndex: 30 - index * 10 }}
+                  className="h-8 w-8 overflow-hidden rounded-full border-2 border-white bg-neutral-200 shadow-sm"
+                >
+                  <img
+                    src={avatar}
+                    alt={`Customer ${index + 1}`}
+                    className="h-full w-full rounded-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+
+          {/* Stars and Totals */}
+          <div className="flex flex-col justify-center">
+
+            <div className="flex gap-0.5 text-[#ffc107]">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  size={13}
+                  fill="currentColor"
+                  stroke="none"
+                />
+              ))}
+            </div>
+
+            <span className="mt-0.5 text-[12px] font-medium tracking-tight text-neutral-500">
+              from 262 reviews
+            </span>
+
+          </div>
+        </div>
+
+     
 
       </div>
 
