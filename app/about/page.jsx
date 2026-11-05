@@ -212,7 +212,7 @@ function AboutThreeColumnSection() {
             data-aos="fade-up"
             className="relative my-6 flex min-h-[460px] flex-col items-center justify-center lg:col-span-4 lg:my-0"
           >
-            <div className="absolute right-2 top-0 z-10 h-[140px] w-[78%] overflow-hidden rounded-xl shadow-lg">
+            <div className="relative md:absolute right-0 md:right-2 top-0 z-10 h-[240px] w-full md:h-[140px] md:w-[78%] overflow-hidden rounded-xl shadow-lg">
               <img
                 src="/assets/images/about1.jpg"
                 alt="Ashram"
@@ -220,7 +220,7 @@ function AboutThreeColumnSection() {
               />
             </div>
 
-            <div className="relative z-20 my-4 h-[210px] w-[72%] overflow-hidden rounded-xl border-2 border-white shadow-xl">
+            <div className="relative z-20 my-4 h-[240px] md:h-[210px] md:w-[72%] overflow-hidden rounded-xl border-2 border-white shadow-xl">
               <img
                 src="/assets/images/about3.jpg"
                 alt="Temple"
@@ -228,7 +228,7 @@ function AboutThreeColumnSection() {
               />
             </div>
 
-            <div className="absolute right-[-8px] top-[48%] z-30 flex max-w-[145px] -translate-y-1/2 flex-col items-start gap-2 rounded-xl border border-white/10 bg-[#294985] p-4 text-white shadow-xl">
+            {/* <div className="absolute right-[-8px] top-[48%] z-30 flex max-w-[145px] -translate-y-1/2 flex-col items-start gap-2 rounded-xl border border-white/10 bg-[#294985] p-4 text-white shadow-xl">
               <div className="rounded-lg bg-[#FFB900] p-1.5 text-[#202D43]">
                 <Flower2 size={20} />
               </div>
@@ -236,9 +236,9 @@ function AboutThreeColumnSection() {
               <span className="text-xs font-bold leading-snug text-white">
                 Embrace the Tradition
               </span>
-            </div>
+            </div> */}
 
-            <div className="absolute bottom-0 left-2 z-10 h-[140px] w-[78%] overflow-hidden rounded-xl shadow-lg">
+            <div className="relative md:absolute bottom-0 left-0 md:left-2 z-10 h-[290px] md:h-[140px] md:w-[78%] overflow-hidden rounded-xl shadow-lg">
               <img
                 src="/assets/images/about5.jpg"
                 alt="Ashram surroundings"
@@ -292,13 +292,34 @@ function AboutThreeColumnSection() {
   );
 }
 
+
+
 function FacilitiesArcShowcaseSection({ facilities = [] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const dragStartX = useRef(0);
+  const wasDragged = useRef(false);
+  const dragPointerId = useRef(null);
 
   const visibleFacilities = facilities.slice(0, 10);
   const totalItems = visibleFacilities.length;
+
+  // Facility images
+  const facilityImages = [
+    "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=85",
+    "https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=85",
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=85",
+    "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&q=85",
+    "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=85",
+    "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=85",
+    "https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=600&q=85",
+    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=85",
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600&q=85",
+    "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=85",
+  ];
 
   // Responsive layout
   useEffect(() => {
@@ -307,28 +328,28 @@ function FacilitiesArcShowcaseSection({ facilities = [] }) {
     };
 
     updateScreen();
-
     window.addEventListener("resize", updateScreen);
 
     return () => window.removeEventListener("resize", updateScreen);
   }, []);
 
-  // Infinite autoplay
+  // Autoplay
   useEffect(() => {
-    if (isPaused || totalItems <= 1) return;
+    if (isPaused || isDragging || totalItems <= 1) return;
 
     const interval = setInterval(() => {
       setActiveIndex((prev) => prev + 1);
-    }, 2800);
+    }, 1500);
 
     return () => clearInterval(interval);
-  }, [isPaused, totalItems]);
+  }, [isPaused, isDragging, totalItems]);
 
   if (!totalItems) return null;
 
-  // Circular position calculation
+  // Correct circular positioning
   const getRelativePosition = (index) => {
-    const current = activeIndex % totalItems;
+    const current =
+      ((activeIndex % totalItems) + totalItems) % totalItems;
 
     return (
       (index - current + totalItems + Math.floor(totalItems / 2)) %
@@ -337,12 +358,59 @@ function FacilitiesArcShowcaseSection({ facilities = [] }) {
     );
   };
 
-  // Move selected card to center
+  // Click card to center
   const selectCard = (position) => {
     setActiveIndex((prev) => prev + position);
   };
 
-  // Desktop: 7 cards | Mobile: 5 cards
+  // Pointer down
+  const handlePointerDown = (event) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+
+    dragStartX.current = event.clientX;
+    dragPointerId.current = event.pointerId;
+    wasDragged.current = false;
+
+    setIsDragging(true);
+    setIsPaused(true);
+
+    // Capture on the actual card to preserve click events
+    const card = event.target.closest("button");
+
+    if (card) {
+      card.setPointerCapture(event.pointerId);
+    }
+  };
+
+  // Pointer up
+  const handlePointerUp = (event) => {
+    if (dragPointerId.current !== event.pointerId) return;
+
+    const difference = event.clientX - dragStartX.current;
+    const threshold = 35;
+
+    if (Math.abs(difference) > threshold) {
+      wasDragged.current = true;
+
+      // Left = next | Right = previous
+      setActiveIndex((prev) =>
+        difference < 0 ? prev + 1 : prev - 1
+      );
+    }
+
+    dragPointerId.current = null;
+    setIsDragging(false);
+    setIsPaused(false);
+  };
+
+  // Pointer cancel
+  const handlePointerCancel = () => {
+    dragPointerId.current = null;
+    setIsDragging(false);
+    setIsPaused(false);
+  };
+
+  // Desktop 7 cards | Mobile 5 cards
   const maxVisible = isMobile ? 2 : 3;
 
   return (
@@ -351,17 +419,16 @@ function FacilitiesArcShowcaseSection({ facilities = [] }) {
       {/* BACKGROUND DECORATION */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -left-40 top-20 h-96 w-96 rounded-full bg-[#294985]/5 blur-[100px]" />
-
         <div className="absolute -right-40 bottom-0 h-96 w-96 rounded-full bg-[#FFB900]/10 blur-[100px]" />
       </div>
 
-     
-
-      {/* INFINITE ROTATING CAROUSEL */}
+      {/* CAROUSEL */}
       <div
         className="relative z-10 mx-auto max-w-7xl"
         onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
+        onMouseLeave={() => {
+          if (!isDragging) setIsPaused(false);
+        }}
         onFocus={() => setIsPaused(true)}
         onBlur={(event) => {
           if (!event.currentTarget.contains(event.relatedTarget)) {
@@ -369,24 +436,29 @@ function FacilitiesArcShowcaseSection({ facilities = [] }) {
           }
         }}
       >
+
         {/* ARC STAGE */}
         <div
-          className="relative h-[240px] w-full sm:h-[200px] md:h-[300px]"
+          className={`relative h-[240px] w-full select-none sm:h-[200px] md:h-[300px] ${
+            isDragging ? "cursor-grabbing" : "cursor-grab"
+          }`}
           style={{
             perspective: "1400px",
             transformStyle: "preserve-3d",
+            touchAction: "pan-y",
           }}
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerCancel}
         >
-          {visibleFacilities.map((item, index) => {
-            const Icon = item.icon;
 
+          {visibleFacilities.map((item, index) => {
             const position = getRelativePosition(index);
             const distance = Math.abs(position);
 
-            // Hide cards outside the visible range
             if (distance > maxVisible) return null;
 
-            // Arc geometry
+            // ARC GEOMETRY
             const angle = position * (isMobile ? 25 : 22);
             const angleRad = (angle * Math.PI) / 180;
 
@@ -406,13 +478,23 @@ function FacilitiesArcShowcaseSection({ facilities = [] }) {
 
             const rotate = position * (isMobile ? 9 : 10);
 
+            const image =
+              item.image ||
+              facilityImages[index % facilityImages.length];
+
             return (
               <motion.button
                 key={item.id || item.title + "-" + index}
                 type="button"
                 onClick={() => {
-                  if (isCenter) return;
-                  selectCard(position);
+                  if (wasDragged.current) {
+                    wasDragged.current = false;
+                    return;
+                  }
+
+                  if (position !== 0) {
+                    selectCard(position);
+                  }
                 }}
                 initial={false}
                 animate={{
@@ -423,12 +505,12 @@ function FacilitiesArcShowcaseSection({ facilities = [] }) {
                   opacity:
                     distance === maxVisible
                       ? 0.65
-                      : distance === 0
+                      : isCenter
                         ? 1
                         : 0.88,
                 }}
                 transition={{
-                  duration: 1.15,
+                  duration: isDragging ? 0.55 : 0.65,
                   ease: [0.22, 1, 0.36, 1],
                 }}
                 className="absolute left-1/2 top-[8%] w-[145px] sm:w-[165px] md:w-[175px] lg:w-[190px]"
@@ -439,32 +521,46 @@ function FacilitiesArcShowcaseSection({ facilities = [] }) {
                   backfaceVisibility: "hidden",
                   willChange: "transform",
                   zIndex: 20 - distance,
-                  cursor: isCenter ? "default" : "pointer",
+                  cursor: isDragging
+                    ? "grabbing"
+                    : isCenter
+                      ? "grab"
+                      : "pointer",
                 }}
               >
-                {/* FACILITY CARD */}
+
+                {/* IMAGE CARD */}
                 <div
-                  className={`relative flex aspect-square flex-col justify-between overflow-hidden rounded-2xl bg-white p-4 text-left transition-shadow duration-500 sm:rounded-3xl sm:p-5 ${
+                  className={`group relative aspect-square overflow-hidden rounded-2xl bg-white text-left transition-shadow duration-500 sm:rounded-3xl ${
                     isCenter
                       ? "shadow-[0_25px_65px_rgba(41,73,133,0.20)]"
                       : "shadow-[0_12px_35px_rgba(41,73,133,0.09)]"
                   }`}
                 >
-                  {/* TOP ICON */}
-                  <div
-                    className={`flex h-11 w-11 items-center justify-center rounded-xl transition-all duration-500 sm:h-14 sm:w-14 ${
-                      isCenter
-                        ? "bg-[#294985] text-white"
-                        : "bg-[#F0F3F9] text-[#294985]"
-                    }`}
-                  >
-                    {Icon && <Icon size={24} strokeWidth={1.8} />}
-                  </div>
 
-                  {/* CARD CONTENT */}
-                  <div className="relative z-10">
+                  {/* IMAGE */}
+                  <img
+                    src={image}
+                    alt={item.title || "Ashram facility"}
+                    draggable="false"
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+
+                  {/* OVERLAY */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#10213E]/95 via-[#10213E]/25 to-transparent" />
+
+                  {/* FEATURED BADGE */}
+                  {isCenter && (
+                    <div className="absolute right-3 top-3 rounded-full bg-[#FFB900] px-3 py-1 text-[9px] font-bold uppercase tracking-wider text-[#294985]">
+                      Featured
+                    </div>
+                  )}
+
+                  {/* CONTENT */}
+                  <div className="absolute inset-x-0 bottom-0 z-10 p-3 text-left sm:p-4">
                     <h3
-                      className={`font-bold leading-tight text-[#294985] ${
+                      className={`font-bold leading-tight text-white ${
                         isCenter
                           ? "text-sm sm:text-base"
                           : "text-xs sm:text-sm"
@@ -480,32 +576,38 @@ function FacilitiesArcShowcaseSection({ facilities = [] }) {
                     />
 
                     {isCenter && item.description && (
-                      <p className="mt-2 line-clamp-2 text-[10px] leading-5 text-[#737F91] sm:text-xs">
+                      <p className="mt-2 line-clamp-2 text-[10px] leading-5 text-white/80 sm:text-xs">
                         {item.description}
                       </p>
                     )}
                   </div>
 
-                  {/* CENTER CARD GLOW */}
+                  {/* GLOW */}
                   {isCenter && (
-                    <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#FFB900]/10 blur-2xl" />
+                    <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#FFB900]/20 blur-2xl" />
                   )}
                 </div>
               </motion.button>
             );
           })}
         </div>
+
+        {/* DRAG HINT */}
+        <p className="mt-3 text-center text-[10px] font-semibold uppercase tracking-[2px] text-[#737F91]">
+          <span className="mr-2">←</span>
+          Drag or Click to Explore Facilities
+          <span className="ml-2">→</span>
+        </p>
       </div>
-       {/* SECTION HEADER */}
+
+      {/* SECTION HEADER */}
       <div
         data-aos="fade-up"
-        className="relative z-10 mx-auto mb-14 max-w-2xl text-center md:mb-20"
+        className="relative z-10 mx-auto mb-14 mt-10 max-w-2xl text-center md:mb-20"
       >
         <div className="mb-5 flex items-center justify-center gap-3 text-xs font-bold uppercase tracking-[3px] text-[#294985]">
           <span className="h-px w-9 bg-[#FFB900]" />
-
           Comfort Meets Spirituality
-
           <span className="h-px w-9 bg-[#FFB900]" />
         </div>
 
@@ -525,6 +627,8 @@ function FacilitiesArcShowcaseSection({ facilities = [] }) {
     </section>
   );
 }
+
+
 
 
 
@@ -667,7 +771,7 @@ export default function AboutPage() {
           01. ABOUT HERO SECTION
       ===================================== */}
 
-      <section className="relative flex min-h-[350px] items-center overflow-hidden md:min-h-[440px]">
+      <section className="pt-[28px] sm:pt-0 relative flex min-h-[350px] items-center overflow-hidden md:min-h-[440px]">
 
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-[7000ms] hover:scale-105"

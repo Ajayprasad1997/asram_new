@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Link from "next/link";
 import { ChevronDown, Search, MapPin, Menu, X } from "lucide-react";
 import { MdEmail } from "react-icons/md";
@@ -19,10 +19,6 @@ const navItems = [
   {
     label: "Events & Activities ",
     href: "/events",
-    // children: [
-    //   { label: "Food Distribution", href: "/food-distribution" },
-    //   { label: "Community Service", href: "/social-action" },
-    // ],
   },
   {
     label: "Our Gallery",
@@ -31,11 +27,6 @@ const navItems = [
   {
     label: "Contact",
     href: "/contact",
-    //     children: [
-    //       { label: "News & Events", href: "/events" },
-    //       { label: "Photo Gallery", href: "/gallery" },
-    //       { label: "Contact Information", href: "/contact" },
-    //     ],
   },
 ];
 
@@ -44,9 +35,25 @@ export default function Header() {
   const [openMenu, setOpenMenu] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [stickyVisible, setStickyVisible] = useState(false);
+  const [stickyMobileOpen, setStickyMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setStickyVisible(window.scrollY > 200);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <header className="relative z-50 w-full font-sans">
+    <>
+    <header className="absolute sm:relative top-0 left-0 z-50 w-full bg-transparent">
      
       {/* Top blue header */}
       <div className="bg-transparent md:bg-gradient-to-r md:from-[#2e83a4] md:via-[#285b91] md:to-[#243c82] text-white">
@@ -170,24 +177,6 @@ export default function Header() {
             </button>
           </nav>
 
-          {/* Desktop action buttons */}
-          {/* <div className="hidden items-center gap-5 lg:flex">
-            <Link
-              href="/contact"
-              className="flex min-h-[41px] items-center gap-2 uppercase rounded-full bg-[#2c83a5] px-6 text-xs font-bold text-white transition hover:bg-[#216a88]"
-            >
-              <MapPin size={15} />
-              See Google Reviews
-            </Link>
-
-            <Link
-              href="/contact"
-              className="flex min-h-[41px] items-center uppercase rounded-full bg-[#253e8b] px-6 text-xs font-bold text-white transition hover:bg-[#192c6a]"
-            >
-              Book Now
-            </Link>
-          </div> */}
-
              <ul className="hidden sm:flex top-bar-nav nav navbar-nav navbar-right flex flex-wrap items-center gap-6">
   {/* Contact Us Button */}
   
@@ -223,44 +212,11 @@ export default function Header() {
   </li>
 </ul>
 
-          {/* Compact tablet search */}
-          <button
-            type="button"
-            onClick={() => setSearchOpen(!searchOpen)}
-            className="ml-auto text-[#243c82] lg:hidden mbsearch"
-            aria-label="Toggle search fseff"
-          >
-            <Search size={21} />
-          </button>
+          
         </div>
 
         {/* Search bar */}
-        {searchOpen && (
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              if (searchTerm.trim()) {
-                window.location.href =
-                  "/search?q=" + encodeURIComponent(searchTerm.trim());
-              }
-            }}
-            className="mx-auto flex max-w-[1320px] gap-2 px-5 pb-4 lg:px-8"
-          >
-            <input
-              type="search"
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-              placeholder="Search the website..."
-              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-800 outline-none focus:border-blue-500"
-            />
-            <button
-              type="submit"
-              className="rounded-lg bg-[#253e8b] px-5 text-sm font-semibold text-white"
-            >
-              Search
-            </button>
-          </form>
-        )}
+     
 
         {/* Mobile navigation */}
         {mobileOpen && (
@@ -321,5 +277,88 @@ export default function Header() {
         )}
       </div>
     </header>
+
+
+{/* Sticky Header - Appears After 200px Scroll */}
+<div
+  className={`fixed left-0 top-0 z-[100] w-full bg-white shadow-[0_4px_18px_rgba(0,0,0,0.12)] transition-all duration-500 ease-in-out ${
+    stickyVisible
+      ? "translate-y-0 opacity-100 pointer-events-auto"
+      : "-translate-y-full opacity-0 pointer-events-none"
+  }`}
+>
+  <div className="mx-auto flex min-h-[75px] max-w-[1320px] items-center justify-between gap-5 px-5 lg:px-8">
+
+    {/* Left Side Logo */}
+    <Link
+      href="/"
+      className="flex shrink-0 items-center"
+      onClick={() => setStickyMobileOpen(false)}
+    >
+      <img
+        src="/assets/images/ashram-logo.png"
+        alt="Shree Krishna Bhakti Ashram"
+        className="h-[65px] w-[110px] object-contain"
+      />
+    </Link>
+
+    {/* Desktop Navigation */}
+    <nav
+      className="hidden items-center gap-5 lg:flex xl:gap-7"
+      aria-label="Sticky navigation"
+    >
+      {navItems.map((item) => (
+        <Link
+          key={item.href}
+          href={item.href}
+          className="whitespace-nowrap text-[15px] font-medium text-[#484848] transition-colors duration-300 hover:text-[#2c83a5]"
+        >
+          {item.label.trim()}
+        </Link>
+      ))}
+      
+    </nav>
+
+    {/* Mobile Menu Button */}
+    
+    <button
+      type="button"
+      onClick={() => setStickyMobileOpen(!stickyMobileOpen)}
+      className="rounded-lg p-2 text-[#285b91] transition hover:bg-gray-100 lg:hidden"
+      aria-label={stickyMobileOpen ? "Close menu" : "Open menu"}
+      aria-expanded={stickyMobileOpen}
+    >
+      {stickyMobileOpen ? <X size={27} /> : <Menu size={27} />}
+    </button>
+  </div>
+
+  {/* Mobile Navigation */}
+  <div
+    className={`overflow-hidden border-t border-gray-100 bg-white transition-all duration-300 lg:hidden ${
+      stickyMobileOpen
+        ? "max-h-[400px] opacity-100"
+        : "max-h-0 opacity-0"
+    }`}
+  >
+    <nav
+      className="mx-auto max-w-[1320px] px-5 py-2"
+      aria-label="Sticky mobile navigation"
+    >
+      {navItems.map((item) => (
+        <Link
+          key={item.href}
+          href={item.href}
+          onClick={() => setStickyMobileOpen(false)}
+          className="block border-b border-gray-100 py-3.5 text-sm font-medium text-[#484848] transition hover:pl-2 hover:text-[#2c83a5]"
+        >
+          {item.label.trim()}
+        </Link>
+      ))}
+    </nav>
+  </div>
+</div>
+
+</>
+    
   );
 }

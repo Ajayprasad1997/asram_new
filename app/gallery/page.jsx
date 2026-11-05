@@ -106,6 +106,8 @@ const galleryCategories = [
 export default function GalleryPage() {
   const [activeTab, setActiveTab] = useState("overview");
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const tabContainerRef = useRef(null);
+  const tabRefs = useRef({});
 
   const activeCategory = galleryCategories.find(
     (category) => category.id === activeTab
@@ -125,6 +127,31 @@ export default function GalleryPage() {
 
   useEffect(() => {
     AOS.refresh();
+  }, [activeTab]);
+
+  useEffect(() => {
+    const container = tabContainerRef.current;
+    const activeButton = tabRefs.current[activeTab];
+
+    if (!container || !activeButton) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      const containerRect = container.getBoundingClientRect();
+      const buttonRect = activeButton.getBoundingClientRect();
+
+      const targetLeft =
+        container.scrollLeft +
+        buttonRect.left -
+        containerRect.left -
+        (container.clientWidth - buttonRect.width) / 2;
+
+      container.scrollTo({
+        left: targetLeft,
+        behavior: "smooth",
+      });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, [activeTab]);
 
   useEffect(() => {
@@ -228,7 +255,7 @@ function GalleryCarousel({ category, onImageClick }) {
 
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % totalImages);
-    }, 2800);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [isPaused, totalImages]);
@@ -443,7 +470,7 @@ function GalleryCarousel({ category, onImageClick }) {
     <main className="overflow-x-clip bg-[#F5F7FB] text-[#14233F]">
 
       {/* HERO BANNER */}
-      <section className="relative flex min-h-[350px] items-center overflow-hidden md:min-h-[440px]">
+      <section className="pt-[28px] sm:pt-0 relative flex min-h-[350px] items-center overflow-hidden md:min-h-[440px]">
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-[7000ms] hover:scale-105"
           style={{
@@ -518,37 +545,41 @@ function GalleryCarousel({ category, onImageClick }) {
 <section className="pb-20 md:pb-24">
 
   {/* FULL WIDTH STICKY TABS */}
-  <div className="sticky top-[0px] md:top-[0px] z-50 w-full border-y border-[#DCE3ED] bg-[#F5F7FB]/95 shadow-sm backdrop-blur-xl">
+  <div 
+  className="sticky top-[75px] md:top-[75px] z-50 w-full border-y border-[#DCE3ED] bg-[#F5F7FB]/95 shadow-sm backdrop-blur-xl">
 
     <div className="mx-auto max-w-7xl px-4 py-3 md:px-8">
 
-      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide lg:flex-wrap lg:justify-center">
+      <div ref={tabContainerRef} className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide lg:flex-wrap lg:justify-center">
 
         {galleryCategories.map((category) => (
-          <button
-            key={category.id}
-            type="button"
-            onClick={() => {
-              setActiveTab(category.id);
-              setLightboxIndex(null);
+         <button
+  key={category.id}
+  ref={(el) => {
+    tabRefs.current[category.id] = el;
+  }}
+  type="button"
+  onClick={() => {
+    setActiveTab(category.id);
+    setLightboxIndex(null);
 
-              sectionRefs.current[category.id]?.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-              });
-            }}
-            className={`relative shrink-0 rounded-full px-5 py-3 text-sm font-semibold transition-all duration-300 ${
-              activeTab === category.id
-                ? "bg-[#244584] text-white shadow-lg shadow-[#244584]/20"
-                : "border border-[#DCE3ED] bg-white text-[#46536A] hover:border-[#FFB900] hover:bg-[#FFF8E8] hover:text-[#244584]"
-            }`}
-          >
-            {category.label}
+    sectionRefs.current[category.id]?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }}
+  className={`relative shrink-0 rounded-full px-5 py-3 text-sm font-semibold transition-all duration-300 ${
+    activeTab === category.id
+      ? "bg-[#244584] text-white shadow-lg shadow-[#244584]/20"
+      : "border border-[#DCE3ED] bg-white text-[#46536A] hover:border-[#FFB900] hover:bg-[#FFF8E8] hover:text-[#244584]"
+  }`}
+>
+  {category.label}
 
-            {activeTab === category.id && (
-              <span className="absolute -bottom-1 left-1/2 h-1 w-8 -translate-x-1/2 rounded-full bg-[#FFB900]" />
-            )}
-          </button>
+  {activeTab === category.id && (
+    <span className="absolute -bottom-1 left-1/2 h-1 w-8 -translate-x-1/2 rounded-full bg-[#FFB900]" />
+  )}
+</button>
         ))}
 
       </div>

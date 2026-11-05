@@ -219,7 +219,7 @@ useEffect(() => {
 
           {/* RIGHT SIDE: Text Content with Integrated Highlight Schedule Box */}
           <div 
-            className="relative flex flex-col items-center justify-center bg-[#16222f] px-6 py-16 text-center text-white sm:px-16 lg:col-span-6 lg:py-20"
+            className="relative flex flex-col items-center justify-center bg-[#16222f] px-6 py-6 text-center text-white sm:px-6 lg:col-span-6 lg:py-16"
             data-aos="fade-up"
           >
             {/* Numeric Indicators */}
@@ -252,15 +252,15 @@ useEffect(() => {
                   transition={{ ease: "easeInOut", duration: 0.5 }}
                   className="flex flex-col items-center w-full"
                 >
-                  <span className="text-[14px] uppercase tracking-[0.3em] text-[#fdbb00] font-semibold">
+                  {/* <span className="text-[14px] uppercase tracking-[0.3em] text-[#fdbb00] font-semibold">
                     {activitySlides[activeTab].subtitle}
-                  </span>
+                  </span> */}
 
                   <h2 className="mt-2 text-2xl font-bold uppercase tracking-widest text-white sm:text-4xl lg:text-5xl">
                     {activitySlides[activeTab].title}
                   </h2>
 
-                  <div className="mt-6 aspect-[4/3] w-[200px] overflow-hidden bg-gray-800 shadow-2xl border border-white/5">
+                  <div className="mt-6 aspect-[4/3] w-[450px] overflow-hidden bg-gray-800 shadow-2xl border border-white/5">
                     <img
                       src={activitySlides[activeTab].image}
                       alt={activitySlides[activeTab].title}
@@ -275,7 +275,7 @@ useEffect(() => {
               </AnimatePresence>
 
               {/* HIGHLIGHTED CAPTION CARD: Dynamic Daily Schedule */}
-              <div className="mt-8 w-full border border-white/10 bg-white/[0.03] p-5 text-left rounded-xs shadow-inner max-w-md">
+              <div className="mt-1 w-full border border-white/10 bg-white/[0.03] p-5 text-left rounded-xs shadow-inner max-w-md">
                 <h4 className="text-[15px] font-bold uppercase tracking-wider text-[#fdbb00]">
                   Ashram Daily Timings & Participation
                 </h4>

@@ -84,7 +84,7 @@ export default function ContactPage() {
 
       {/* ================= HERO BANNER ================= */}
 
-      <section className="relative flex min-h-[350px] items-center overflow-hidden md:min-h-[440px]">
+      <section className="pt-[28px] sm:pt-0 relative flex min-h-[350px] items-center overflow-hidden md:min-h-[440px]">
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-[7000ms] hover:scale-105"
           style={{
@@ -492,7 +492,7 @@ export default function ContactPage() {
                 {/* SUBMIT */}
                 <button
                   type="submit"
-                  className="group mt-8 flex min-h-[54px] w-full items-center justify-center gap-3 rounded-xl border border-[#16222f] bg-[#16222f] px-6 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-[#fdbb00] hover:bg-[#fdbb00] hover:text-[#16222f] hover:shadow-xl"
+                  className="group mt-8 flex min-h-[54px] w-full items-center justify-center gap-3 rounded-xl border border-[#294985] bg-[#294985] px-6 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-[#FFB900] hover:bg-[#FFB900] hover:text-[#fff] hover:shadow-xl"
                 >
                   Submit Enquiry
 

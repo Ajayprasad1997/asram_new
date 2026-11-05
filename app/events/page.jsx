@@ -92,7 +92,7 @@ export default function EventsPage() {
     <main className="overflow-hidden bg-[#F5F7FB] text-[#14233F]">
 
       {/* HERO BANNER */}
-      <section className="relative flex min-h-[380px] items-center overflow-hidden md:min-h-[480px]">
+      <section className="pt-[28px] sm:pt-0 relative flex min-h-[380px] items-center overflow-hidden md:min-h-[480px]">
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-[7000ms] hover:scale-105"
           style={{
@@ -187,13 +187,13 @@ export default function EventsPage() {
               className="relative z-10 h-[330px] w-full rounded-[28px] object-cover shadow-xl md:h-[440px]"
             />
 
-            <div className="absolute -bottom-6 -left-4 z-20 rounded-2xl bg-[#244584] px-6 py-5 text-white shadow-xl md:-left-8">
+            {/* <div className="absolute -bottom-6 -left-4 z-20 rounded-2xl bg-[#244584] px-6 py-5 text-white shadow-xl md:-left-8">
               <Sparkles className="mb-2 text-[#FFB900]" size={24} />
               <p className="text-lg font-bold">Peaceful Living</p>
               <p className="mt-1 text-xs text-white/75">
                 A spiritual experience
               </p>
-            </div>
+            </div> */}
           </div>
 
         </div>

@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import ContactSection from "@/app/components/ContactSection";
 import Footer from "@/app/components/Footer";
@@ -204,6 +204,29 @@ export default function AccommodationPage() {
   }, []);
 
   /* STICKY TAB ACTIVE SECTION OBSERVER */
+const tabContainerRef = useRef(null);
+const tabRefs = useRef({});
+
+useEffect(() => {
+  const container = tabContainerRef.current;
+  const activeButton = tabRefs.current[activeTab];
+
+  if (!container || !activeButton) return;
+
+  const containerRect = container.getBoundingClientRect();
+  const buttonRect = activeButton.getBoundingClientRect();
+
+  const targetLeft =
+    container.scrollLeft +
+    buttonRect.left -
+    containerRect.left -
+    (container.clientWidth - buttonRect.width) / 2;
+
+  container.scrollTo({
+    left: targetLeft,
+    behavior: "smooth",
+  });
+}, [activeTab]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -315,7 +338,7 @@ export default function AccommodationPage() {
 
       {/* ================= PAGE BANNER ================= */}
 
-      <section className="relative flex min-h-[350px] items-center overflow-hidden md:min-h-[460px]">
+      <section className="pt-[28px] sm:pt-0 relative flex min-h-[350px] items-center overflow-hidden md:min-h-[460px]">
 
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-[7000ms] hover:scale-105"
@@ -400,23 +423,28 @@ export default function AccommodationPage() {
 
       {/* ================= STICKY ROOM TABS ================= */}
 
-      <nav className="sticky top-0 z-50 border-y border-[#244584]/10 bg-white px-3 py-4 shadow-md sm:px-6">
+      <nav className="sticky top-18 z-50 border-y border-[#244584]/10 bg-white px-3 py-4 shadow-md sm:px-6">
 
-        <div className="mx-auto flex max-w-[1250px] gap-3 overflow-x-auto scrollbar-hide sm:justify-center">
+        <div 
+        ref={tabContainerRef}
+        className="mx-auto flex max-w-[1250px] gap-3 overflow-x-auto scrollbar-hide sm:justify-center">
 
           {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => scrollToSection(tab.id)}
-              className={`min-w-max rounded-full border px-5 py-3 text-[11px] font-bold uppercase tracking-[0.7px] transition-all duration-300 sm:px-7 sm:text-xs ${
-                activeTab === tab.id
-                  ? "border-[#244584] bg-[#244584] text-white shadow-md"
-                  : "border-[#244584]/15 bg-white text-[#244584] hover:border-[#fdbb00] hover:bg-[#fdbb00] hover:text-[#244584]"
-              }`}
-            >
-              {tab.label}
-            </button>
+           <button
+            key={tab.id}
+            ref={(el) => {
+              tabRefs.current[tab.id] = el;
+            }}
+            type="button"
+            onClick={() => scrollToSection(tab.id)}
+            className={`min-w-max rounded-full border px-5 py-3 text-[11px] font-bold uppercase tracking-[0.7px] transition-all duration-300 sm:px-7 sm:text-xs ${
+              activeTab === tab.id
+                ? "border-[#244584] bg-[#244584] text-white shadow-md"
+                : "border-[#244584]/15 bg-white text-[#244584] hover:border-[#fdbb00] hover:bg-[#fdbb00] hover:text-[#244584]"
+            }`}
+          >
+            {tab.label}
+          </button>
           ))}
 
         </div>
