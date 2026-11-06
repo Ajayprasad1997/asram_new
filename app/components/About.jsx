@@ -150,14 +150,14 @@ export default function AboutAshram() {
                 href="/accommodation"
                 className="inline-flex min-h-11 items-center justify-center gap-3 rounded-full bg-[#244584] px-6 text-xs font-bold uppercase tracking-wide text-white transition hover:bg-[#fdbb00]"
               >
-                Book Your Stay Now
+                Book Your Stay
               </Link>
               
               <Link
                 href="/events"
                 className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#244584] px-6 text-xs font-bold uppercase tracking-wider text-[#244584] transition hover:bg-[#244584] hover:text-white"
               >
-                See Our Activities
+                Our Activities
               </Link>
             </div>
           </div>

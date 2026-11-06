@@ -86,7 +86,6 @@ body {
   }
 
   .accommodation-marquee {
-    animation: accommodation-scroll 20s linear infinite;
     will-change: transform;
   }
 

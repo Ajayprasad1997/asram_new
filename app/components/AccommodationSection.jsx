@@ -215,6 +215,8 @@ export default function AccommodationSection() {
 const [isHovered, setIsHovered] = useState(false);
 
 const sliderRef = useRef(null);
+const marqueeViewportRef = useRef(null);
+const marqueeRef = useRef(null);
 
   const dragRef = useRef({
     dragging: false,
@@ -363,6 +365,135 @@ useEffect(() => {
     }
   }
 
+  useEffect(() => {
+    const viewport = marqueeViewportRef.current;
+    const marquee = marqueeRef.current;
+    if (!viewport || !marquee) return;
+
+    const mobileQuery = window.matchMedia("(max-width: 639px)");
+    let animationFrame = 0;
+    let previousTime = 0;
+    let position = 0;
+    let currentVelocity = -18;
+    let targetVelocity = -18;
+    let dragging = false;
+    let lastPointerX = 0;
+    let dragPointerId = null;
+    let pointerDownX = 0;
+
+    const render = (time) => {
+      if (!previousTime) previousTime = time;
+      const delta = Math.min((time - previousTime) / 1000, 0.032);
+      previousTime = time;
+
+      if (!dragging) {
+        currentVelocity += (targetVelocity - currentVelocity) * Math.min(1, delta * 8);
+        position += currentVelocity * delta;
+
+        const cycleWidth = marquee.firstElementChild?.offsetWidth || 0;
+        if (cycleWidth > 0) {
+          position %= cycleWidth;
+          if (position > 0) position -= cycleWidth;
+        }
+
+        marquee.style.transform = `translate3d(${position}px, 0, 0)`;
+      }
+
+      animationFrame = window.requestAnimationFrame(render);
+    };
+
+    const updateCursorVelocity = (event) => {
+      if (!mobileQuery.matches || dragging) return;
+      const bounds = viewport.getBoundingClientRect();
+      const normalizedX = Math.max(
+        -1,
+        Math.min(1, ((event.clientX - bounds.left) / bounds.width) * 2 - 1)
+      );
+      targetVelocity = -18 - normalizedX * 42;
+    };
+
+    const resetVelocity = () => {
+      if (!dragging) targetVelocity = -18;
+    };
+
+    const handleMarqueePointerDown = (event) => {
+      if (!mobileQuery.matches) return;
+      if (event.target.closest("button")) return;
+
+      lastPointerX = event.clientX;
+      pointerDownX = event.clientX;
+      dragPointerId = event.pointerId;
+    };
+
+    const handleMarqueePointerMove = (event) => {
+      updateCursorVelocity(event);
+      if (!dragging && event.pointerId === dragPointerId && Math.abs(event.clientX - pointerDownX) > 5) {
+        dragging = true;
+        viewport.classList.add("is-dragging");
+        viewport.setPointerCapture(event.pointerId);
+        lastPointerX = event.clientX;
+      }
+
+      if (!dragging || event.pointerId !== dragPointerId) return;
+      const distance = event.clientX - lastPointerX;
+      position += distance;
+      lastPointerX = event.clientX;
+
+      const cycleWidth = marquee.firstElementChild?.offsetWidth || 0;
+      if (cycleWidth > 0 && Math.abs(position) >= cycleWidth) {
+        position = position % cycleWidth;
+      }
+      marquee.style.transform = `translate3d(${position}px, 0, 0)`;
+    };
+
+    const handleMarqueePointerUp = (event) => {
+      if (!dragging) return;
+      dragging = false;
+      dragPointerId = null;
+      viewport.classList.remove("is-dragging");
+      if (viewport.hasPointerCapture(event.pointerId)) {
+        viewport.releasePointerCapture(event.pointerId);
+      }
+      currentVelocity = 0;
+      resetVelocity();
+    };
+
+    viewport.addEventListener("pointermove", handleMarqueePointerMove);
+    viewport.addEventListener("pointerleave", resetVelocity);
+    viewport.addEventListener("pointerdown", handleMarqueePointerDown);
+    viewport.addEventListener("pointerup", handleMarqueePointerUp);
+    viewport.addEventListener("pointercancel", handleMarqueePointerUp);
+
+    if (mobileQuery.matches) {
+      animationFrame = window.requestAnimationFrame(render);
+    }
+
+    const handleViewportChange = () => {
+      window.cancelAnimationFrame(animationFrame);
+      marquee.style.transform = "";
+      targetVelocity = -18;
+      currentVelocity = -18;
+      position = 0;
+      previousTime = 0;
+
+      if (mobileQuery.matches) {
+        animationFrame = window.requestAnimationFrame(render);
+      }
+    };
+
+    mobileQuery.addEventListener("change", handleViewportChange);
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      viewport.removeEventListener("pointermove", handleMarqueePointerMove);
+      viewport.removeEventListener("pointerleave", resetVelocity);
+      viewport.removeEventListener("pointerdown", handleMarqueePointerDown);
+      viewport.removeEventListener("pointerup", handleMarqueePointerUp);
+      viewport.removeEventListener("pointercancel", handleMarqueePointerUp);
+      mobileQuery.removeEventListener("change", handleViewportChange);
+    };
+  }, []);
+
   return (
     <section
       id="accommodation"
@@ -425,8 +556,11 @@ useEffect(() => {
 
       {/* Room category tabs */}
       <div className="mx-auto mb-8 max-w-[1320px] px-6 sm:px-10 lg:px-16">
-  <div className="overflow-hidden border-b border-gray-200 pb-3">
-    <div className="accommodation-marquee">
+  <div
+    ref={marqueeViewportRef}
+    className="accommodation-marquee-viewport overflow-hidden border-b border-gray-200 pb-3"
+  >
+    <div ref={marqueeRef} className="accommodation-marquee">
 
       {/* First group */}
       <div className="accommodation-marquee-group">
@@ -524,7 +658,7 @@ useEffect(() => {
                 {/* Room image */}
                 <div className="relative aspect-[4/5] overflow-hidden bg-[#eef0f2]">
                   <Link
-                    href="/app/accommodation"
+                    href="/accommodation"
                     className="block h-full w-full overflow-hidden"
                   >
                     <img
