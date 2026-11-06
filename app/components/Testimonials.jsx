@@ -206,7 +206,7 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="relative w-full overflow-hidden bg-white py-16 sm:py-20 lg:py-24"
+      className="relative w-full overflow-hidden bg-white py-12 pb-0 sm:py-20 lg:py-24"
     >
       {/* Background decorations */}
       <div className="pointer-events-none absolute -left-40 top-10 h-80 w-80 rounded-full bg-[#244584]/[0.04] blur-3xl" />
@@ -220,41 +220,6 @@ export default function Testimonials() {
         ==================================== */}
 
         <div className="relative z-10 flex w-full flex-col items-center lg:items-start lg:pr-8">
-
-          {/* Image */}
-          {/* <div className="group relative mb-8 w-full max-w-[390px]">
-
-            <div className="absolute -inset-2 rotate-[-3deg] rounded-[25px] border-2 border-[#fdbb00] transition-transform duration-500 group-hover:rotate-0" />
-
-            <div className="relative h-[280px] overflow-hidden rounded-[22px] sm:h-[350px]">
-
-              <img
-                src="https://images.unsplash.com/photo-1606293926075-69a00dbfde81?auto=format&fit=crop&w=1000&q=85"
-                alt="Spiritual atmosphere of Vrindavan"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-[#10213d]/85 via-transparent to-transparent" />
-
-              <div className="absolute bottom-5 left-5 right-5">
-
-                <span className="text-[10px] font-bold uppercase tracking-[3px] text-[#fdbb00]">
-                  Guest Experiences
-                </span>
-
-                <h3 className="mt-2 font-serif text-3xl font-bold leading-tight text-white">
-                  Your Happiness,
-                  <span className="block text-[#fdbb00]">
-                    Our Blessing.
-                  </span>
-                </h3>
-              </div>
-
-              <div className="absolute right-4 top-4 rounded-full border border-white/30 bg-white/15 px-3 py-2 text-[10px] font-semibold text-white backdrop-blur-sm">
-                ✦ Guest Stories
-              </div>
-            </div>
-          </div> */}
 
           {/* Heading */}
           <div className="mb-5 w-full text-center lg:text-left">
@@ -403,34 +368,40 @@ export default function Testimonials() {
         ==================================== */}
 
         <div
-          className={`relative flex min-h-[470px] w-full items-center justify-center overflow-hidden lg:min-h-[590px] ${
-            isDragging ? "cursor-grabbing" : "cursor-grab"
-          }`}
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => {
-            setPaused(false);
-            if (dragPointerId.current !== null) {
-              dragPointerId.current = null;
-              setIsDragging(false);
-            }
-          }}
-          onPointerDown={handlePointerDown}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerCancel}
-          onLostPointerCapture={handlePointerCancel}
-          onClickCapture={(e) => {
-            // Prevent a drag from accidentally triggering card clicks
-            if (dragged.current) {
-              e.preventDefault();
-              e.stopPropagation();
-              dragged.current = false;
-            }
-          }}
-          style={{ touchAction: "pan-y" }}
-        >
+                className={`relative flex min-h-[560px] w-full items-center justify-center overflow-hidden sm:min-h-[570px] lg:min-h-[590px] ${
+                    isDragging ? "cursor-grabbing" : "cursor-grab"
+                }`}
+                onMouseEnter={() => setPaused(true)}
+                onMouseLeave={() => {
+                    setPaused(false);
+
+                    if (dragPointerId.current !== null) {
+                    dragPointerId.current = null;
+                    setIsDragging(false);
+                    }
+                }}
+                onPointerDown={(e) => {
+                    handlePointerDown(e);
+
+                    if (e.currentTarget.setPointerCapture) {
+                    e.currentTarget.setPointerCapture(e.pointerId);
+                    }
+                }}
+                onPointerUp={handlePointerUp}
+                onPointerCancel={handlePointerCancel}
+                onLostPointerCapture={handlePointerCancel}
+                onClickCapture={(e) => {
+                    if (dragged.current) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dragged.current = false;
+                    }
+                }}
+                style={{ touchAction: "pan-y" }}
+                >
 
           {/* Carousel heading */}
-          <div className="pointer-events-none absolute left-0 top-0 z-20 w-full px-4 text-center">
+          <div className="pointer-events-none absolute left-0 top-0 z-20 w-full px-2 text-center">
 
             <div className="mb-2 flex items-center justify-center gap-2">
               <span className="h-[2px] w-8 bg-[#fdbb00]" />
@@ -450,7 +421,7 @@ export default function Testimonials() {
           </div>
 
           {/* 3D draggable slider */}
-          <div className="relative mt-8 h-[360px] w-full select-none [perspective:1400px]">
+          <div className="relative mt-[75px] h-[350px] w-full select-none px-0 [perspective:1400px] sm:mt-[95px] sm:h-[360px] md:mt-[95px] md:px-2">
 
             {[-2, -1, 0, 1, 2].map((offset) => {
               const review = getReview(offset);
@@ -460,28 +431,26 @@ export default function Testimonials() {
                 <div
                   key={review.id}
                   onClick={() => handleCardClick(review, offset)}
-                  className={`absolute left-1/2 top-1/2 w-[78%] max-w-[440px] transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
-                    offset === 0
-                      ? "cursor-default"
-                      : "cursor-pointer"
-                  }`}
-                  style={{
+                  className={`absolute left-1/2 top-1/2 w-[88%] max-w-[440px] sm:w-[82%] md:w-[78%] transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
+                    offset === 0 ? "cursor-default" : "cursor-pointer"
+                                    }`}
+                                    style={{
                     transform: `
-                      translate(calc(-50% + ${offset * 76}%), -50%)
-                      scale(${
+                        translate(calc(-50% + ${offset * 70}%), -50%)
+                        scale(${
                         isCenter
-                          ? 1.08
-                          : Math.abs(offset) === 1
-                            ? 0.88
-                            : 0.74
-                      })
-                      translateZ(${isCenter ? "55px" : "0px"})
+                            ? 1.04
+                            : Math.abs(offset) === 1
+                            ? 0.86
+                            : 0.72
+                        })
+                        translateZ(${isCenter ? "55px" : "0px"})
                     `,
                     opacity: 1,
                     filter: "none",
                     zIndex: 10 - Math.abs(offset),
                     pointerEvents: Math.abs(offset) > 1 ? "none" : "auto",
-                  }}
+                    }}
                 >
 
                   {/* Review card */}
@@ -570,49 +539,44 @@ export default function Testimonials() {
             })}
           </div>
 
-          {/* Slider controls */}
-          <div
-            className="absolute bottom-1 flex items-center justify-center gap-5"
-            onPointerDown={(e) => e.stopPropagation()}
-          >
+         {/* Slider controls */}
+<div
+  className="absolute bottom-2 left-1/2 z-30 flex -translate-x-1/2 items-center justify-center gap-3 sm:bottom-1 sm:gap-5"
+  onPointerDown={(e) => e.stopPropagation()}
+>
+  <button
+    onClick={prevReview}
+    aria-label="Previous review"
+    className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border border-[#244584] text-lg font-bold text-[#244584] transition-all duration-300 hover:border-[#fdbb00] hover:bg-[#fdbb00] sm:h-11 sm:w-11"
+  >
+    ←
+  </button>
 
-            <button
-              onClick={prevReview}
-              aria-label="Previous review"
-              className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#244584] text-lg font-bold text-[#244584] transition-all duration-300 hover:border-[#fdbb00] hover:bg-[#fdbb00]"
-            >
-              ←
-            </button>
+  <div className="flex items-center gap-1.5 sm:gap-2">
+    {reviews.map((review, index) => (
+      <button
+        key={review.id}
+        onClick={() => setActiveIndex(index)}
+        aria-label={`Go to review ${index + 1}`}
+        className={`h-2 cursor-pointer rounded-full transition-all duration-500 ${
+          activeIndex === index
+            ? "w-7 bg-[#fdbb00] sm:w-8"
+            : "w-2 bg-[#244584]/25 hover:bg-[#244584]"
+        }`}
+      />
+    ))}
+  </div>
 
-            {/* Dots */}
-            <div className="flex items-center gap-2">
-              {reviews.map((review, index) => (
-                <button
-                  key={review.id}
-                  onClick={() => setActiveIndex(index)}
-                  aria-label={`Go to review ${index + 1}`}
-                  className={`h-2 cursor-pointer rounded-full transition-all duration-500 ${
-                    activeIndex === index
-                      ? "w-8 bg-[#fdbb00]"
-                      : "w-2 bg-[#244584]/25 hover:bg-[#244584]"
-                  }`}
-                />
-              ))}
-            </div>
+  <button
+    onClick={nextReview}
+    aria-label="Next review"
+    className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-[#244584] text-lg font-bold text-white transition-all duration-300 hover:bg-[#fdbb00] hover:text-[#244584] sm:h-11 sm:w-11"
+  >
+    →
+  </button>
+</div>
 
-            <button
-              onClick={nextReview}
-              aria-label="Next review"
-              className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-[#244584] text-lg font-bold text-white transition-all duration-300 hover:bg-[#fdbb00] hover:text-[#244584]"
-            >
-              →
-            </button>
-          </div>
-
-          {/* Drag instruction */}
-          <p className="pointer-events-none absolute bottom-[-25px] text-[10px] font-medium tracking-wider text-gray-400">
-            ← DRAG TO EXPLORE REVIEWS →
-          </p>
+         
         </div>
       </div>
 
@@ -693,11 +657,11 @@ export default function Testimonials() {
 
       {showAll && (
         <div
-          className="fixed inset-0 z-[100] overflow-y-auto bg-[#10213d]/75 p-4 backdrop-blur-sm sm:p-8"
+          className="fixed z-[99999999] top-0 left-0 md:static md:z-auto inset-0 z-[100] overflow-y-auto bg-[#10213d]/75 p-4 backdrop-blur-sm sm:p-8"
           onClick={closeModals}
         >
           <div
-            className="relative mx-auto my-5 max-w-[1150px] rounded-[25px] border-t-4 border-[#fdbb00] bg-white p-5 sm:p-9"
+            className="relative mx-auto my-5 max-w-[1150px] rounded-[25px] border-t-4 border-[#fdbb00] bg-white p-5 sm:p-9 z-[50]"
             onClick={(e) => e.stopPropagation()}
           >
 
