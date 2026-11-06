@@ -40,20 +40,30 @@ export default function ActivitiesSection() {
   const containerRef = useRef(null);
   const activeTabRef = useRef(0);
   const isThrottled = useRef(false);
+  const tabPlaceholderRef = useRef(null);
+  const tabNavRef = useRef(null);
   const [isTabFixed, setIsTabFixed] = useState(false);
 
 useEffect(() => {
+  let frameId = 0;
+
   const handleTabScroll = () => {
-    if (!containerRef.current) return;
+    if (frameId) return;
 
-    const rect = containerRef.current.getBoundingClientRect();
+    frameId = window.requestAnimationFrame(() => {
+      frameId = 0;
+      if (!containerRef.current) return;
 
-    const shouldFix =
-      rect.top <= 70 &&
-      rect.bottom > 200 &&
-      window.innerWidth < 1024;
+      const rect = containerRef.current.getBoundingClientRect();
+      const isMobile = window.innerWidth < 1024;
 
-    setIsTabFixed(shouldFix);
+      setIsTabFixed((isFixed) => {
+        if (!isMobile || rect.bottom <= 200) return false;
+
+        if (isFixed) return rect.top > 76 ? false : true;
+        return rect.top <= 70;
+      });
+    });
   };
 
   window.addEventListener("scroll", handleTabScroll, {
@@ -67,7 +77,25 @@ useEffect(() => {
   return () => {
     window.removeEventListener("scroll", handleTabScroll);
     window.removeEventListener("resize", handleTabScroll);
+    if (frameId) window.cancelAnimationFrame(frameId);
   };
+}, []);
+
+useEffect(() => {
+  if (!tabPlaceholderRef.current || !tabNavRef.current) return;
+
+  const placeholder = tabPlaceholderRef.current;
+  const nav = tabNavRef.current;
+  const updateHeight = () => {
+    placeholder.style.height = `${nav.offsetHeight}px`;
+  };
+
+  updateHeight();
+
+  const resizeObserver = new ResizeObserver(updateHeight);
+  resizeObserver.observe(nav);
+
+  return () => resizeObserver.disconnect();
 }, []);
 
 useEffect(() => {
@@ -223,8 +251,10 @@ useEffect(() => {
       <div className="w-full">
          {/* Mobile Sticky Activity Navigation */}
             
-            <div
-              className={`z-[999] w-full justify-center bg-[#244584] px-3 py-4 lg:hidden ${
+            <div ref={tabPlaceholderRef} className="w-full lg:hidden">
+              <div
+              ref={tabNavRef}
+              className={`z-[2147483647] w-full justify-center bg-[#244584] px-3 py-4 ${
                 isTabFixed
                   ? "fixed left-0 top-[70px] flex shadow-xl"
                   : "relative flex"
@@ -249,6 +279,7 @@ useEffect(() => {
                   </button>
                 ))}
               </div>
+            </div>
             </div>
         <div className="grid grid-cols-1 items-stretch lg:grid-cols-12">
           

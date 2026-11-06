@@ -5,7 +5,13 @@
   --background: #ffffff;
   --foreground: #171717;
 }
+html {
+  scroll-behavior: smooth;
+}
 
+* {
+  -webkit-tap-highlight-color: transparent;
+}
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -70,9 +76,22 @@ body {
 
 /* Mobile only */
 @media (max-width: 639px) {
+  .accommodation-marquee-viewport {
+    cursor: grab;
+    touch-action: pan-y;
+  }
+
+  .accommodation-marquee-viewport.is-dragging {
+    cursor: grabbing;
+  }
+
   .accommodation-marquee {
     animation: accommodation-scroll 20s linear infinite;
     will-change: transform;
+  }
+
+  .accommodation-marquee-viewport.is-dragging .accommodation-marquee {
+    animation-play-state: paused;
   }
 }
 
