@@ -215,16 +215,6 @@ export default function AccommodationSection() {
 const [isHovered, setIsHovered] = useState(false);
 
 const sliderRef = useRef(null);
-  const marqueeViewportRef = useRef(null);
-  const marqueeTrackRef = useRef(null);
-  const marqueeDragRef = useRef({
-    dragging: false,
-    startX: 0,
-    startScrollLeft: 0,
-    moved: false,
-    suppressClick: false,
-    startTransform: 0,
-  });
 
   const dragRef = useRef({
     dragging: false,
@@ -373,84 +363,6 @@ useEffect(() => {
     }
   }
 
-  function handleMarqueePointerDown(event) {
-    if (window.innerWidth >= 640) return;
-    if (event.pointerType === "mouse" && event.button !== 0) return;
-
-    const viewport = marqueeViewportRef.current;
-    if (!viewport) return;
-
-    marqueeDragRef.current.dragging = true;
-    marqueeDragRef.current.startX = event.clientX;
-    marqueeDragRef.current.startScrollLeft = viewport.scrollLeft;
-    marqueeDragRef.current.moved = false;
-    marqueeDragRef.current.suppressClick = false;
-    const track = marqueeTrackRef.current;
-    if (track) {
-      const transform = window.getComputedStyle(track).transform;
-      const matrix = transform === "none" ? null : new DOMMatrixReadOnly(transform);
-      marqueeDragRef.current.startTransform = matrix ? matrix.m41 : 0;
-    }
-    viewport.classList.add("is-dragging");
-    viewport.setPointerCapture(event.pointerId);
-  }
-
-  function handleMarqueePointerMove(event) {
-    const viewport = marqueeViewportRef.current;
-    const drag = marqueeDragRef.current;
-    if (!viewport || !drag.dragging) return;
-
-    const distance = event.clientX - drag.startX;
-    if (Math.abs(distance) > 5) {
-      drag.moved = true;
-      drag.suppressClick = true;
-      if (marqueeTrackRef.current) {
-        marqueeTrackRef.current.style.transform =
-          `translateX(${drag.startTransform + distance}px)`;
-      }
-    }
-  }
-
-  function handleMarqueePointerUp(event) {
-    const viewport = marqueeViewportRef.current;
-    const drag = marqueeDragRef.current;
-    if (!drag.dragging) return;
-
-    drag.dragging = false;
-    viewport?.classList.remove("is-dragging");
-
-    const track = marqueeTrackRef.current;
-    if (track) {
-      const currentTransform =
-        drag.startTransform + (event.clientX - drag.startX);
-      const halfTrackDistance = track.offsetWidth / 2;
-      let progress = halfTrackDistance
-        ? (-currentTransform / halfTrackDistance) % 1
-        : 0;
-
-      if (progress < 0) progress += 1;
-      track.style.animationDelay = `${-(progress * 20)}s`;
-      track.style.removeProperty("transform");
-    }
-    if (viewport?.hasPointerCapture(event.pointerId)) {
-      viewport.releasePointerCapture(event.pointerId);
-    }
-
-    if (drag.moved) {
-      window.setTimeout(() => {
-        marqueeDragRef.current.suppressClick = false;
-      }, 0);
-    }
-  }
-
-  function handleMarqueeClickCapture(event) {
-    if (!marqueeDragRef.current.suppressClick) return;
-
-    event.preventDefault();
-    event.stopPropagation();
-    marqueeDragRef.current.suppressClick = false;
-  }
-
   return (
     <section
       id="accommodation"
@@ -513,17 +425,8 @@ useEffect(() => {
 
       {/* Room category tabs */}
       <div className="mx-auto mb-8 max-w-[1320px] px-6 sm:px-10 lg:px-16">
-  <div
-    ref={marqueeViewportRef}
-    className="accommodation-marquee-viewport overflow-hidden border-b border-gray-200 pb-3 select-none"
-    onPointerDown={handleMarqueePointerDown}
-    onPointerMove={handleMarqueePointerMove}
-    onPointerUp={handleMarqueePointerUp}
-    onPointerCancel={handleMarqueePointerUp}
-    onLostPointerCapture={handleMarqueePointerUp}
-    onClickCapture={handleMarqueeClickCapture}
-  >
-    <div ref={marqueeTrackRef} className="accommodation-marquee">
+  <div className="overflow-hidden border-b border-gray-200 pb-3">
+    <div className="accommodation-marquee">
 
       {/* First group */}
       <div className="accommodation-marquee-group">
@@ -620,13 +523,18 @@ useEffect(() => {
               >
                 {/* Room image */}
                 <div className="relative aspect-[4/5] overflow-hidden bg-[#eef0f2]">
-                  <img
-                    src={room.image}
-                    alt={room.name}
-                    draggable={false}
-                    loading="lazy"
-                    className="h-full w-full select-none object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
+                  <Link
+                    href="/app/accommodation"
+                    className="block h-full w-full overflow-hidden"
+                  >
+                    <img
+                      src={room.image}
+                      alt={room.name}
+                      draggable={false}
+                      loading="lazy"
+                      className="h-full w-full select-none object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </Link>
 
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#102b35]/80 via-transparent to-black/10" />
 
@@ -679,9 +587,23 @@ useEffect(() => {
         <ExternalLink size={15} />
       </a>
     ) : (
-      <span className="mt-2 inline-flex min-h-11 items-center justify-center gap-3 rounded-full bg-[#244584] px-6 text-xs font-bold uppercase tracking-wide text-white transition hover:bg-[#fdbb00]">
-        Add booking site URL
-      </span>
+      <div className="mt-5 flex flex-wrap gap-3">
+        <Link
+          href="/contact"          
+          className="inline-flex min-h-11 items-center justify-center gap-3 rounded-full bg-[#244584] px-6 text-xs font-bold uppercase tracking-wide text-white transition hover:bg-[#2c83a5]"
+        >
+          Enquire
+          <ArrowRight size={16} />
+        </Link>
+
+        <Link
+          href="/accommodation"                  
+          className="inline-flex min-h-11 items-center justify-center gap-3 rounded-full bg-[#244584] px-6 text-xs font-bold uppercase tracking-wide text-white transition hover:bg-[#fdbb00]"
+        >
+          All Rooms
+          <ArrowRight size={16} />
+        </Link>
+      </div>
     )
   ) : (
     /* Wrapped both buttons in a fragment and added a gap for layout separation */
@@ -699,7 +621,7 @@ useEffect(() => {
           href="/accommodation"                  
           className="inline-flex min-h-11 items-center justify-center gap-3 rounded-full bg-[#244584] px-6 text-xs font-bold uppercase tracking-wide text-white transition hover:bg-[#fdbb00]"
         >
-          View All Rooms
+          All Rooms
           <ArrowRight size={16} />
         </Link>
       </div>
