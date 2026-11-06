@@ -213,19 +213,35 @@ useEffect(() => {
 
   if (!container || !activeButton) return;
 
-  const containerRect = container.getBoundingClientRect();
-  const buttonRect = activeButton.getBoundingClientRect();
+  const centerActiveTab = () => {
+    const containerRect = container.getBoundingClientRect();
+    const buttonRect = activeButton.getBoundingClientRect();
+    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+    const targetLeft = Math.max(
+      0,
+      Math.min(
+        maxScrollLeft,
+        container.scrollLeft +
+          buttonRect.left -
+          containerRect.left -
+          (container.clientWidth - buttonRect.width) / 2
+      )
+    );
 
-  const targetLeft =
-    container.scrollLeft +
-    buttonRect.left -
-    containerRect.left -
-    (container.clientWidth - buttonRect.width) / 2;
+    container.scrollTo({
+      left: targetLeft,
+      behavior: "smooth",
+    });
+  };
 
-  container.scrollTo({
-    left: targetLeft,
-    behavior: "smooth",
-  });
+  const frame = window.requestAnimationFrame(centerActiveTab);
+  const resizeObserver = new ResizeObserver(centerActiveTab);
+  resizeObserver.observe(container);
+
+  return () => {
+    window.cancelAnimationFrame(frame);
+    resizeObserver.disconnect();
+  };
 }, [activeTab]);
 
   useEffect(() => {
@@ -423,25 +439,25 @@ useEffect(() => {
 
       {/* ================= STICKY ROOM TABS ================= */}
 
-      <nav className="sticky top-18 z-50 border-y border-[#244584]/10 bg-white px-3 py-4 shadow-md sm:px-6">
+      <nav className="sticky top-18 z-50 w-full overflow-hidden border-y border-[#244584]/10 bg-white px-3 py-4 shadow-md sm:px-6">
 
         <div 
         ref={tabContainerRef}
-        className="mx-auto flex max-w-[1250px] gap-3 overflow-x-auto scrollbar-hide sm:justify-center">
+        className="mx-auto flex w-full min-w-0 max-w-[1250px] snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain scroll-px-3 scrollbar-hide sm:justify-center">
 
           {tabs.map((tab) => (
            <button
             key={tab.id}
+             className={`snap-center min-w-max rounded-full border px-5 py-3 text-[11px] font-bold uppercase tracking-[0.7px] transition-all duration-300 sm:px-7 sm:text-xs ${
+               activeTab === tab.id
+                 ? "border-[#244584] bg-[#244584] text-white shadow-md"
+                 : "border-[#244584]/15 bg-white text-[#244584] hover:border-[#fdbb00] hover:bg-[#fdbb00] hover:text-[#244584]"
+             }`}
             ref={(el) => {
               tabRefs.current[tab.id] = el;
             }}
             type="button"
             onClick={() => scrollToSection(tab.id)}
-            className={`min-w-max rounded-full border px-5 py-3 text-[11px] font-bold uppercase tracking-[0.7px] transition-all duration-300 sm:px-7 sm:text-xs ${
-              activeTab === tab.id
-                ? "border-[#244584] bg-[#244584] text-white shadow-md"
-                : "border-[#244584]/15 bg-white text-[#244584] hover:border-[#fdbb00] hover:bg-[#fdbb00] hover:text-[#244584]"
-            }`}
           >
             {tab.label}
           </button>

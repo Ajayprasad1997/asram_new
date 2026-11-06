@@ -79,6 +79,7 @@ body {
   .accommodation-marquee-viewport {
     cursor: grab;
     touch-action: pan-y;
+    user-select: none;
   }
 
   .accommodation-marquee-viewport.is-dragging {
@@ -106,6 +107,16 @@ body {
 
 /* Desktop */
 @media (min-width: 640px) {
+  .accommodation-marquee-viewport {
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+  }
+
+  .accommodation-marquee-viewport.is-dragging {
+    cursor: grabbing;
+  }
+
   .accommodation-marquee {
     width: 100%;
     animation: none !important;
