@@ -1,4 +1,5 @@
 import HeroBanner from "./components/HeroBanner";
+import Testimonials from "./components/Testimonials";
 import AccommodationSection from "./components/AccommodationSection";
 import About from "./components/About";
 import ActivitiesSection from "./components/ActivitiesSection";
@@ -12,6 +13,7 @@ export default function Home() {
     <div className="flex w-full flex-col min-h-screen">
       {/* Homepage Sections stack consecutively */}
       <HeroBanner />
+       <Testimonials />
       <About />
       <AccommodationSection />
        <ActivitiesSection />
